@@ -27,7 +27,7 @@ void ShowP3PHealTutorial()
 	return;
 }
 
-void P3PMemberReturn()
+void P3PConditionCheck()
 {
 	OPEN_MSG_WIN();
 	MSG( P3PHealDead );
@@ -40,7 +40,7 @@ void P3PMemberReturn()
 			break;
 		case 1: //No
 			CLOSE_MSG_WIN();
-			member_return_unhooked();
+			condition_check_unhooked();
 			break;
 		default:
 			break;
@@ -104,7 +104,7 @@ void HealingDead()
 		OPEN_MSG_WIN();
 		MSG( Broke );
 		CLOSE_MSG_WIN();
-		member_return_unhooked();
+		condition_check_unhooked();
 		return;
 	}
 	else
@@ -112,6 +112,7 @@ void HealingDead()
 		REMOVE_YEN(2500);
 		CALL_BTL_SFX( 2, 10 );
 		FUNCTION_0093();
+		condition_check_unhooked();
 	}
 	return;
 }
@@ -144,6 +145,16 @@ bool IsDamaged()
 	return 0;
 }
 
+bool IsDead()
+{
+	for(int x = 1; x <= 10; x++){
+		if (GET_CUR_HP(x) == 0){
+			return 1;
+		}
+	}
+	return 0;
+}
+
 void HealTo1HP()
 {
 	for(int x = 1; x <= 10; x++){
@@ -152,6 +163,173 @@ void HealTo1HP()
 		}
 	}
 	return;
+}
+
+void P3PMemberReturn()
+{
+    int var14;
+    check_party_member();
+    BIT_OFF( 3568 );
+    
+    if ((GET_CUR_HP( 2 ) == 0))
+    {
+        BIT_OFF( 322 );
+        OPEN_MSG_WIN();
+        MSG( YUKARI_RETURN );
+        CLOSE_MSG_WIN();
+        REMOVE_MEMBER( PartyMember.Yukari );
+    }
+
+    
+    if ((GET_CUR_HP(3) == 0))
+    {
+        BIT_OFF( 323 );
+        OPEN_MSG_WIN();
+        MSG( AEGIS_RETURN );
+        CLOSE_MSG_WIN();
+        REMOVE_MEMBER( PartyMember.Aigis );
+    }
+
+    
+    if ((GET_CUR_HP(4) == 0))
+    {
+        BIT_OFF( 324 );
+        OPEN_MSG_WIN();
+        MSG( MITSURU_RETURN );
+        CLOSE_MSG_WIN();
+        REMOVE_MEMBER( PartyMember.Mitsuru );
+    }
+
+    
+    if ((GET_CUR_HP(5) == 0 ))
+    {
+        BIT_OFF( 325 );
+        OPEN_MSG_WIN();
+        MSG( JUNPEI_RETURN );
+        CLOSE_MSG_WIN();
+        REMOVE_MEMBER( PartyMember.Junpei );
+    }
+
+    
+    if ((GET_CUR_HP(7) == 0 ))
+    {
+        BIT_OFF( 326 );
+        OPEN_MSG_WIN();
+        MSG( SANADA_RETURN );
+        CLOSE_MSG_WIN();
+        REMOVE_MEMBER( PartyMember.Akihiko );
+    }
+
+    
+    if ((GET_CUR_HP(8) == 0 ))
+    {
+        BIT_OFF( 327 );
+        OPEN_MSG_WIN();
+        MSG( AMADA_RETURN );
+        CLOSE_MSG_WIN();
+        REMOVE_MEMBER( PartyMember.Ken );
+    }
+
+    
+    if ((GET_CUR_HP(9) == 0 ))
+    {
+        BIT_OFF( 328 );
+        OPEN_MSG_WIN();
+        MSG( ARAGAKI_RETURN );
+        CLOSE_MSG_WIN();
+        REMOVE_MEMBER( PartyMember.ShinjiroMetis );
+    }
+
+    
+    if ((GET_CUR_HP(10) == 0 ))
+    {
+        BIT_OFF( 329 );
+        OPEN_MSG_WIN();
+        MSG( KOROMARU_RETURN );
+        CLOSE_MSG_WIN();
+        REMOVE_MEMBER( PartyMember.Koromaru );
+    }
+
+    var14 = 0;
+    
+    if ( BIT_CHK( 322 ) == 1 )
+    {
+        var14 = ( var14 + 1 );
+    }
+
+    
+    if ( BIT_CHK( 323 ) == 1 )
+    {
+        var14 = ( var14 + 1 );
+    }
+
+    
+    if ( BIT_CHK( 324 ) == 1 )
+    {
+        var14 = ( var14 + 1 );
+    }
+
+    
+    if ( BIT_CHK( 325 ) == 1 )
+    {
+        var14 = ( var14 + 1 );
+    }
+
+    
+    if ( BIT_CHK( 326 ) == 1 )
+    {
+        var14 = ( var14 + 1 );
+    }
+
+    
+    if ( BIT_CHK( 327 ) == 1 )
+    {
+        var14 = ( var14 + 1 );
+    }
+
+    
+    if ( BIT_CHK( 328 ) == 1 )
+    {
+        var14 = ( var14 + 1 );
+    }
+
+    
+    if ( BIT_CHK( 329 ) == 1 )
+    {
+        var14 = ( var14 + 1 );
+    }
+
+    
+    if ( ( var14 < 3 ) && ( BIT_CHK( 3188 ) == 0 ) )
+    {
+        BIT_ON( 3188 );
+        OPEN_MSG_WIN();
+        
+        if ( BIT_CHK( 3123 ) == 1 )
+        {
+            
+            if ( BIT_CHK( 3047 ) == 1 )
+            {
+                MSG( HUKA_RETURN_ADVICE_TEST );
+            }
+            else 
+            {
+                MSG( HUKA_RETURN_ADVICE );
+            }
+
+        }
+        else if ( BIT_CHK( 3047 ) == 1 )
+        {
+            MSG( MITSURU_RETURN_ADVICE_TE );
+        }
+        else 
+        {
+            MSG( MITSURU_RETURN_ADVICE );
+        }
+
+        CLOSE_MSG_WIN();
+    }
+
 }
 
 void P3PHealMain()

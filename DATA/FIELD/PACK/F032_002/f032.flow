@@ -8,6 +8,10 @@ void f032_002_init_hook()
 	{
 		P3PHealVersion();
 	}
+	if (BIT_CHK(3106))
+	{
+		HealTo1HP();
+	}
 	if (ModeCheck())
 	{
 		f032_002_init_unhooked();
@@ -32,21 +36,26 @@ void save_point_hook()
 	return;
 }
 
-void member_return_hook()
+void condition_check_hook()
 {
 	if (ModeCheck())
 	{
-		member_return_unhooked();
+		condition_check_unhooked();
 	}
-	else if (BIT_CHK(3106))
+	else if (IsDead())
 	{
-		HealTo1HP();
+		P3PConditionCheck();
 	}
 	else
 	{
-		P3PMemberReturn();
+		condition_check_unhooked();
 	}
 	return;
+}
+
+void member_return_hook()
+{
+	P3PMemberReturn();
 }
 
 //Check if Pre-Shinji Death and if Late Game Mode is Enabled

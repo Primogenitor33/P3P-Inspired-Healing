@@ -1,0 +1,157 @@
+import( "ns032_002.bf" );
+
+void check_status_hook()
+{
+    FUNCTION_01A6( 1 );
+    FRSTATUS_FUNCTION_0134( gVar60 );
+    FUNCTION_0136();
+    FUNCTION_000C( 1 );
+    FUNCTION_01A6( 0 );
+}
+
+void npc_yukari_hook()
+{
+	int var0;
+    gVar60 = 2;
+    gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 529 );
+    
+    if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) )
+    {
+        gVar63 = 21;
+    }
+    else if ( CHECK_FATIGUE( gVar60 ) == 0 )
+    {
+        gVar61 = 3;
+        gVar62 = 7;
+        gVar63 = 11;
+        gVar64 = 15;
+    }
+    else if ( CHECK_FATIGUE( gVar60 ) == 2 )
+    {
+        gVar61 = 4;
+        gVar62 = 8;
+        gVar63 = 12;
+        gVar64 = 0x10;
+    }
+    else if ( CHECK_FATIGUE( gVar60 ) == 3 )
+    {
+        gVar61 = 5;
+        gVar62 = 9;
+        gVar63 = 13;
+        gVar64 = 17;
+    }
+    else if ( CHECK_FATIGUE( gVar60 ) == 5 )
+    {
+        gVar61 = 6;
+        gVar62 = 10;
+        gVar63 = 14;
+        gVar64 = 18;
+    }
+
+    gVar67 = 182;
+    gVar68 = 204;
+    gVar69 = 213;
+    gVar70 = 212;
+    gVar71 = 174;
+    gVar72 = 2;
+    gVar73 = 190;
+    gVar81 = 191;
+    check_party_member();
+    OPEN_MSG_WIN();
+    
+    if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 1 ) )
+    {
+        MSG( YUKARI_TUTORIAL_AFTER );
+    }
+    else if ( gVar23 == 1 )
+    {
+        MSG( gVar63 );
+        SEL_CHK_PAD( 6, 3 );
+        
+        if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) )
+        {
+            SET_MASK( 5 );
+        }
+        else 
+        {
+            SET_MASK( 1 );
+        }
+
+        var0 = SEL( TALK_SEL );
+        
+        if ( var0 == 2 )
+        {
+            MSG( gVar64 );
+            CLOSE_MSG_WIN();
+            REMOVE_MEMBER( gVar60 );
+        }
+
+    }
+    else 
+    {
+        MSG( gVar61 );
+        SEL_CHK_PAD( 6, 3 );
+        SET_MASK( 4 );
+        var0 = SEL( TALK_SEL );
+        
+        if ( var0 == 0 )
+        {
+            
+            if ( gVar21 == 3 )
+            {
+                member_sel_mask();
+                MSG( YUKARI_PARTY_OVER );
+                MSG( YUKARI_PARTY_CHANGE );
+                SEL_CHK_PAD( 6, 8 );
+                SET_MASK( gVar31 );
+                gVar32 = SEL( PARTY_SEL );
+                member_change();
+                
+                if ( gVar32 == 8 )
+                {
+                    MSG( gVar64 );
+                    CLOSE_MSG_WIN();
+                    return;
+                }
+
+            }
+
+            MSG( gVar62 );
+            CLOSE_MSG_WIN();
+            ADD_MEMBER( 0, gVar60 );
+        }
+
+    }
+
+    
+    if ( var0 == 1 )
+    {
+        int YukariCurrentHP = GET_CUR_HP(PartyMember.Yukari);
+		int YukariMaxHP = GET_TOT_HP(PartyMember.Yukari);
+		int YukariCurrentSP = GET_CUR_SP(PartyMember.Yukari);
+		int YukariMaxSP = GET_TOT_SP(PartyMember.Yukari);
+		equip_transfer();		
+		if (YukariCurrentHP == YukariMaxHP)
+		{
+			SET_HP(PartyMember.Yukari, GET_TOT_HP(PartyMember.Yukari));
+		}
+		if (YukariCurrentSP == YukariMaxSP)
+		{
+			SET_SP(PartyMember.Yukari, GET_TOT_SP(PartyMember.Yukari));
+		}
+        
+        if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) )
+        {
+            gVar41 = 1;
+        }
+
+        
+        if ( gVar41 == 0 )
+        {
+            npc_yukari();
+        }
+
+    }
+
+    CLOSE_MSG_WIN();
+}
