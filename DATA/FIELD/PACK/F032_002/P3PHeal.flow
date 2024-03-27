@@ -29,11 +29,12 @@ void P3PMemberReturn()
 {
 	OPEN_MSG_WIN();
 	MSG( P3PHealDead );
+	SEL_CHK_PAD(6,1);
 	int selection = SEL(P3PHealDeadSel);
 	switch (selection) {
 		case 0: //Yes
 			CLOSE_MSG_WIN();
-			Healing();
+			HealingDead();
 			break;
 		case 1: //No
 			CLOSE_MSG_WIN();
@@ -51,6 +52,7 @@ void P3PClock()
 	OPEN_MSG_WIN();
 	MSG( P3PHealClock );
 	int selection = SEL(P3PHealClockSel);
+	SEL_CHK_PAD(6,20);
 	switch (selection) {
 		case 0: //Heal
 			CLOSE_MSG_WIN();
@@ -70,12 +72,13 @@ void P3PClock()
 void HealingMenu()
 {
 	OPEN_MSG_WIN();
-	MSG( HealingMenu );
-	int selection = SEL(HealingMenuSel);
+	MSG( P3PHealingMenu );
+	SEL_CHK_PAD(6,20);
+	int selection = SEL(P3PHealingMenuSel);
 	switch (selection) {
 		case 0: //Yes
 			CLOSE_MSG_WIN();
-			Healing();
+			HealingClock();
 			break;
 		default: //No
 			break;
@@ -84,9 +87,42 @@ void HealingMenu()
 	return
 }
 
-void Healing()
+void HealingDead()
 {
-	FUNCTION_0093();
+	if (GET_YEN() < 2500)
+	{
+		OPEN_MSG_WIN();
+		MSG( Broke );
+		CLOSE_MSG_WIN();
+		member_return_unhooked();
+		return;
+	}
+	else
+	{
+		REMOVE_YEN(2500);
+		CALL_BTL_SFX( 2, 10 );
+		FUNCTION_0093();
+		break;
+	}
+	return;
+}
+
+void HealingClock()
+{
+	if (GET_YEN() < 2000)
+	{
+		OPEN_MSG_WIN();
+		MSG( Broke );
+		CLOSE_MSG_WIN();
+		return;
+	}
+	else
+	{
+		REMOVE_YEN(2000);
+		CALL_BTL_SFX( 2, 10 );
+		FUNCTION_0093();
+		break;
+	}
 	return;
 }
 
