@@ -37,3 +37,6 @@
 [sel P3PHealingMenuSel]
 [f 0 8 -258][f 1 31]Yes[e]
 [f 0 8 -258][f 1 31]No[e]
+
+[msg Broke]
+[f 0 8 -258][f 1 31]You do not have enough yen.[f 0 4][e]
