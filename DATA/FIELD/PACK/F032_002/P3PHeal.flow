@@ -54,7 +54,7 @@ void P3PClock()
 	switch (selection) {
 		case 0: //Heal
 			CLOSE_MSG_WIN();
-			Healing();
+			HealingMenu();
 			break;
 		case 1: //Save
 			CLOSE_MSG_WIN();
@@ -64,6 +64,29 @@ void P3PClock()
 			break;
 	}
 	CLOSE_MSG_WIN();
+	return;
+}
+
+void HealingMenu()
+{
+	OPEN_MSG_WIN();
+	MSG( HealingMenu );
+	int selection = SEL(HealingMenuSel);
+	switch (selection) {
+		case 0: //Yes
+			CLOSE_MSG_WIN();
+			Healing();
+			break;
+		default: //No
+			break;
+	}
+	CLOSE_MSG_WIN();
+	return
+}
+
+void Healing()
+{
+	FUNCTION_0093();
 	return;
 }
 
