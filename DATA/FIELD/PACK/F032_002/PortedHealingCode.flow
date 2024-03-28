@@ -37,7 +37,7 @@ void heal_point_pt()
     for (int x = 0; x < 3; x++)
     {
         //Checks if character is in the party and stores character ID?
-		PartyMember = AI_CHK_PLAYER_ID(x);
+		PartyMember = GET_PARTY_ID(x);
         //if so, add their current stats to the variables
         if (PartyMember != 0)
         {
@@ -284,7 +284,7 @@ void recovery_PT()
     for (int x = 0; x < 3; x++)
     {
 		//Checks if character is in the party
-        PartyMember = AI_CHK_PLAYER_ID(x);
+        PartyMember = GET_PARTY_ID(x);
         //if so, heal them
         if (PartyMember != 0)
         {
