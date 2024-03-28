@@ -42,7 +42,7 @@ void condition_check_hook()
 	}
 	else if (IsDead())
 	{
-		P3PConditionCheck();
+		HealingDead();
 	}
 	else
 	{

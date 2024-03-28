@@ -21,22 +21,15 @@
 
 [msg P3PHealDead]
 [f 0 8 -258][f 1 31]One or more of your party[n]members are unconcious.[f 0 4][e]
-[f 0 8 -258][f 1 31]> Would you like to heal them for 2500 yen?[e]
-
-[sel P3PHealDeadSel]
-[f 0 8 -258][f 1 31]Yes[e]
-[f 0 8 -258][f 1 31]No[e]
+[f 0 8 -258][f 1 31]> Healing will cost [f 0 3 0] yen.[n]Heal? (Carrying: [f 0 3 1] yen)[f 0 4][e]
 
 [msg P3PHealClock]
-[f 0 8 -258][f 1 31]> Would you like to heal or save?[e]
+[f 0 8 -258][f 1 31]> Would you like to save or heal?[e]
 
 [sel P3PHealClockSel]
-[f 0 8 -258][f 1 31]Heal[e]
 [f 0 8 -258][f 1 31]Save[e]
-
-[msg P3PHealingMenu]
-[f 0 8 -258][f 1 31]Healing will cost 2000 yen.[f 0 4][e]
-[f 0 8 -258][f 1 31]> Would you like to heal?[e]
+[f 0 8 -258][f 1 31]Heal Party[e]
+[f 0 8 -258][f 1 31]Heal Everyone[e]
 
 [sel P3PHealingMenuSel]
 [f 0 8 -258][f 1 31]Yes[e]
@@ -47,3 +40,15 @@
 
 [msg NoHealing]
 [f 0 8 -258][f 1 31]No one is in need of healing.[f 0 4][e]
+
+[msg P3PHeal]
+[f 0 8 -258][f 1 31]> Healing will cost [f 0 3 0] yen.[n]Heal? (Carrying: [f 0 3 1] yen)[f 0 4][e]
+
+[msg P3PHealDeadDone]
+[f 0 8 -258][f 1 31]Your dead have been partially healed.[f 0 4][e]
+
+[msg P3PHealPartyDone]
+[f 0 8 -258][f 1 31]The party has been healed.[f 0 4][e]
+
+[msg P3PHealAllDone]
+[f 0 8 -258][f 1 31]Everyone has been healed.[f 0 4][e]
