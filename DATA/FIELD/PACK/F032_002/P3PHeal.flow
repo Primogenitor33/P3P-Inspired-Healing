@@ -17,14 +17,12 @@ void P3PHealVersion()
 			break;
 	}
 	CLOSE_MSG_WIN();
-	return;
 }
 
 void ShowP3PHealTutorial()
 {
 	BIT_ON( 9995 );
 	MSG_HELP(P3PHealTutorial);
-	return;
 }
 
 void P3PConditionCheck()
@@ -46,7 +44,6 @@ void P3PConditionCheck()
 			break;
 	}
 	CLOSE_MSG_WIN();
-	return;
 }
 
 void P3PClock()
@@ -76,7 +73,6 @@ void P3PClock()
 			break;
 	}
 	CLOSE_MSG_WIN();
-	return;
 }
 
 void HealingMenu()
@@ -94,7 +90,6 @@ void HealingMenu()
 			break;
 	}
 	CLOSE_MSG_WIN();
-	return;
 }
 
 void HealingDead()
@@ -114,7 +109,6 @@ void HealingDead()
 		FUNCTION_0093();
 		condition_check_unhooked();
 	}
-	return;
 }
 
 void HealingClock()
@@ -132,7 +126,6 @@ void HealingClock()
 		CALL_BTL_SFX( 2, 10 );
 		FUNCTION_0093();
 	}
-	return;
 }
 
 bool IsDamaged()
@@ -162,7 +155,6 @@ void HealTo1HP()
 			SET_HP(x,1);
 		}
 	}
-	return;
 }
 
 void P3PMemberReturn()

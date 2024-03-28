@@ -20,7 +20,6 @@ void f032_002_init_hook()
 	{
 		P3PHealMain();
 	}
-	return;
 }
 
 void save_point_hook()
@@ -33,7 +32,6 @@ void save_point_hook()
 	{
 		P3PClock();
 	}
-	return;
 }
 
 void condition_check_hook()
@@ -50,7 +48,6 @@ void condition_check_hook()
 	{
 		condition_check_unhooked();
 	}
-	return;
 }
 
 void member_return_hook()
