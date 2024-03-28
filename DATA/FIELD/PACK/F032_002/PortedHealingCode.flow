@@ -1,0 +1,359 @@
+void save_point_hook()
+{
+    OPEN_MSG_WIN();
+    MSG( WHAT_DO_YOU_WANT );
+    SEL_CHK_PAD( 6, 4 );
+    int selection = SEL( SAVE_OR_HEAL );
+    switch (selection) {
+		case 0: //Save
+			save_point_unhooked();
+			break;
+		case 1: //Heal Party
+			heal_point_pt();
+			break;
+		case 2: //Heal Everyone
+			heal_point_all();
+			break;
+		default:
+			break;
+	}
+    CLOSE_MSG_WIN();
+    return;
+}
+
+void heal_point_pt()
+{
+	//Stores the current Yen value
+    int CurrentYen = GET_YEN();
+	//Initializes the values with the MC's info
+    int PartyCurrentSP = GET_CUR_SP( 1 );
+    int PartyMaxSP = GET_TOT_SP( 1 );
+    int PartyCurrentHP = GET_CUR_HP( 1 );
+    int PartyMaxHP = GET_TOT_HP( 1 );
+	
+    int PartyMember;
+    int Multiplier;
+    int Cost;
+    for (int x = 0; x < 3; x++)
+    {
+        //Checks if character is in the party and stores character ID?
+		PartyMember = AI_CHK_PLAYER_ID( x );
+        //if so, add their current stats to the variables
+        if ( PartyMember != 0 )
+        {
+            PartyCurrentSP = ( PartyCurrentSP + GET_CUR_SP( PartyMember ) );
+            PartyMaxSP = ( PartyMaxSP + GET_TOT_SP( PartyMember ) );
+            PartyCurrentHP = ( PartyCurrentHP + GET_CUR_HP( PartyMember ) );
+            PartyMaxHP = ( PartyMaxHP + GET_TOT_HP( PartyMember ) );
+        }
+    }
+
+    //Check if between two dates and set a multiplier depending on the date
+    if ( CHECK_TIME_SPAN( 4, 1, 5, 9 ) )
+    {
+        Multiplier = 75;
+    }
+    else if ( CHECK_TIME_SPAN( 5, 10, 6, 12 ) )
+    {
+        Multiplier = 100;
+    }
+    else if ( CHECK_TIME_SPAN( 6, 13, 7, 8 ) )
+    {
+        Multiplier = 150;
+    }
+    else if ( CHECK_TIME_SPAN( 7, 9, 8, 7 ) )
+    {
+        Multiplier = 230;
+    }
+    else if ( CHECK_TIME_SPAN( 8, 8, 9, 9 ) )
+    {
+        Multiplier = 480;
+    }
+    else if ( CHECK_TIME_SPAN( 9, 10, 10, 5 ) )
+    {
+        Multiplier = 780;
+    }
+    else if ( CHECK_TIME_SPAN( 10, 6, 11, 5 ) )
+    {
+        Multiplier = 1500;
+    }
+    else if ( CHECK_TIME_SPAN( 11, 6, 12, 31 ) )
+    {
+        Multiplier = 3100;
+    }
+    else 
+    {
+        Multiplier = 5350;
+    }
+	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 10
+    Cost = ( ( ( PartyMaxSP - PartyCurrentSP ) * Multiplier ) / 10 );
+	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from HP
+    Cost = ( Cost + ( ( ( PartyMaxHP - PartyCurrentHP ) * Multiplier ) / 100 ) );
+    //Limit the cost to 9999999
+    if ( Cost > 9999999 )
+    {
+        Cost = 9999999;
+    }
+	//Check if cost is 0 to see if healing is needed
+    else if ( Cost == 0 )
+    {
+        OPEN_MSG_WIN();
+        MSG( HEAL_NOMORE );
+        CLOSE_MSG_WIN();
+        return;
+    }
+
+    //Some kind of discount?
+    if ( BIT_CHK( 4891 ) )
+    {
+        Cost = ( Cost / 2 );
+    }
+
+    OPEN_MSG_WIN();
+	//Set the price message variable
+    SET_MSG_VAR( 0, Cost, 0 );
+	//Set the current yen message variable
+    SET_MSG_VAR( 1, CurrentYen, 0 );
+    MSG( HEAL_REQUIRE );
+    SEL_CHK_PAD( 6, 1 );
+	int selection = SEL( HEAL_OK );
+    switch (selection) {
+		case 0: //Heal
+			//compare the values to see if you can afford it
+			if ( Cost > CurrentYen )
+			{
+				MSG( HEAL_NOMONEY );
+			}
+			//if you can, remove the money and move on to healing
+			else 
+			{
+				REMOVE_YEN( Cost );
+				CLOSE_MSG_WIN();
+				recovery_PT();
+				OPEN_MSG_WIN();
+				MSG( HEAL_DONE_PT );
+			}
+			break;
+		default:
+			break;
+	}
+	CLOSE_MSG_WIN();
+}
+
+
+// Procedure Index: 14
+void heal_point_all()
+{
+	//This stores the current Yen value
+    int CurrentYen = GET_YEN();
+	//Initializes the values with the MC's info
+    int EveryoneCurrentSP = GET_CUR_SP( 1 );
+    int EveryoneTotalSP = GET_TOT_SP( 1 );
+    int EveryoneCurrentHP = GET_CUR_HP( 1 );
+    int EveryoneTotalHP = GET_TOT_HP( 1 );
+	
+    int Multiplier;
+    int Cost;
+    
+	//Check if Junpei is available, if so then add his stats to the variables
+    if ( BIT_CHK( 3099 ) )
+    {
+        EveryoneCurrentSP = ( EveryoneCurrentSP + GET_CUR_SP( 5 ) );
+        EveryoneTotalSP = ( EveryoneTotalSP + GET_TOT_SP( 5 ) );
+        EveryoneCurrentHP = ( EveryoneCurrentHP + GET_CUR_HP( 5 ) );
+        EveryoneTotalHP = ( EveryoneTotalHP + GET_TOT_HP( 5 ) );
+    }
+
+    //Check if Yukari is available, if so then add her stats to the variables
+    if ( BIT_CHK( 3096 ) )
+    {
+        EveryoneCurrentSP = ( EveryoneCurrentSP + GET_CUR_SP( 2 ) );
+        EveryoneTotalSP = ( EveryoneTotalSP + GET_TOT_SP( 2 ) );
+        EveryoneCurrentHP = ( EveryoneCurrentHP + GET_CUR_HP( 2 ) );
+        EveryoneTotalHP = ( EveryoneTotalHP + GET_TOT_HP( 2 ) );
+    }
+
+    //Check if Akihiko is available, if so then add his stats to the variables
+    if ( BIT_CHK( 3100 ) )
+    {
+        EveryoneCurrentSP = ( EveryoneCurrentSP + GET_CUR_SP( 7 ) );
+        EveryoneTotalSP = ( EveryoneTotalSP + GET_TOT_SP( 7 ) );
+        EveryoneCurrentHP = ( EveryoneCurrentHP + GET_CUR_HP( 7 ) );
+        EveryoneTotalHP = ( EveryoneTotalHP + GET_TOT_HP( 7 ) );
+    }
+
+    //Check if Mitsuru is available, if so then add her stats to the variables
+    if ( BIT_CHK( 3098 ) && BIT_CHK( 3123 ) )
+    {
+        EveryoneCurrentSP = ( EveryoneCurrentSP + GET_CUR_SP( 4 ) );
+        EveryoneTotalSP = ( EveryoneTotalSP + GET_TOT_SP( 4 ) );
+        EveryoneCurrentHP = ( EveryoneCurrentHP + GET_CUR_HP( 4 ) );
+        EveryoneTotalHP = ( EveryoneTotalHP + GET_TOT_HP( 4 ) );
+    }
+
+    //Check if Aigis is available, if so then add her stats to the variables
+    if ( BIT_CHK( 3097 ) )
+    {
+        EveryoneCurrentSP = ( EveryoneCurrentSP + GET_CUR_SP( 3 ) );
+        EveryoneTotalSP = ( EveryoneTotalSP + GET_TOT_SP( 3 ) );
+        EveryoneCurrentHP = ( EveryoneCurrentHP + GET_CUR_HP( 3 ) );
+        EveryoneTotalHP = ( EveryoneTotalHP + GET_TOT_HP( 3 ) );
+    }
+
+    //Check if Ken is available, if so then add his stats to the variables
+    if ( BIT_CHK( 3101 ) )
+    {
+        EveryoneCurrentSP = ( EveryoneCurrentSP + GET_CUR_SP( 8 ) );
+        EveryoneTotalSP = ( EveryoneTotalSP + GET_TOT_SP( 8 ) );
+        EveryoneCurrentHP = ( EveryoneCurrentHP + GET_CUR_HP( 8 ) );
+        EveryoneTotalHP = ( EveryoneTotalHP + GET_TOT_HP( 8 ) );
+    }
+
+    //Check if Shinjiro is available, if so then add his stats to the variables
+    if ( BIT_CHK( 3102 ) )
+    {
+        EveryoneCurrentSP = ( EveryoneCurrentSP + GET_CUR_SP( 9 ) );
+        EveryoneTotalSP = ( EveryoneTotalSP + GET_TOT_SP( 9 ) );
+        EveryoneCurrentHP = ( EveryoneCurrentHP + GET_CUR_HP( 9 ) );
+        EveryoneTotalHP = ( EveryoneTotalHP + GET_TOT_HP( 9 ) );
+    }
+
+    //Check if Koromaru is available, if so then add his stats to the variables
+    if ( BIT_CHK( 3103 ) )
+    {
+        EveryoneCurrentSP = ( EveryoneCurrentSP + GET_CUR_SP( 10 ) );
+        EveryoneTotalSP = ( EveryoneTotalSP + GET_TOT_SP( 10 ) );
+        EveryoneCurrentHP = ( EveryoneCurrentHP + GET_CUR_HP( 10 ) );
+        EveryoneTotalHP = ( EveryoneTotalHP + GET_TOT_HP( 10 ) );
+    }
+
+    //Check if between two dates and set a multiplier depending on the date
+    if ( CHECK_TIME_SPAN( 4, 1, 5, 9 ) )
+    {
+        Multiplier = 75;
+    }
+    else if ( CHECK_TIME_SPAN( 5, 10, 6, 12 ) )
+    {
+        Multiplier = 100;
+    }
+    else if ( CHECK_TIME_SPAN( 6, 13, 7, 8 ) )
+    {
+        Multiplier = 150;
+    }
+    else if ( CHECK_TIME_SPAN( 7, 9, 8, 7 ) )
+    {
+        Multiplier = 230;
+    }
+    else if ( CHECK_TIME_SPAN( 8, 8, 9, 9 ) )
+    {
+        Multiplier = 480;
+    }
+    else if ( CHECK_TIME_SPAN( 9, 10, 10, 5 ) )
+    {
+        Multiplier = 780;
+    }
+    else if ( CHECK_TIME_SPAN( 10, 6, 11, 5 ) )
+    {
+        Multiplier = 1500;
+    }
+    else if ( CHECK_TIME_SPAN( 11, 6, 12, 31 ) )
+    {
+        Multiplier = 3100;
+    }
+    else 
+    {
+        Multiplier = 5350;
+    }
+	
+	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 10
+    Cost = ( ( ( EveryoneTotalSP - EveryoneCurrentSP ) * Multiplier ) / 10 );
+	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from HP
+    Cost = ( Cost + ( ( ( EveryoneTotalHP - EveryoneCurrentHP ) * Multiplier ) / 100 ) );
+    
+	//Limit the cost to 9999999
+    if ( Cost > 9999999 )
+    {
+        Cost = 9999999;
+    }
+	//Check if cost is 0 to see if healing is needed
+    else if ( Cost == 0 )
+    {
+        OPEN_MSG_WIN();
+        MSG( HEAL_NOMORE );
+        CLOSE_MSG_WIN();
+        return;
+    }
+
+    //Some kind of discount?
+    if ( BIT_CHK( 4891 ) )
+    {
+        Cost = ( Cost / 2 );
+    }
+
+    OPEN_MSG_WIN();
+	//Set the price message variable
+    SET_MSG_VAR( 0, Cost, 0 );
+	//Set the current yen message variable
+    SET_MSG_VAR( 1, CurrentYen, 0 );
+    MSG( HEAL_REQUIRE );
+    SEL_CHK_PAD( 6, 1 );
+    int selection = SEL( HEAL_OK );
+    switch (selection) {
+		case 0: //Heal
+			//compare the values to see if you can afford it
+			if ( Cost > CurrentYen )
+			{
+				MSG( HEAL_NOMONEY );
+			}
+			//if you can, remove the money and move on to healing
+			else 
+			{
+				REMOVE_YEN( Cost );
+				CLOSE_MSG_WIN();
+				CALL_BTL_SFX( 2, 10 );
+				FUNCTION_0093();
+				OPEN_MSG_WIN();
+				MSG( HEAL_DONE );
+			}
+			break;
+		default:
+			break;
+    }
+    CLOSE_MSG_WIN();
+}
+
+void recovery_PT()
+{
+	//Initializes values with MC's Stats
+    int TotalSP = GET_TOT_SP( 1 );
+    int TotalHP = GET_TOT_HP( 1 );
+    int PartyMember;
+	//Heals MC's SP to max
+    SET_SP( 1, TotalSP );
+	//Heals MC's HP to max
+    SET_HP( 1, TotalHP );
+	//Unknown
+    FUNCTION_0020( 2, 20 );
+	//PUT
+    FUNCTION_0010( 1, 5, 255, 255, 255 );
+	//Unknown
+    FUNCTION_000F();
+	//Mirrored Fade
+    FUNCTION_000D( 15 );
+	//Unknown
+    FUNCTION_000F();
+    //Heals everyone else
+    for (int x = 0; x < 3; x++)
+    {
+		//Checks if character is in the party
+        PartyMember = AI_CHK_PLAYER_ID( x );
+        //if so, heal them
+        if ( PartyMember != 0 )
+        {
+            TotalSP = GET_TOT_SP( PartyMember );
+            SET_SP( PartyMember, TotalSP );
+            TotalHP = GET_TOT_HP( PartyMember );
+            SET_HP( PartyMember, TotalHP );
+        }
+    }
+}
