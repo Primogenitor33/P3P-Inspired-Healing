@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 *.flow linguist-language=C
+*.msg linguist-language=JSON
