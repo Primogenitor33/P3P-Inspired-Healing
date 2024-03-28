@@ -36,7 +36,7 @@ void heal_point_pt()
     int Cost;
     for (int x = 0; x < 3; x++)
     {
-        //Checks if character is in the party and stores character ID?
+        //Checks which characters are in party and stores their ID
 		PartyMember = GET_PARTY_ID(x);
         //if so, add their current stats to the variables
         if (PartyMember != 0)
@@ -159,14 +159,14 @@ void heal_point_all()
 	//Check if Party Member is available, if so then add their stats to the variables
 	for (int x = 2; x <= 10; x++)
     {
-		PartyMember = x + 3094;
+		PartyMember = x + 320;
 		
 		//Skip Fuuka
 		if (x == 6) {
           continue;
         }
 		if (x > 6) {
-			PartyMember = (x - 1) + 3094;
+			PartyMember = (x - 1) + 320;
 		}
 		
 		if (BIT_CHK(PartyMember))
@@ -283,7 +283,7 @@ void recovery_PT()
     //Heals everyone else
     for (int x = 0; x < 3; x++)
     {
-		//Checks if character is in the party
+		//Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, heal them
         if (PartyMember != 0)
