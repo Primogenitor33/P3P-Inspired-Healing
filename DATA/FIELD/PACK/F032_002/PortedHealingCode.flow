@@ -85,9 +85,9 @@ void heal_point_pt()
     {
         Multiplier = 5350;
     }
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 10
+	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
     Cost = (((PartyMaxSP - PartyCurrentSP) * Multiplier) / 10);
-	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from HP
+	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
     //Limit the cost to 9999999
     if (Cost > 9999999)
@@ -216,9 +216,9 @@ void heal_point_all()
         Multiplier = 5350;
     }
 	
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 10
+	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
     Cost = (((EveryoneTotalSP - EveryoneCurrentSP) * Multiplier) / 10);
-	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from HP
+	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((EveryoneTotalHP - EveryoneCurrentHP) * Multiplier) / 100));
     
 	//Limit the cost to 9999999
