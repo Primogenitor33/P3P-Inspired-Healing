@@ -20,7 +20,7 @@
 
 
 [msg P3PHealDead]
-[f 0 8 -258][f 1 31]One or more of your party[n]members are unconcious.[f 0 4][e]
+[f 0 8 -258][f 1 31]One or more of your party[n]members are unconscious.[f 0 4][e]
 [f 0 8 -258][f 1 31]> Healing will cost [f 0 3 0] yen.[n]Heal? (Carrying: [f 0 3 1] yen)[f 0 4][e]
 
 [msg P3PHealClock]
