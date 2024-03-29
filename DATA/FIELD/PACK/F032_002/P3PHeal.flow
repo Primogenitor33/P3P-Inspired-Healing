@@ -306,8 +306,6 @@ void HealingDead()
 	//Stores the current Yen value
     int CurrentYen = GET_YEN();
     
-	int PartyCurrentSP;
-    int PartyMaxSP;
     int PartyCurrentHP;
     int PartyMaxHP;
 	
@@ -325,8 +323,6 @@ void HealingDead()
 			//Only Apply to Dead Members
             if (GET_CUR_HP(PartyMember) == 0)
 			{
-				PartyCurrentSP = (PartyCurrentSP + GET_CUR_SP(PartyMember));
-				PartyMaxSP = (PartyMaxSP + GET_TOT_SP(PartyMember));
 				PartyCurrentHP = (PartyCurrentHP + GET_CUR_HP(PartyMember));
 				PartyMaxHP = (PartyMaxHP + GET_TOT_HP(PartyMember));
 			}
@@ -379,19 +375,12 @@ void HealingDead()
         Multiplier = 5350;
 		Penalty = 900;
     }
-	//Divide Max and Current HP and SP by 4
+	//Divide Max and Current HP by 4
 	PartyMaxHP = PartyMaxHP / 4;
 	PartyCurrentHP = PartyCurrentHP / 4;
-	PartyMaxSP = PartyMaxSP / 4;
-	PartyCurrentSP = PartyCurrentSP / 4;
 	
-	//Subtract Current SP from Total SP if the current is less than the total, multiply that by the current timeframe multiplier, then divide by 10
-    if (PartyMaxSP > PartyCurrentSP)
-	{
-		Cost = (((PartyMaxSP - PartyCurrentSP) * Multiplier) / 10);
-	}
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
-    Cost = (Cost + (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
+	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100
+    Cost = (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
 	//Add the penalty
 	Cost = Cost + Penalty;
 	
@@ -437,7 +426,6 @@ void HealingDead()
 void P3PDeadRecovery()
 {
     int PartyMember;
-	int FourthSP;
 	int FourthHP;
     //Heals everyone else
     for (int x = 0; x < 3; x++)
@@ -450,12 +438,7 @@ void P3PDeadRecovery()
 			//Only apply to dead members
 			if (GET_CUR_HP(PartyMember) == 0)
 			{
-				FourthSP = GET_TOT_SP(PartyMember) / 4;
 				FourthHP = GET_TOT_HP(PartyMember) / 4;
-				//Skip SP if it is higher than FourthSP
-				if (GET_CUR_SP(PartyMember) < FourthSP) {
-					SET_SP(PartyMember, FourthSP);
-				}
 				SET_HP(PartyMember, FourthHP);
 			}
         }
