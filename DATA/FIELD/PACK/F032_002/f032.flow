@@ -8,16 +8,16 @@ void f032_002_init_hook()
 	{
 		P3PHealVersion();
 	}
-	if (BIT_CHK(3106))
-	{
-		HealTo1HP();
-	}
 	if (ModeCheck())
 	{
 		f032_002_init_unhooked();
 	}
 	else
 	{
+                if (BIT_CHK(3106))
+	       {
+		       HealTo1HP();
+	       }
 		P3PHealMain();
 	}
 }
