@@ -121,9 +121,9 @@ void P3PHealParty()
     {
         Multiplier = 5350;
     }
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 10
+	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
     Cost = (((PartyMaxSP - PartyCurrentSP) * Multiplier) / 10);
-	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from HP
+	//Subtract Current HP from Total H, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
     //Limit the cost to 9999999
     if (Cost > 9999999)
@@ -258,9 +258,9 @@ void P3PHealAll()
         Multiplier = 5350;
     }
 	
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 10
+	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
     Cost = (((EveryoneTotalSP - EveryoneCurrentSP) * Multiplier) / 10);
-	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from HP
+	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((EveryoneTotalHP - EveryoneCurrentHP) * Multiplier) / 100));
     
 	//Limit the cost to 9999999
@@ -305,11 +305,11 @@ void HealingDead()
 {
 	//Stores the current Yen value
     int CurrentYen = GET_YEN();
-	//Initializes the values with the MC's info
-    int PartyCurrentSP = GET_CUR_SP(1);
-    int PartyMaxSP = GET_TOT_SP(1);
-    int PartyCurrentHP = GET_CUR_HP(1);
-    int PartyMaxHP = GET_TOT_HP(1);
+    
+	int PartyCurrentSP;
+    int PartyMaxSP;
+    int PartyCurrentHP;
+    int PartyMaxHP;
 	
     int PartyMember;
     int Multiplier;
@@ -322,10 +322,14 @@ void HealingDead()
         //if so, add their current stats to the variables
         if (PartyMember != 0)
         {
-            PartyCurrentSP = (PartyCurrentSP + GET_CUR_SP(PartyMember));
-            PartyMaxSP = (PartyMaxSP + GET_TOT_SP(PartyMember));
-            PartyCurrentHP = (PartyCurrentHP + GET_CUR_HP(PartyMember));
-            PartyMaxHP = (PartyMaxHP + GET_TOT_HP(PartyMember));
+			//Only Apply to Dead Members
+            if (GET_CUR_HP(PartyMember) == 0)
+			{
+				PartyCurrentSP = (PartyCurrentSP + GET_CUR_SP(PartyMember));
+				PartyMaxSP = (PartyMaxSP + GET_TOT_SP(PartyMember));
+				PartyCurrentHP = (PartyCurrentHP + GET_CUR_HP(PartyMember));
+				PartyMaxHP = (PartyMaxHP + GET_TOT_HP(PartyMember));
+			}
         }
     }
 
@@ -381,12 +385,12 @@ void HealingDead()
 	PartyMaxSP = PartyMaxSP / 4;
 	PartyCurrentSP = PartyCurrentSP / 4;
 	
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 10
+	//Subtract Current SP from Total SP if the current is less than the total, multiply that by the current timeframe multiplier, then divide by 10
     if (PartyMaxSP > PartyCurrentSP)
 	{
 		Cost = (((PartyMaxSP - PartyCurrentSP) * Multiplier) / 10);
 	}
-	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from HP
+	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
 	//Add the penalty
 	Cost = Cost + Penalty;
@@ -443,13 +447,17 @@ void P3PDeadRecovery()
         //if so, heal them
         if (PartyMember != 0)
         {
-			FourthSP = GET_TOT_SP(PartyMember) / 4;
-			FourthHP = GET_TOT_HP(PartyMember) / 4;
-			//Skip SP if it is higher than FourthSP
-			if (GET_CUR_SP(PartyMember) < FourthSP) {
-				SET_SP(PartyMember, FourthSP);
+			//Only apply to dead members
+			if (GET_CUR_HP(PartyMember) == 0)
+			{
+				FourthSP = GET_TOT_SP(PartyMember) / 4;
+				FourthHP = GET_TOT_HP(PartyMember) / 4;
+				//Skip SP if it is higher than FourthSP
+				if (GET_CUR_SP(PartyMember) < FourthSP) {
+					SET_SP(PartyMember, FourthSP);
+				}
+				SET_HP(PartyMember, FourthHP);
 			}
-            SET_HP(PartyMember, FourthHP);
         }
     }
 }
