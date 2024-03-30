@@ -6,8 +6,7 @@ void f032_002_init_hook()
 	//Set Mod Version
     if ((BIT_CHK(3569) == 1) && !BIT_CHK(9994) && !BIT_CHK(9993))
 	{
-		P3PHealVersion();
-	}
+		P3PHealVersion();}
 	if (ModeCheck())
 	{
 		f032_002_init_unhooked();
@@ -60,11 +59,11 @@ bool ModeCheck()
 {
 	if ((GET_MONTH() < 10) && (GET_MONTH() > 1) && BIT_CHK(9993))
 	{
-		return 1;
+		return true;
 	}
 	else if ((GET_MONTH() == 10) && (GET_DAY_OF_MONTH() <= 4) && BIT_CHK(9993))
 	{
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
