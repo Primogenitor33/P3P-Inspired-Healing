@@ -380,7 +380,7 @@ void HealingDead()
 	PartyCurrentHP = PartyCurrentHP / 4;
 	
 	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100
-    Cost = (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
+    Cost = (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100);
 	//Add the penalty
 	Cost = Cost + Penalty;
 	
