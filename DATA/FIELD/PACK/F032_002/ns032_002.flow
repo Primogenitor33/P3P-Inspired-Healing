@@ -11,7 +11,7 @@ void check_status_hook()
 
 void npc_yukari_hook()
 {
-	int var0;
+    int var0;
     gVar60 = 2;
     gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 529 );
     
@@ -127,18 +127,18 @@ void npc_yukari_hook()
     if ( var0 == 1 )
     {
         int CurrentHP = GET_CUR_HP(PartyMember.Yukari);
-		int MaxHP = GET_TOT_HP(PartyMember.Yukari);
-		int CurrentSP = GET_CUR_SP(PartyMember.Yukari);
-		int MaxSP = GET_TOT_SP(PartyMember.Yukari);
-		equip_transfer();		
-		if (CurrentHP == MaxHP)
-		{
-			SET_HP(PartyMember.Yukari, GET_TOT_HP(PartyMember.Yukari));
-		}
-		if (CurrentSP == MaxSP)
-		{
-			SET_SP(PartyMember.Yukari, GET_TOT_SP(PartyMember.Yukari));
-		}
+        int MaxHP = GET_TOT_HP(PartyMember.Yukari);
+        int CurrentSP = GET_CUR_SP(PartyMember.Yukari);
+        int MaxSP = GET_TOT_SP(PartyMember.Yukari);
+        equip_transfer();
+        if (CurrentHP == MaxHP)
+        {
+            SET_HP(PartyMember.Yukari, GET_TOT_HP(PartyMember.Yukari));
+        }
+        if (CurrentSP == MaxSP)
+        {
+            SET_SP(PartyMember.Yukari, GET_TOT_SP(PartyMember.Yukari));
+        }
         
         if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) )
         {
@@ -257,18 +257,18 @@ void npc_aegis_hook()
     if ( var1 == 1 )
     {
         int CurrentHP = GET_CUR_HP(PartyMember.Aigis);
-		int MaxHP = GET_TOT_HP(PartyMember.Aigis);
-		int CurrentSP = GET_CUR_SP(PartyMember.Aigis);
-		int MaxSP = GET_TOT_SP(PartyMember.Aigis);
-		equip_transfer();		
-		if (CurrentHP == MaxHP)
-		{
-			SET_HP(PartyMember.Aigis, GET_TOT_HP(PartyMember.Aigis));
-		}
-		if (CurrentSP == MaxSP)
-		{
-			SET_SP(PartyMember.Aigis, GET_TOT_SP(PartyMember.Aigis));
-		}
+        int MaxHP = GET_TOT_HP(PartyMember.Aigis);
+        int CurrentSP = GET_CUR_SP(PartyMember.Aigis);
+        int MaxSP = GET_TOT_SP(PartyMember.Aigis);
+        equip_transfer();
+        if (CurrentHP == MaxHP)
+        {
+            SET_HP(PartyMember.Aigis, GET_TOT_HP(PartyMember.Aigis));
+        }
+        if (CurrentSP == MaxSP)
+        {
+            SET_SP(PartyMember.Aigis, GET_TOT_SP(PartyMember.Aigis));
+        }
         
         if ( gVar41 == 0 )
         {
@@ -487,18 +487,18 @@ void npc_mitsuru_hook()
     if ( var2 == 1 )
     {
         int CurrentHP = GET_CUR_HP(PartyMember.Mitsuru);
-		int MaxHP = GET_TOT_HP(PartyMember.Mitsuru);
-		int CurrentSP = GET_CUR_SP(PartyMember.Mitsuru);
-		int MaxSP = GET_TOT_SP(PartyMember.Mitsuru);
-		equip_transfer();		
-		if (CurrentHP == MaxHP)
-		{
-			SET_HP(PartyMember.Mitsuru, GET_TOT_HP(PartyMember.Mitsuru));
-		}
-		if (CurrentSP == MaxSP)
-		{
-			SET_SP(PartyMember.Mitsuru, GET_TOT_SP(PartyMember.Mitsuru));
-		}
+        int MaxHP = GET_TOT_HP(PartyMember.Mitsuru);
+        int CurrentSP = GET_CUR_SP(PartyMember.Mitsuru);
+        int MaxSP = GET_TOT_SP(PartyMember.Mitsuru);
+        equip_transfer();
+        if (CurrentHP == MaxHP)
+        {
+            SET_HP(PartyMember.Mitsuru, GET_TOT_HP(PartyMember.Mitsuru));
+        }
+        if (CurrentSP == MaxSP)
+        {
+            SET_SP(PartyMember.Mitsuru, GET_TOT_SP(PartyMember.Mitsuru));
+        }
         
         if ( gVar41 == 0 )
         {
@@ -628,18 +628,18 @@ void npc_junpei_hook()
     if ( var5 == 1 )
     {
         int CurrentHP = GET_CUR_HP(PartyMember.Junpei);
-		int MaxHP = GET_TOT_HP(PartyMember.Junpei);
-		int CurrentSP = GET_CUR_SP(PartyMember.Junpei);
-		int MaxSP = GET_TOT_SP(PartyMember.Junpei);
-		equip_transfer();		
-		if (CurrentHP == MaxHP)
-		{
-			SET_HP(PartyMember.Junpei, GET_TOT_HP(PartyMember.Junpei));
-		}
-		if (CurrentSP == MaxSP)
-		{
-			SET_SP(PartyMember.Junpei, GET_TOT_SP(PartyMember.Junpei));
-		}
+        int MaxHP = GET_TOT_HP(PartyMember.Junpei);
+        int CurrentSP = GET_CUR_SP(PartyMember.Junpei);
+        int MaxSP = GET_TOT_SP(PartyMember.Junpei);
+        equip_transfer();
+        if (CurrentHP == MaxHP)
+        {
+            SET_HP(PartyMember.Junpei, GET_TOT_HP(PartyMember.Junpei));
+        }
+        if (CurrentSP == MaxSP)
+        {
+            SET_SP(PartyMember.Junpei, GET_TOT_SP(PartyMember.Junpei));
+        }
         
         if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) )
         {
@@ -771,18 +771,18 @@ void npc_sanada_hook()
     if ( var8 == 1 )
     {
         int CurrentHP = GET_CUR_HP(PartyMember.Akihiko);
-		int MaxHP = GET_TOT_HP(PartyMember.Akihiko);
-		int CurrentSP = GET_CUR_SP(PartyMember.Akihiko);
-		int MaxSP = GET_TOT_SP(PartyMember.Akihiko);
-		equip_transfer();		
-		if (CurrentHP == MaxHP)
-		{
-			SET_HP(PartyMember.Akihiko, GET_TOT_HP(PartyMember.Akihiko));
-		}
-		if (CurrentSP == MaxSP)
-		{
-			SET_SP(PartyMember.Akihiko, GET_TOT_SP(PartyMember.Akihiko));
-		}
+        int MaxHP = GET_TOT_HP(PartyMember.Akihiko);
+        int CurrentSP = GET_CUR_SP(PartyMember.Akihiko);
+        int MaxSP = GET_TOT_SP(PartyMember.Akihiko);
+        equip_transfer();
+        if (CurrentHP == MaxHP)
+        {
+            SET_HP(PartyMember.Akihiko, GET_TOT_HP(PartyMember.Akihiko));
+        }
+        if (CurrentSP == MaxSP)
+        {
+            SET_SP(PartyMember.Akihiko, GET_TOT_SP(PartyMember.Akihiko));
+        }
         
         if ( gVar41 == 0 )
         {
@@ -895,18 +895,18 @@ void npc_amada_hook()
     if ( var9 == 1 )
     {
         int CurrentHP = GET_CUR_HP(PartyMember.Ken);
-		int MaxHP = GET_TOT_HP(PartyMember.Ken);
-		int CurrentSP = GET_CUR_SP(PartyMember.Ken);
-		int MaxSP = GET_TOT_SP(PartyMember.Ken);
-		equip_transfer();		
-		if (CurrentHP == MaxHP)
-		{
-			SET_HP(PartyMember.Ken, GET_TOT_HP(PartyMember.Ken));
-		}
-		if (CurrentSP == MaxSP)
-		{
-			SET_SP(PartyMember.Ken, GET_TOT_SP(PartyMember.Ken));
-		}
+        int MaxHP = GET_TOT_HP(PartyMember.Ken);
+        int CurrentSP = GET_CUR_SP(PartyMember.Ken);
+        int MaxSP = GET_TOT_SP(PartyMember.Ken);
+        equip_transfer();
+        if (CurrentHP == MaxHP)
+        {
+            SET_HP(PartyMember.Ken, GET_TOT_HP(PartyMember.Ken));
+        }
+        if (CurrentSP == MaxSP)
+        {
+            SET_SP(PartyMember.Ken, GET_TOT_SP(PartyMember.Ken));
+        }
         
         if ( gVar41 == 0 )
         {
@@ -1019,18 +1019,18 @@ void npc_aragaki_hook()
     if ( var10 == 1 )
     {
         int CurrentHP = GET_CUR_HP(PartyMember.ShinjiroMetis);
-		int MaxHP = GET_TOT_HP(PartyMember.ShinjiroMetis);
-		int CurrentSP = GET_CUR_SP(PartyMember.ShinjiroMetis);
-		int MaxSP = GET_TOT_SP(PartyMember.ShinjiroMetis);
-		equip_transfer();		
-		if (CurrentHP == MaxHP)
-		{
-			SET_HP(PartyMember.ShinjiroMetis, GET_TOT_HP(PartyMember.ShinjiroMetis));
-		}
-		if (CurrentSP == MaxSP)
-		{
-			SET_SP(PartyMember.ShinjiroMetis, GET_TOT_SP(PartyMember.ShinjiroMetis));
-		}
+        int MaxHP = GET_TOT_HP(PartyMember.ShinjiroMetis);
+        int CurrentSP = GET_CUR_SP(PartyMember.ShinjiroMetis);
+        int MaxSP = GET_TOT_SP(PartyMember.ShinjiroMetis);
+        equip_transfer();
+        if (CurrentHP == MaxHP)
+        {
+            SET_HP(PartyMember.ShinjiroMetis, GET_TOT_HP(PartyMember.ShinjiroMetis));
+        }
+        if (CurrentSP == MaxSP)
+        {
+            SET_SP(PartyMember.ShinjiroMetis, GET_TOT_SP(PartyMember.ShinjiroMetis));
+        }
         
         if ( gVar41 == 0 )
         {
@@ -1141,18 +1141,18 @@ void npc_koromaru_hook()
     if ( var11 == 1 )
     {
         int CurrentHP = GET_CUR_HP(PartyMember.Koromaru);
-		int MaxHP = GET_TOT_HP(PartyMember.Koromaru);
-		int CurrentSP = GET_CUR_SP(PartyMember.Koromaru);
-		int MaxSP = GET_TOT_SP(PartyMember.Koromaru);
-		equip_transfer();		
-		if (CurrentHP == MaxHP)
-		{
-			SET_HP(PartyMember.Koromaru, GET_TOT_HP(PartyMember.Koromaru));
-		}
-		if (CurrentSP == MaxSP)
-		{
-			SET_SP(PartyMember.Koromaru, GET_TOT_SP(PartyMember.Koromaru));
-		}
+        int MaxHP = GET_TOT_HP(PartyMember.Koromaru);
+        int CurrentSP = GET_CUR_SP(PartyMember.Koromaru);
+        int MaxSP = GET_TOT_SP(PartyMember.Koromaru);
+        equip_transfer();
+        if (CurrentHP == MaxHP)
+        {
+            SET_HP(PartyMember.Koromaru, GET_TOT_HP(PartyMember.Koromaru));
+        }
+        if (CurrentSP == MaxSP)
+        {
+            SET_SP(PartyMember.Koromaru, GET_TOT_SP(PartyMember.Koromaru));
+        }
         
         if ( gVar41 == 0 )
         {

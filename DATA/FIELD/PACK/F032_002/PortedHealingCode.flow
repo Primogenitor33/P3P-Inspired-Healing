@@ -5,39 +5,39 @@ void save_point_hook()
     SEL_CHK_PAD(6, 4);
     int selection = SEL(SAVE_OR_HEAL);
     switch (selection) {
-		case 0: //Save
-			save_point_unhooked();
-			break;
-		case 1: //Heal Party
-			heal_point_pt();
-			break;
-		case 2: //Heal Everyone
-			heal_point_all();
-			break;
-		default:
-			break;
-	}
+        case 0: //Save
+            save_point_unhooked();
+            break;
+        case 1: //Heal Party
+            heal_point_pt();
+            break;
+        case 2: //Heal Everyone
+            heal_point_all();
+            break;
+        default:
+            break;
+    }
     CLOSE_MSG_WIN();
     return;
 }
 
 void heal_point_pt()
 {
-	//Stores the current Yen value
+    //Stores the current Yen value
     int CurrentYen = GET_YEN();
-	//Initializes the values with the MC's info
+    //Initializes the values with the MC's info
     int PartyCurrentSP = GET_CUR_SP(1);
     int PartyMaxSP = GET_TOT_SP(1);
     int PartyCurrentHP = GET_CUR_HP(1);
     int PartyMaxHP = GET_TOT_HP(1);
-	
+
     int PartyMember;
     int Multiplier;
     int Cost;
     for (int x = 0; x < 3; x++)
     {
         //Checks which characters are in party and stores their ID
-		PartyMember = GET_PARTY_ID(x);
+        PartyMember = GET_PARTY_ID(x);
         //if so, add their current stats to the variables
         if (PartyMember != 0)
         {
@@ -85,16 +85,16 @@ void heal_point_pt()
     {
         Multiplier = 5350;
     }
-	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
+    //Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
     Cost = (((PartyMaxSP - PartyCurrentSP) * Multiplier) / 10);
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
+    //Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
     //Limit the cost to 9999999
     if (Cost > 9999999)
     {
         Cost = 9999999;
     }
-	//Check if cost is 0 to see if healing is needed
+    //Check if cost is 0 to see if healing is needed
     else if (Cost == 0)
     {
         OPEN_MSG_WIN();
@@ -110,73 +110,73 @@ void heal_point_pt()
     }
 
     OPEN_MSG_WIN();
-	//Set the price message variable
+    //Set the price message variable
     SET_MSG_VAR(0, Cost, 0);
-	//Set the current yen message variable
+    //Set the current yen message variable
     SET_MSG_VAR(1, CurrentYen, 0);
     MSG(HEAL_REQUIRE);
     SEL_CHK_PAD(6, 1);
-	int selection = SEL(HEAL_OK);
+    int selection = SEL(HEAL_OK);
     switch (selection) {
-		case 0: //Heal
-			//compare the values to see if you can afford it
-			if (Cost > CurrentYen)
-			{
-				MSG(HEAL_NOMONEY);
-			}
-			//if you can, remove the money and move on to healing
-			else 
-			{
-				REMOVE_YEN(Cost);
-				CLOSE_MSG_WIN();
-				recovery_PT();
-				OPEN_MSG_WIN();
-				MSG(HEAL_DONE_PT);
-			}
-			break;
-		default:
-			break;
-	}
-	CLOSE_MSG_WIN();
+        case 0: //Heal
+            //compare the values to see if you can afford it
+            if (Cost > CurrentYen)
+            {
+                MSG(HEAL_NOMONEY);
+            }
+            //if you can, remove the money and move on to healing
+            else
+            {
+                REMOVE_YEN(Cost);
+                CLOSE_MSG_WIN();
+                recovery_PT();
+                OPEN_MSG_WIN();
+                MSG(HEAL_DONE_PT);
+            }
+            break;
+        default:
+            break;
+    }
+    CLOSE_MSG_WIN();
 }
 
 
 // Procedure Index: 14
 void heal_point_all()
 {
-	//This stores the current Yen value
+    //This stores the current Yen value
     int CurrentYen = GET_YEN();
-	//Initializes the values with the MC's info
+    //Initializes the values with the MC's info
     int EveryoneCurrentSP = GET_CUR_SP(1);
     int EveryoneTotalSP = GET_TOT_SP(1);
     int EveryoneCurrentHP = GET_CUR_HP(1);
     int EveryoneTotalHP = GET_TOT_HP(1);
-	
+
     int Multiplier;
     int Cost;
-	int PartyMember;
+    int PartyMember;
     
-	//Check if Party Member is available, if so then add their stats to the variables
-	for (int x = 2; x <= 10; x++)
+    //Check if Party Member is available, if so then add their stats to the variables
+    for (int x = 2; x <= 10; x++)
     {
-		PartyMember = x + 320;
-		
-		//Skip Fuuka
-		if (x == 6) {
+        PartyMember = x + 320;
+
+        //Skip Fuuka
+        if (x == 6) {
           continue;
         }
-		if (x > 6) {
-			PartyMember = (x - 1) + 320;
-		}
-		
-		if (BIT_CHK(PartyMember))
-		{
-			EveryoneCurrentSP = (EveryoneCurrentSP + GET_CUR_SP(x));
-			EveryoneTotalSP = (EveryoneTotalSP + GET_TOT_SP(x));
-			EveryoneCurrentHP = (EveryoneCurrentHP + GET_CUR_HP(x));
-			EveryoneTotalHP = (EveryoneTotalHP + GET_TOT_HP(x));
-		}
-	}
+        if (x > 6) {
+            PartyMember = (x - 1) + 320;
+        }
+
+        if (BIT_CHK(PartyMember))
+        {
+            EveryoneCurrentSP = (EveryoneCurrentSP + GET_CUR_SP(x));
+            EveryoneTotalSP = (EveryoneTotalSP + GET_TOT_SP(x));
+            EveryoneCurrentHP = (EveryoneCurrentHP + GET_CUR_HP(x));
+            EveryoneTotalHP = (EveryoneTotalHP + GET_TOT_HP(x));
+        }
+    }
 
     //Check if between two dates and set a multiplier depending on the date
     if (CHECK_TIME_SPAN(4, 1, 5, 9))
@@ -215,18 +215,18 @@ void heal_point_all()
     {
         Multiplier = 5350;
     }
-	
-	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
+
+    //Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
     Cost = (((EveryoneTotalSP - EveryoneCurrentSP) * Multiplier) / 10);
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
+    //Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((EveryoneTotalHP - EveryoneCurrentHP) * Multiplier) / 100));
     
-	//Limit the cost to 9999999
+    //Limit the cost to 9999999
     if (Cost > 9999999)
     {
         Cost = 9999999;
     }
-	//Check if cost is 0 to see if healing is needed
+    //Check if cost is 0 to see if healing is needed
     else if (Cost == 0)
     {
         OPEN_MSG_WIN();
@@ -242,33 +242,33 @@ void heal_point_all()
     }
 
     OPEN_MSG_WIN();
-	//Set the price message variable
+    //Set the price message variable
     SET_MSG_VAR(0, Cost, 0);
-	//Set the current yen message variable
+    //Set the current yen message variable
     SET_MSG_VAR(1, CurrentYen, 0);
     MSG(HEAL_REQUIRE);
     SEL_CHK_PAD(6, 1);
     int selection = SEL(HEAL_OK);
     switch (selection) {
-		case 0: //Heal
-			//compare the values to see if you can afford it
-			if (Cost > CurrentYen)
-			{
-				MSG(HEAL_NOMONEY);
-			}
-			//if you can, remove the money and move on to healing
-			else 
-			{
-				REMOVE_YEN(Cost);
-				CLOSE_MSG_WIN();
-				CALL_BTL_SFX(2, 10);
-				FUNCTION_0093();
-				OPEN_MSG_WIN();
-				MSG(HEAL_DONE);
-			}
-			break;
-		default:
-			break;
+        case 0: //Heal
+            //compare the values to see if you can afford it
+            if (Cost > CurrentYen)
+            {
+                MSG(HEAL_NOMONEY);
+            }
+            //if you can, remove the money and move on to healing
+            else
+            {
+                REMOVE_YEN(Cost);
+                CLOSE_MSG_WIN();
+                CALL_BTL_SFX(2, 10);
+                FUNCTION_0093();
+                OPEN_MSG_WIN();
+                MSG(HEAL_DONE);
+            }
+            break;
+        default:
+            break;
     }
     CLOSE_MSG_WIN();
 }
@@ -276,14 +276,14 @@ void heal_point_all()
 void recovery_PT()
 {
     int PartyMember;
-	//Heals MC's SP to max
+    //Heals MC's SP to max
     SET_SP(1, GET_TOT_SP(1));
-	//Heals MC's HP to max
+    //Heals MC's HP to max
     SET_HP(1, GET_TOT_HP(1));
     //Heals everyone else
     for (int x = 0; x < 3; x++)
     {
-		//Checks which characters are in party and stores their ID
+        //Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, heal them
         if (PartyMember != 0)

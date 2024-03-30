@@ -2,78 +2,78 @@ import( "P3PHeal.msg" );
 
 void P3PHealVersion()
 {
-	MSG_HELP(P3PHealWelcome);
-	OPEN_MSG_WIN();
-	MSG( P3PChooseVersion );
-	int selection = SEL(P3PHealVersionSel);
-	switch (selection) {
-		case 0: //Full Game
-			BIT_ON( 9994 );
-			break;
-		case 1: //Late Game
-			BIT_ON( 9993 );
-			break;
-		default:
-			break;
-	}
-	CLOSE_MSG_WIN();
+    MSG_HELP(P3PHealWelcome);
+    OPEN_MSG_WIN();
+    MSG( P3PChooseVersion );
+    int selection = SEL(P3PHealVersionSel);
+    switch (selection) {
+        case 0: //Full Game
+            BIT_ON( 9994 );
+            break;
+        case 1: //Late Game
+            BIT_ON( 9993 );
+            break;
+        default:
+            break;
+    }
+    CLOSE_MSG_WIN();
 }
 
 void ShowP3PHealTutorial()
 {
-	BIT_ON( 9995 );
-	MSG_HELP(P3PHealTutorial);
+    BIT_ON( 9995 );
+    MSG_HELP(P3PHealTutorial);
 }
 
 void P3PClock()
 {
-	OPEN_MSG_WIN();
-	MSG(P3PHealClock);
-	SEL_CHK_PAD(6, 4);
-	int selection = SEL(P3PHealClockSel);
-	switch (selection) {
-		case 0: //Save
-			save_point_unhooked();
-			break;
-		case 1: //Heal Party
-			if (IsPartyDamaged()) {
-				P3PHealParty();
-			}
-			else {
-				MSG(NoHealing);
-			}
-			break;
-		case 2: //Heal Everyone
-			if (IsDamaged()) {
-				P3PHealAll();
-			}
-			else {
-				MSG(NoHealing);
-			}
-			break;
-		default:
-			break;
-	}
-	CLOSE_MSG_WIN();
+    OPEN_MSG_WIN();
+    MSG(P3PHealClock);
+    SEL_CHK_PAD(6, 4);
+    int selection = SEL(P3PHealClockSel);
+    switch (selection) {
+        case 0: //Save
+            save_point_unhooked();
+            break;
+        case 1: //Heal Party
+            if (IsPartyDamaged()) {
+                P3PHealParty();
+            }
+            else {
+                MSG(NoHealing);
+            }
+            break;
+        case 2: //Heal Everyone
+            if (IsDamaged()) {
+                P3PHealAll();
+            }
+            else {
+                MSG(NoHealing);
+            }
+            break;
+        default:
+            break;
+    }
+    CLOSE_MSG_WIN();
 }
 
 void P3PHealParty()
 {
-	//Stores the current Yen value
+    //Stores the current Yen value
     int CurrentYen = GET_YEN();
-	//Initializes the values with the MC's info
+    //Initializes the values with the MC's info
     int PartyCurrentSP = GET_CUR_SP(1);
     int PartyMaxSP = GET_TOT_SP(1);
     int PartyCurrentHP = GET_CUR_HP(1);
     int PartyMaxHP = GET_TOT_HP(1);
-	
+
     int PartyMember;
     int Multiplier;
     int Cost;
     for (int x = 0; x < 3; x++)
     {
         //Checks which characters are in party and stores their ID
-		PartyMember = GET_PARTY_ID(x);
+        PartyMember = GET_PARTY_ID(x);
         //if so, add their current stats to the variables
         if (PartyMember != 0)
         {
@@ -121,9 +121,9 @@ void P3PHealParty()
     {
         Multiplier = 5350;
     }
-	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
+    //Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
     Cost = (((PartyMaxSP - PartyCurrentSP) * Multiplier) / 10);
-	//Subtract Current HP from Total H, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
+    //Subtract Current HP from Total H, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
     //Limit the cost to 9999999
     if (Cost > 9999999)
@@ -132,48 +132,48 @@ void P3PHealParty()
     }
 
     OPEN_MSG_WIN();
-	//Set the price message variable
+    //Set the price message variable
     SET_MSG_VAR(0, Cost, 0);
-	//Set the current yen message variable
+    //Set the current yen message variable
     SET_MSG_VAR(1, CurrentYen, 0);
     MSG(P3PHeal);
     SEL_CHK_PAD(6, 1);
-	int selection = SEL(P3PHealingMenuSel);
+    int selection = SEL(P3PHealingMenuSel);
     switch (selection) {
-		case 0: //Heal
-			//compare the values to see if you can afford it
-			if (Cost > CurrentYen)
-			{
-				MSG(Broke);
-			}
-			//if you can, remove the money and move on to healing
-			else 
-			{
-				REMOVE_YEN(Cost);
-				CLOSE_MSG_WIN();
-				P3PPartyRecovery();
-				OPEN_MSG_WIN();
-				MSG(P3PHealPartyDone);
-			}
-			break;
-		default:
-			break;
-	}
-	CLOSE_MSG_WIN();
+        case 0: //Heal
+            //compare the values to see if you can afford it
+            if (Cost > CurrentYen)
+            {
+                MSG(Broke);
+            }
+            //if you can, remove the money and move on to healing
+            else
+            {
+                REMOVE_YEN(Cost);
+                CLOSE_MSG_WIN();
+                P3PPartyRecovery();
+                OPEN_MSG_WIN();
+                MSG(P3PHealPartyDone);
+            }
+            break;
+        default:
+            break;
+    }
+    CLOSE_MSG_WIN();
 }
 
 void P3PPartyRecovery()
 {
     int PartyMember;
-	CALL_BTL_SFX(2, 10);
-	//Heals MC's SP to max
+    CALL_BTL_SFX(2, 10);
+    //Heals MC's SP to max
     SET_SP(1, GET_TOT_SP(1));
-	//Heals MC's HP to max
+    //Heals MC's HP to max
     SET_HP(1, GET_TOT_HP(1));
     //Heals everyone else
     for (int x = 0; x < 3; x++)
     {
-		//Checks which characters are in party and stores their ID
+        //Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, heal them
         if (PartyMember != 0)
@@ -186,39 +186,39 @@ void P3PPartyRecovery()
 
 void P3PHealAll()
 {
-	//This stores the current Yen value
+    //This stores the current Yen value
     int CurrentYen = GET_YEN();
-	//Initializes the values with the MC's info
+    //Initializes the values with the MC's info
     int EveryoneCurrentSP = GET_CUR_SP(1);
     int EveryoneTotalSP = GET_TOT_SP(1);
     int EveryoneCurrentHP = GET_CUR_HP(1);
     int EveryoneTotalHP = GET_TOT_HP(1);
-	
+
     int Multiplier;
     int Cost;
-	int PartyMember;
+    int PartyMember;
     
-	//Check if Party Member is available, if so then add their stats to the variables
-	for (int x = 2; x <= 10; x++)
+    //Check if Party Member is available, if so then add their stats to the variables
+    for (int x = 2; x <= 10; x++)
     {
-		PartyMember = x + 320;
-		
-		//Skip Fuuka
-		if (x == 6) {
+        PartyMember = x + 320;
+
+        //Skip Fuuka
+        if (x == 6) {
           continue;
         }
-		if (x > 6) {
-			PartyMember = (x - 1) + 320;
-		}
-		
-		if (BIT_CHK(PartyMember))
-		{
-			EveryoneCurrentSP = (EveryoneCurrentSP + GET_CUR_SP(x));
-			EveryoneTotalSP = (EveryoneTotalSP + GET_TOT_SP(x));
-			EveryoneCurrentHP = (EveryoneCurrentHP + GET_CUR_HP(x));
-			EveryoneTotalHP = (EveryoneTotalHP + GET_TOT_HP(x));
-		}
-	}
+        if (x > 6) {
+            PartyMember = (x - 1) + 320;
+        }
+
+        if (BIT_CHK(PartyMember))
+        {
+            EveryoneCurrentSP = (EveryoneCurrentSP + GET_CUR_SP(x));
+            EveryoneTotalSP = (EveryoneTotalSP + GET_TOT_SP(x));
+            EveryoneCurrentHP = (EveryoneCurrentHP + GET_CUR_HP(x));
+            EveryoneTotalHP = (EveryoneTotalHP + GET_TOT_HP(x));
+        }
+    }
 
     //Check if between two dates and set a multiplier depending on the date
     if (CHECK_TIME_SPAN(4, 1, 5, 9))
@@ -257,133 +257,12 @@ void P3PHealAll()
     {
         Multiplier = 5350;
     }
-	
-	//Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
+
+    //Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
     Cost = (((EveryoneTotalSP - EveryoneCurrentSP) * Multiplier) / 10);
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
+    //Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((EveryoneTotalHP - EveryoneCurrentHP) * Multiplier) / 100));
     
-	//Limit the cost to 9999999
-    if (Cost > 9999999)
-    {
-        Cost = 9999999;
-    }
-
-    OPEN_MSG_WIN();
-	//Set the price message variable
-    SET_MSG_VAR(0, Cost, 0);
-	//Set the current yen message variable
-    SET_MSG_VAR(1, CurrentYen, 0);
-    MSG(P3PHeal);
-    SEL_CHK_PAD(6, 1);
-    int selection = SEL(P3PHealingMenuSel);
-    switch (selection) {
-		case 0: //Heal
-			//compare the values to see if you can afford it
-			if (Cost > CurrentYen)
-			{
-				MSG(Broke);
-			}
-			//if you can, remove the money and move on to healing
-			else 
-			{
-				REMOVE_YEN(Cost);
-				CLOSE_MSG_WIN();
-				CALL_BTL_SFX(2, 10);
-				FUNCTION_0093();
-				OPEN_MSG_WIN();
-				MSG(P3PHealAllDone);
-			}
-			break;
-		default:
-			break;
-    }
-    CLOSE_MSG_WIN();
-}
-
-void HealingDead()
-{
-	//Stores the current Yen value
-    int CurrentYen = GET_YEN();
-    
-    int PartyCurrentHP;
-    int PartyMaxHP;
-	
-    int PartyMember;
-    int Multiplier;
-	int Penalty;
-    int Cost = 0;
-    for (int x = 0; x < 3; x++)
-    {
-        //Checks which characters are in party and stores their ID
-		PartyMember = GET_PARTY_ID(x);
-        //if so, add their current stats to the variables
-        if (PartyMember != 0)
-        {
-			//Only Apply to Dead Members
-            if (GET_CUR_HP(PartyMember) == 0)
-			{
-				PartyCurrentHP = (PartyCurrentHP + GET_CUR_HP(PartyMember));
-				PartyMaxHP = (PartyMaxHP + GET_TOT_HP(PartyMember));
-			}
-        }
-    }
-
-    //Check if between two dates and set a multiplier and penalty depending on the date
-    if (CHECK_TIME_SPAN(4, 1, 5, 9))
-    {
-        Multiplier = 75;
-		Penalty = 100;
-    }
-    else if (CHECK_TIME_SPAN(5, 10, 6, 12))
-    {
-        Multiplier = 100;
-		Penalty = 200;
-    }
-    else if (CHECK_TIME_SPAN(6, 13, 7, 8))
-    {
-        Multiplier = 150;
-		Penalty = 300;
-    }
-    else if (CHECK_TIME_SPAN(7, 9, 8, 7))
-    {
-        Multiplier = 230;
-		Penalty = 400;
-    }
-    else if (CHECK_TIME_SPAN(8, 8, 9, 9))
-    {
-        Multiplier = 480;
-		Penalty = 500;
-    }
-    else if (CHECK_TIME_SPAN(9, 10, 10, 5))
-    {
-        Multiplier = 780;
-		Penalty = 600;
-    }
-    else if (CHECK_TIME_SPAN(10, 6, 11, 5))
-    {
-        Multiplier = 1500;
-		Penalty = 700;
-    }
-    else if (CHECK_TIME_SPAN(11, 6, 12, 31))
-    {
-        Multiplier = 3100;
-		Penalty = 800;
-    }
-    else 
-    {
-        Multiplier = 5350;
-		Penalty = 900;
-    }
-	//Divide Max and Current HP by 4
-	PartyMaxHP = PartyMaxHP / 4;
-	PartyCurrentHP = PartyCurrentHP / 4;
-	
-	//Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100
-    Cost = (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100);
-	//Add the penalty
-	Cost = Cost + Penalty;
-	
     //Limit the cost to 9999999
     if (Cost > 9999999)
     {
@@ -391,104 +270,225 @@ void HealingDead()
     }
 
     OPEN_MSG_WIN();
-	//Set the price message variable
+    //Set the price message variable
     SET_MSG_VAR(0, Cost, 0);
-	//Set the current yen message variable
+    //Set the current yen message variable
+    SET_MSG_VAR(1, CurrentYen, 0);
+    MSG(P3PHeal);
+    SEL_CHK_PAD(6, 1);
+    int selection = SEL(P3PHealingMenuSel);
+    switch (selection) {
+        case 0: //Heal
+            //compare the values to see if you can afford it
+            if (Cost > CurrentYen)
+            {
+                MSG(Broke);
+            }
+            //if you can, remove the money and move on to healing
+            else
+            {
+                REMOVE_YEN(Cost);
+                CLOSE_MSG_WIN();
+                CALL_BTL_SFX(2, 10);
+                FUNCTION_0093();
+                OPEN_MSG_WIN();
+                MSG(P3PHealAllDone);
+            }
+            break;
+        default:
+            break;
+    }
+    CLOSE_MSG_WIN();
+}
+
+void HealingDead()
+{
+    //Stores the current Yen value
+    int CurrentYen = GET_YEN();
+    
+    int PartyCurrentHP;
+    int PartyMaxHP;
+
+    int PartyMember;
+    int Multiplier;
+    int Penalty;
+    int Cost = 0;
+    for (int x = 0; x < 3; x++)
+    {
+        //Checks which characters are in party and stores their ID
+        PartyMember = GET_PARTY_ID(x);
+        //if so, add their current stats to the variables
+        if (PartyMember != 0)
+        {
+            //Only Apply to Dead Members
+            if (GET_CUR_HP(PartyMember) == 0)
+            {
+                PartyCurrentHP = (PartyCurrentHP + GET_CUR_HP(PartyMember));
+                PartyMaxHP = (PartyMaxHP + GET_TOT_HP(PartyMember));
+            }
+        }
+    }
+
+    //Check if between two dates and set a multiplier and penalty depending on the date
+    if (CHECK_TIME_SPAN(4, 1, 5, 9))
+    {
+        Multiplier = 75;
+        Penalty = 100;
+    }
+    else if (CHECK_TIME_SPAN(5, 10, 6, 12))
+    {
+        Multiplier = 100;
+        Penalty = 200;
+    }
+    else if (CHECK_TIME_SPAN(6, 13, 7, 8))
+    {
+        Multiplier = 150;
+        Penalty = 300;
+    }
+    else if (CHECK_TIME_SPAN(7, 9, 8, 7))
+    {
+        Multiplier = 230;
+        Penalty = 400;
+    }
+    else if (CHECK_TIME_SPAN(8, 8, 9, 9))
+    {
+        Multiplier = 480;
+        Penalty = 500;
+    }
+    else if (CHECK_TIME_SPAN(9, 10, 10, 5))
+    {
+        Multiplier = 780;
+        Penalty = 600;
+    }
+    else if (CHECK_TIME_SPAN(10, 6, 11, 5))
+    {
+        Multiplier = 1500;
+        Penalty = 700;
+    }
+    else if (CHECK_TIME_SPAN(11, 6, 12, 31))
+    {
+        Multiplier = 3100;
+        Penalty = 800;
+    }
+    else 
+    {
+        Multiplier = 5350;
+        Penalty = 900;
+    }
+    //Divide Max and Current HP by 4
+    PartyMaxHP = PartyMaxHP / 4;
+    PartyCurrentHP = PartyCurrentHP / 4;
+
+    //Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100
+    Cost = (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100);
+    //Add the penalty
+    Cost = Cost + Penalty;
+
+    //Limit the cost to 9999999
+    if (Cost > 9999999)
+    {
+        Cost = 9999999;
+    }
+
+    OPEN_MSG_WIN();
+    //Set the price message variable
+    SET_MSG_VAR(0, Cost, 0);
+    //Set the current yen message variable
     SET_MSG_VAR(1, CurrentYen, 0);
     MSG(P3PHealDead);
     SEL_CHK_PAD(6, 1);
-	int selection = SEL(P3PHealingMenuSel);
+    int selection = SEL(P3PHealingMenuSel);
     switch (selection) {
-		case 0: //Heal
-			//compare the values to see if you can afford it
-			if (Cost > CurrentYen)
-			{
-				MSG(Broke);
-				condition_check_unhooked();
-			}
-			//if you can, remove the money and move on to healing
-			else 
-			{
-				REMOVE_YEN(Cost);
-				CLOSE_MSG_WIN();
-				P3PDeadRecovery();
-				OPEN_MSG_WIN();
-				MSG(P3PHealDeadDone);
-			}
-			break;
-		default:
-			condition_check_unhooked();
-			break;
-	}
-	CLOSE_MSG_WIN();
+        case 0: //Heal
+            //compare the values to see if you can afford it
+            if (Cost > CurrentYen)
+            {
+                MSG(Broke);
+                condition_check_unhooked();
+            }
+            //if you can, remove the money and move on to healing
+            else
+            {
+                REMOVE_YEN(Cost);
+                CLOSE_MSG_WIN();
+                P3PDeadRecovery();
+                OPEN_MSG_WIN();
+                MSG(P3PHealDeadDone);
+            }
+            break;
+        default:
+            condition_check_unhooked();
+            break;
+    }
+    CLOSE_MSG_WIN();
 }
 
 void P3PDeadRecovery()
 {
     int PartyMember;
-	int FourthHP;
+    int FourthHP;
     //Heals everyone else
     for (int x = 0; x < 3; x++)
     {
-		//Checks which characters are in party and stores their ID
+        //Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, heal them
         if (PartyMember != 0)
         {
-			//Only apply to dead members
-			if (GET_CUR_HP(PartyMember) == 0)
-			{
-				FourthHP = GET_TOT_HP(PartyMember) / 4;
-				SET_HP(PartyMember, FourthHP);
-			}
+            //Only apply to dead members
+            if (GET_CUR_HP(PartyMember) == 0)
+            {
+                FourthHP = GET_TOT_HP(PartyMember) / 4;
+                SET_HP(PartyMember, FourthHP);
+            }
         }
     }
 }
 
 bool IsPartyDamaged()
 {
-	int PartyMember;
-	
-	for (int x = 0; x < 3; x++)
+    int PartyMember;
+
+    for (int x = 0; x < 3; x++)
     {
-		PartyMember = GET_PARTY_ID(x);
+        PartyMember = GET_PARTY_ID(x);
         if (PartyMember != 0)
         {
-			if ((GET_TOT_SP(PartyMember) > GET_CUR_SP(PartyMember)) || (GET_TOT_HP(PartyMember) > GET_CUR_HP(PartyMember))){
-				return true;
-			}
-		}
-	}
-	return false;
+            if ((GET_TOT_SP(PartyMember) > GET_CUR_SP(PartyMember)) || (GET_TOT_HP(PartyMember) > GET_CUR_HP(PartyMember))){
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool IsDamaged()
 {
-	for(int x = 1; x <= 10; x++){
-		if ((GET_TOT_SP(x) > GET_CUR_SP(x)) || (GET_TOT_HP(x) > GET_CUR_HP(x))){
-			return true;
-		}
-	}
-	return false;
+    for(int x = 1; x <= 10; x++){
+        if ((GET_TOT_SP(x) > GET_CUR_SP(x)) || (GET_TOT_HP(x) > GET_CUR_HP(x))){
+            return true;
+        }
+    }
+    return false;
 }
 
 bool IsDead()
 {
-	for(int x = 1; x <= 10; x++){
-		if (GET_CUR_HP(x) == 0){
-			return true;
-		}
-	}
-	return false;
+    for(int x = 1; x <= 10; x++){
+        if (GET_CUR_HP(x) == 0){
+            return true;
+        }
+    }
+    return false;
 }
 
 void HealTo1HP()
 {
-	for(int x = 1; x <= 10; x++){
-		if (GET_CUR_HP(x) == 0) {
-			SET_HP(x,1);
-		}
-	}
+    for(int x = 1; x <= 10; x++){
+        if (GET_CUR_HP(x) == 0) {
+            SET_HP(x,1);
+        }
+    }
 }
 
 void P3PMemberReturn()
@@ -660,12 +660,12 @@ void P3PMemberReturn()
 
 void P3PHealMain()
 {
-	if ( BIT_CHK( 9995 ) != 1 )
-	{
-		ShowP3PHealTutorial();
-	}
-	
-	int var1;
+    if ( BIT_CHK( 9995 ) != 1 )
+    {
+        ShowP3PHealTutorial();
+    }
+
+    int var1;
     int var2;
     
     if ( FUNCTION_00D7() == 0 )
@@ -766,9 +766,9 @@ void P3PHealMain()
         {
             member_return();
         }
-		
-		//Full Heal Party
-		//FUNCTION_0093();
+
+        //Full Heal Party
+        //FUNCTION_0093();
     }
     else if ( FUNCTION_00D7() == 3 )
     {

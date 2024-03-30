@@ -3,67 +3,67 @@ import( "P3PHeal.flow" );
 
 void f032_002_init_hook()
 {
-	//Set Mod Version
+    //Set Mod Version
     if ((BIT_CHK(3569) == 1) && !BIT_CHK(9994) && !BIT_CHK(9993))
-	{
-		P3PHealVersion();}
-	if (ModeCheck())
-	{
-		f032_002_init_unhooked();
-	}
-	else
-	{
+    {
+        P3PHealVersion();}
+    if (ModeCheck())
+    {
+        f032_002_init_unhooked();
+    }
+    else
+    {
                 if (BIT_CHK(3106))
-	       {
-		       HealTo1HP();
-	       }
-		P3PHealMain();
-	}
+           {
+               HealTo1HP();
+           }
+        P3PHealMain();
+    }
 }
 
 void save_point_hook()
 {
-	if (ModeCheck())
-	{
-		save_point_unhooked();
-	}
-	else
-	{
-		P3PClock();
-	}
+    if (ModeCheck())
+    {
+        save_point_unhooked();
+    }
+    else
+    {
+        P3PClock();
+    }
 }
 
 void condition_check_hook()
 {
-	if (ModeCheck())
-	{
-		condition_check_unhooked();
-	}
-	else if (IsDead())
-	{
-		HealingDead();
-	}
-	else
-	{
-		condition_check_unhooked();
-	}
+    if (ModeCheck())
+    {
+        condition_check_unhooked();
+    }
+    else if (IsDead())
+    {
+        HealingDead();
+    }
+    else
+    {
+        condition_check_unhooked();
+    }
 }
 
 void member_return_hook()
 {
-	P3PMemberReturn();
+    P3PMemberReturn();
 }
 
 //Check if Pre-Shinji Death and if Late Game Mode is Enabled
 bool ModeCheck()
 {
-	if ((GET_MONTH() < 10) && (GET_MONTH() > 1) && BIT_CHK(9993))
-	{
-		return true;
-	}
-	else if ((GET_MONTH() == 10) && (GET_DAY_OF_MONTH() <= 4) && BIT_CHK(9993))
-	{
-		return true;
-	}
-	return false;
+    if ((GET_MONTH() < 10) && (GET_MONTH() > 1) && BIT_CHK(9993))
+    {
+        return true;
+    }
+    else if ((GET_MONTH() == 10) && (GET_DAY_OF_MONTH() <= 4) && BIT_CHK(9993))
+    {
+        return true;
+    }
+    return false;
 }
