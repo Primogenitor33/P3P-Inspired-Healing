@@ -11,7 +11,7 @@ void check_status_hook() {
 void npc_yukari_hook() {
     int var0;
     gVar60 = 2;
-    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 529);
+    gVar91 = (((1024 + 2048) + 1024) + 529);
     
     if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 0)) {
         gVar63 = 21;
@@ -24,7 +24,7 @@ void npc_yukari_hook() {
         gVar61 = 4;
         gVar62 = 8;
         gVar63 = 12;
-        gVar64 = 0x10;
+        gVar64 = 16;
     } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 5;
         gVar62 = 9;
@@ -124,7 +124,7 @@ void npc_yukari_hook() {
 void npc_aegis_hook() {
     int var1;
     gVar60 = 3;
-    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 530);
+    gVar91 = (((1024 + 2048) + 1024) + 530);
     
     if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 23;
@@ -134,7 +134,7 @@ void npc_aegis_hook() {
     } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 24;
         gVar62 = 28;
-        gVar63 = 0x20;
+        gVar63 = 32;
         gVar64 = 36;
     } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 25;
@@ -224,7 +224,7 @@ void npc_mitsuru_hook() {
     int var3;
     int var2;
     gVar60 = 4;
-    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 531);
+    gVar91 = (((1024 + 2048) + 1024) + 531);
     
     if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 41;
@@ -394,7 +394,7 @@ void npc_junpei_hook()
 {
     int var5;
     gVar60 = 5;
-    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 532);
+    gVar91 = (((1024 + 2048) + 1024) + 532);
     
     if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 0)) {
         gVar63 = 87;
@@ -509,7 +509,7 @@ void npc_sanada_hook()
 {
     int var8;
     gVar60 = 7;
-    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 534);
+    gVar91 = (((1024 + 2048) + 1024) + 534);
     
     if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 100;
@@ -614,12 +614,12 @@ void npc_sanada_hook()
 void npc_amada_hook() {
     int var9;
     gVar60 = 8;
-    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 535);
+    gVar91 = (((1024 + 2048) + 1024) + 535);
     
     if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 120;
         gVar62 = 124;
-        gVar63 = 0x80;
+        gVar63 = 128;
         gVar64 = 132;
     } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 121;
@@ -713,7 +713,7 @@ void npc_amada_hook() {
 void npc_aragaki_hook() {
     int var10;
     gVar60 = 9;
-    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 536);
+    gVar91 = (((1024 + 2048) + 1024) + 536);
     
     if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 138;
@@ -810,7 +810,7 @@ void npc_aragaki_hook() {
 void npc_koromaru_hook() {
     int var11;
     gVar60 = 10;
-    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 537);
+    gVar91 = (((1024 + 2048) + 1024) + 537);
     
     if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 156;
