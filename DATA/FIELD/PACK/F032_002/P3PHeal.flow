@@ -577,55 +577,12 @@ void P3PMemberReturn()
     }
 
     var14 = 0;
-    
-    if ( BIT_CHK( 322 ) == 1 )
-    {
-        var14 = ( var14 + 1 );
+    for (int i = 0; i < 8; i++) {
+      if (BIT_CHK(322 + i) == 1) {
+          var14 = var14+1;
+      }
     }
 
-    
-    if ( BIT_CHK( 323 ) == 1 )
-    {
-        var14 = ( var14 + 1 );
-    }
-
-    
-    if ( BIT_CHK( 324 ) == 1 )
-    {
-        var14 = ( var14 + 1 );
-    }
-
-    
-    if ( BIT_CHK( 325 ) == 1 )
-    {
-        var14 = ( var14 + 1 );
-    }
-
-    
-    if ( BIT_CHK( 326 ) == 1 )
-    {
-        var14 = ( var14 + 1 );
-    }
-
-    
-    if ( BIT_CHK( 327 ) == 1 )
-    {
-        var14 = ( var14 + 1 );
-    }
-
-    
-    if ( BIT_CHK( 328 ) == 1 )
-    {
-        var14 = ( var14 + 1 );
-    }
-
-    
-    if ( BIT_CHK( 329 ) == 1 )
-    {
-        var14 = ( var14 + 1 );
-    }
-
-    
     if ( ( var14 < 3 ) && ( BIT_CHK( 3188 ) == 0 ) )
     {
         BIT_ON( 3188 );
