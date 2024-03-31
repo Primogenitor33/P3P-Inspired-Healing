@@ -1,16 +1,16 @@
-import( "P3PHeal.msg" );
+import("P3PHeal.msg");
 
 void P3PHealVersion() {
     MSG_HELP(P3PHealWelcome);
     OPEN_MSG_WIN();
-    MSG( P3PChooseVersion );
+    MSG(P3PChooseVersion);
     int selection = SEL(P3PHealVersionSel);
     switch (selection) {
         case 0: //Full Game
-            BIT_ON( 9994 );
+            BIT_ON(9994);
             break;
         case 1: //Late Game
-            BIT_ON( 9993 );
+            BIT_ON(9993);
             break;
         default:
             break;
@@ -19,7 +19,7 @@ void P3PHealVersion() {
 }
 
 void ShowP3PHealTutorial() {
-    BIT_ON( 9995 );
+    BIT_ON(9995);
     MSG_HELP(P3PHealTutorial);
 }
 
@@ -406,72 +406,72 @@ void HealTo1HP() {
 void P3PMemberReturn() {
     int var14;
     check_party_member();
-    BIT_OFF( 3568 );
+    BIT_OFF(3568);
     
-    if ((GET_CUR_HP( 2 ) == 0)) {
-        BIT_OFF( 322 );
+    if ((GET_CUR_HP(2) == 0)) {
+        BIT_OFF(322);
         OPEN_MSG_WIN();
-        MSG( YUKARI_RETURN );
+        MSG(YUKARI_RETURN);
         CLOSE_MSG_WIN();
-        REMOVE_MEMBER( PartyMember.Yukari );
+        REMOVE_MEMBER(PartyMember.Yukari);
     }
 
     if ((GET_CUR_HP(3) == 0)) {
-        BIT_OFF( 323 );
+        BIT_OFF(323);
         OPEN_MSG_WIN();
-        MSG( AEGIS_RETURN );
+        MSG(AEGIS_RETURN);
         CLOSE_MSG_WIN();
-        REMOVE_MEMBER( PartyMember.Aigis );
+        REMOVE_MEMBER(PartyMember.Aigis);
     }
 
     
     if ((GET_CUR_HP(4) == 0)) {
-        BIT_OFF( 324 );
+        BIT_OFF(324);
         OPEN_MSG_WIN();
-        MSG( MITSURU_RETURN );
+        MSG(MITSURU_RETURN);
         CLOSE_MSG_WIN();
-        REMOVE_MEMBER( PartyMember.Mitsuru );
+        REMOVE_MEMBER(PartyMember.Mitsuru);
     }
 
-    if ((GET_CUR_HP(5) == 0 )) {
-        BIT_OFF( 325 );
+    if ((GET_CUR_HP(5) == 0)) {
+        BIT_OFF(325);
         OPEN_MSG_WIN();
-        MSG( JUNPEI_RETURN );
+        MSG(JUNPEI_RETURN);
         CLOSE_MSG_WIN();
-        REMOVE_MEMBER( PartyMember.Junpei );
+        REMOVE_MEMBER(PartyMember.Junpei);
     }
 
     
-    if ((GET_CUR_HP(7) == 0 )) {
-        BIT_OFF( 326 );
+    if ((GET_CUR_HP(7) == 0)) {
+        BIT_OFF(326);
         OPEN_MSG_WIN();
-        MSG( SANADA_RETURN );
+        MSG(SANADA_RETURN);
         CLOSE_MSG_WIN();
-        REMOVE_MEMBER( PartyMember.Akihiko );
+        REMOVE_MEMBER(PartyMember.Akihiko);
     }
 
-    if ((GET_CUR_HP(8) == 0 )) {
-        BIT_OFF( 327 );
+    if ((GET_CUR_HP(8) == 0)) {
+        BIT_OFF(327);
         OPEN_MSG_WIN();
-        MSG( AMADA_RETURN );
+        MSG(AMADA_RETURN);
         CLOSE_MSG_WIN();
-        REMOVE_MEMBER( PartyMember.Ken );
+        REMOVE_MEMBER(PartyMember.Ken);
     }
 
-    if ((GET_CUR_HP(9) == 0 )) {
-        BIT_OFF( 328 );
+    if ((GET_CUR_HP(9) == 0)) {
+        BIT_OFF(328);
         OPEN_MSG_WIN();
-        MSG( ARAGAKI_RETURN );
+        MSG(ARAGAKI_RETURN);
         CLOSE_MSG_WIN();
-        REMOVE_MEMBER( PartyMember.ShinjiroMetis );
+        REMOVE_MEMBER(PartyMember.ShinjiroMetis);
     }
 
-    if ((GET_CUR_HP(10) == 0 )) {
-        BIT_OFF( 329 );
+    if ((GET_CUR_HP(10) == 0)) {
+        BIT_OFF(329);
         OPEN_MSG_WIN();
-        MSG( KOROMARU_RETURN );
+        MSG(KOROMARU_RETURN);
         CLOSE_MSG_WIN();
-        REMOVE_MEMBER( PartyMember.Koromaru );
+        REMOVE_MEMBER(PartyMember.Koromaru);
     }
 
     var14 = 0;
@@ -481,139 +481,139 @@ void P3PMemberReturn() {
       }
     }
 
-    if ( ( var14 < 3 ) && ( BIT_CHK( 3188 ) == 0 ) ) {
-        BIT_ON( 3188 );
+    if ((var14 < 3) && (BIT_CHK(3188) == 0)) {
+        BIT_ON(3188);
         OPEN_MSG_WIN();
         
-        if ( BIT_CHK( 3123 ) == 1 ) {
-            if ( BIT_CHK( 3047 ) == 1 ) {
-                MSG( HUKA_RETURN_ADVICE_TEST );
+        if (BIT_CHK(3123) == 1) {
+            if (BIT_CHK(3047) == 1) {
+                MSG(HUKA_RETURN_ADVICE_TEST);
             } else {
-                MSG( HUKA_RETURN_ADVICE );
+                MSG(HUKA_RETURN_ADVICE);
             }
-        } else if ( BIT_CHK( 3047 ) == 1 ) {
-            MSG( MITSURU_RETURN_ADVICE_TE );
+        } else if (BIT_CHK(3047) == 1) {
+            MSG(MITSURU_RETURN_ADVICE_TE);
         } else {
-            MSG( MITSURU_RETURN_ADVICE );
+            MSG(MITSURU_RETURN_ADVICE);
         }
         CLOSE_MSG_WIN();
     }
 }
 
 void P3PHealMain() {
-    if ( BIT_CHK( 9995 ) != 1 ) {
+    if (BIT_CHK(9995) != 1) {
         ShowP3PHealTutorial();
     }
 
     int var1;
     int var2;
     
-    if ( FUNCTION_00D7() == 0 ) {
-        if ( BIT_CHK( 3581 ) == 1 ) {
+    if (FUNCTION_00D7() == 0) {
+        if (BIT_CHK(3581) == 1) {
             end_tutorial_dungeon();
             return;
         }
-        if ( ( BIT_CHK( 5043 ) == 1 ) && ( GET_CNT( 8 ) >= 254 ) ) {
-            BIT_ON( 3192 );
+        if ((BIT_CHK(5043) == 1) && (GET_CNT(8) >= 254)) {
+            BIT_ON(3192);
         }
 
-        BIT_OFF( 5140 );
+        BIT_OFF(5140);
         gVar37 = GET_FLOOR_ID();
         order_initialize();
         
-        if ( ( BIT_CHK( 3106 ) != 1 ) && ( BIT_CHK( 3108 ) == 1 ) ) {
+        if ((BIT_CHK(3106) != 1) && (BIT_CHK(3108) == 1)) {
             condition_check();
         }
 
-        BIT_OFF( 3108 );
-        FUNCTION_0151( 2 );
-        FUNCTION_0151( 3 );
-        FUNCTION_0151( 4 );
-        FUNCTION_0151( 5 );
-        FUNCTION_0151( 7 );
-        FUNCTION_0151( 8 );
-        FUNCTION_0151( 9 );
-        FUNCTION_0151( 10 );
+        BIT_OFF(3108);
+        FUNCTION_0151(2);
+        FUNCTION_0151(3);
+        FUNCTION_0151(4);
+        FUNCTION_0151(5);
+        FUNCTION_0151(7);
+        FUNCTION_0151(8);
+        FUNCTION_0151(9);
+        FUNCTION_0151(10);
         
-        if ( ( BIT_CHK( 4964 ) == 0 ) || ( BIT_CHK( 3175 ) == 1 ) ) {
-            BIT_ON( 3176 );
+        if ((BIT_CHK(4964) == 0) || (BIT_CHK(3175) == 1)) {
+            BIT_ON(3176);
         } else {
-            BIT_OFF( 3176 );
+            BIT_OFF(3176);
         }
 
-    } else if ( FUNCTION_00D7() == 2 ) {
-        if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 3569 ) == 0 ) ) {
-            BIT_ON( 3569 );
-            BIT_OFF( 369 );
-            MSG_HELP( TUTORIAL_SAVEPOINT );
-        } else if ( ( ( GET_MONTH() == 3 ) && ( GET_DAY_OF_MONTH() == 10 ) ) && ( BIT_CHK( 4065 ) == 0 ) ) {
+    } else if (FUNCTION_00D7() == 2) {
+        if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(3569) == 0)) {
+            BIT_ON(3569);
+            BIT_OFF(369);
+            MSG_HELP(TUTORIAL_SAVEPOINT);
+        } else if (((GET_MONTH() == 3) && (GET_DAY_OF_MONTH() == 10)) && (BIT_CHK(4065) == 0)) {
             debug_mode_member_set();
             return;
-        } else if ( BIT_CHK( 3120 ) == 1 ) {
-            BIT_OFF( 3120 );
+        } else if (BIT_CHK(3120) == 1) {
+            BIT_OFF(3120);
             OPEN_MSG_WIN();
             
-            if ( BIT_CHK( 3170 ) == 1 ) {
-                BIT_OFF( 3170 );
-                MSG( MITSURU_HELP_WARNING );
-                MSG( MITSURU_WARNING_JOINT );
+            if (BIT_CHK(3170) == 1) {
+                BIT_OFF(3170);
+                MSG(MITSURU_HELP_WARNING);
+                MSG(MITSURU_WARNING_JOINT);
             }
 
-            MSG( MITSURU_ENTRANCE_HELP );
+            MSG(MITSURU_ENTRANCE_HELP);
             CLOSE_MSG_WIN();
-            MSG_HELP( ENTRANCE_HELP );
-        } else if ( ( BIT_CHK( 3112 ) == 1 ) && ( CHECK_TIME_SPAN( 5, 23, 6, 7 ) == 1 ) ) {
-            BIT_OFF( 3112 );
+            MSG_HELP(ENTRANCE_HELP);
+        } else if ((BIT_CHK(3112) == 1) && (CHECK_TIME_SPAN(5, 23, 6, 7) == 1)) {
+            BIT_OFF(3112);
             OPEN_MSG_WIN();
-            MSG( SANADA_GREET );
+            MSG(SANADA_GREET);
             CLOSE_MSG_WIN();
-        } else if ( BIT_CHK( 3110 ) == 1 ) {
-            BIT_OFF( 3110 );
+        } else if (BIT_CHK(3110) == 1) {
+            BIT_OFF(3110);
             OPEN_MSG_WIN();
-            MSG( MITSURU_GREET );
+            MSG(MITSURU_GREET);
             CLOSE_MSG_WIN();
-            MSG_HELP( ENTRANCE_HELP2 );
+            MSG_HELP(ENTRANCE_HELP2);
             OPEN_MSG_WIN();
-            MSG( HUKA_GREET );
+            MSG(HUKA_GREET);
             CLOSE_MSG_WIN();
         }
 
-        if ( BIT_CHK( 3568 ) == 1 ) {
+        if (BIT_CHK(3568) == 1) {
             member_return();
         }
 
         //Full Heal Party
         //FUNCTION_0093();
-    } else if ( FUNCTION_00D7() == 3 ) {
-        var1 = FLD_MODEL_FUNCTION_0165( -1, 5 );
-        var2 = FUNCTION_013A( var1, 0 );
-        FLD_FUNCTION_0138( var2, 1 );
-        FUNCTION_0079( var2, 1 );
+    } else if (FUNCTION_00D7() == 3) {
+        var1 = FLD_MODEL_FUNCTION_0165(-1, 5);
+        var2 = FUNCTION_013A(var1, 0);
+        FLD_FUNCTION_0138(var2, 1);
+        FUNCTION_0079(var2, 1);
         
-        if ( ( ( ( ( ( ( ( ( ( ( ( ( BIT_CHK( 3501 ) == 1 ) || ( BIT_CHK( 3504 ) == 1 ) ) || ( BIT_CHK( 3505 ) == 1 ) ) || ( BIT_CHK( 3506 ) == 1 ) ) || ( BIT_CHK( 3507 ) == 1 ) ) || ( BIT_CHK( 3508 ) == 1 ) ) || ( BIT_CHK( 3509 ) == 1 ) ) || ( BIT_CHK( 3510 ) == 1 ) ) || ( BIT_CHK( 3511 ) == 1 ) ) || ( BIT_CHK( 3512 ) == 1 ) ) || ( BIT_CHK( 3513 ) == 1 ) ) || ( BIT_CHK( 3514 ) == 1 ) ) || ( BIT_CHK( 3515 ) == 1 ) ) {
-            FLD_FUNCTION_0089( var2, 1, 1, 0, 1 );
-        } else if ( ( ( ( ( ( ( ( ( ( ( ( ( ( BIT_CHK( 3516 ) == 1 ) || ( BIT_CHK( 3517 ) == 1 ) ) || ( BIT_CHK( 3518 ) == 1 ) ) || ( BIT_CHK( 3519 ) == 1 ) ) || ( BIT_CHK( 3528 ) == 1 ) ) || ( BIT_CHK( 3529 ) == 1 ) ) || ( BIT_CHK( 3530 ) == 1 ) ) || ( BIT_CHK( 3531 ) == 1 ) ) || ( BIT_CHK( 3532 ) == 1 ) ) || ( BIT_CHK( 3533 ) == 1 ) ) || ( BIT_CHK( 3534 ) == 1 ) ) || ( BIT_CHK( 3535 ) == 1 ) ) || ( BIT_CHK( 3500 ) == 1 ) ) || ( BIT_CHK( 3499 ) == 1 ) ) {
-            FLD_FUNCTION_0089( var2, 1, 1, 0, 1 );
+        if (BIT_CHK(3501) || BIT_CHK(3504) || BIT_CHK(3505) || BIT_CHK(3506) || BIT_CHK(3507) || BIT_CHK(3508) || BIT_CHK(3509) || BIT_CHK(3510) || BIT_CHK(3511) || BIT_CHK(3512) || BIT_CHK(3513) || BIT_CHK(3514) || BIT_CHK(3515)) {
+            FLD_FUNCTION_0089(var2, 1, 1, 0, 1);
+        } else if (BIT_CHK(3516) || BIT_CHK(3517) || BIT_CHK(3518) || BIT_CHK(3519) || BIT_CHK(3528) || BIT_CHK(3529) || BIT_CHK(3530) || BIT_CHK(3531) || BIT_CHK(3532) || BIT_CHK(3533) || BIT_CHK(3534) || BIT_CHK(3535) || BIT_CHK(3500) || BIT_CHK(3499)) {
+            FLD_FUNCTION_0089(var2, 1, 1, 0, 1);
         }
 
-        var1 = FLD_MODEL_FUNCTION_0165( -1, 3 );
-        var2 = FUNCTION_013A( var1, 0 );
-        FLD_FUNCTION_0138( var2, 5 );
-        FUNCTION_0079( var2, 1 );
+        var1 = FLD_MODEL_FUNCTION_0165(-1, 3);
+        var2 = FUNCTION_013A(var1, 0);
+        FLD_FUNCTION_0138(var2, 5);
+        FUNCTION_0079(var2, 1);
         
-        if ( BIT_CHK( 3192 ) == 1 ) {
-            FUNCTION_0079( 10247, 1 );
+        if (BIT_CHK(3192) == 1) {
+            FUNCTION_0079(10247, 1);
         } else {
-            FUNCTION_0079( 10247, 0 );
+            FUNCTION_0079(10247, 0);
         }
 
         
-        if ( BIT_CHK( 79 ) == 1 ) {
-            FUNCTION_0079( 10245, 0 );
-            BIT_OFF( 3583 );
+        if (BIT_CHK(79) == 1) {
+            FUNCTION_0079(10245, 0);
+            BIT_OFF(3583);
         } else {
-            FUNCTION_0079( 10245, 1 );
-            BIT_ON( 3583 );
+            FUNCTION_0079(10245, 1);
+            BIT_ON(3583);
         }
     }
 }

@@ -1,36 +1,36 @@
-import( "ns032_002.bf" );
+import("ns032_002.bf");
 
 void check_status_hook() {
-    FUNCTION_01A6( 1 );
-    FRSTATUS_FUNCTION_0134( gVar60 );
+    FUNCTION_01A6(1);
+    FRSTATUS_FUNCTION_0134(gVar60);
     FUNCTION_0136();
-    FUNCTION_000C( 1 );
-    FUNCTION_01A6( 0 );
+    FUNCTION_000C(1);
+    FUNCTION_01A6(0);
 }
 
 void npc_yukari_hook() {
     int var0;
     gVar60 = 2;
-    gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 529 );
+    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 529);
     
-    if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) ) {
+    if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 0)) {
         gVar63 = 21;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 0 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 3;
         gVar62 = 7;
         gVar63 = 11;
         gVar64 = 15;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 2 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 4;
         gVar62 = 8;
         gVar63 = 12;
         gVar64 = 0x10;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 3 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 5;
         gVar62 = 9;
         gVar63 = 13;
         gVar64 = 17;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 5 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 5) {
         gVar61 = 6;
         gVar62 = 10;
         gVar63 = 14;
@@ -48,55 +48,55 @@ void npc_yukari_hook() {
     check_party_member();
     OPEN_MSG_WIN();
     
-    if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 1 ) ) {
-        MSG( YUKARI_TUTORIAL_AFTER );
-    } else if ( gVar23 == 1 ) {
-        MSG( gVar63 );
-        SEL_CHK_PAD( 6, 3 );
+    if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 1)) {
+        MSG(YUKARI_TUTORIAL_AFTER);
+    } else if (gVar23 == 1) {
+        MSG(gVar63);
+        SEL_CHK_PAD(6, 3);
         
-        if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) ) {
-            SET_MASK( 5 );
+        if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 0)) {
+            SET_MASK(5);
         } else {
-            SET_MASK( 1 );
+            SET_MASK(1);
         }
 
-        var0 = SEL( TALK_SEL );
+        var0 = SEL(TALK_SEL);
         
-        if ( var0 == 2 ) {
-            MSG( gVar64 );
+        if (var0 == 2) {
+            MSG(gVar64);
             CLOSE_MSG_WIN();
-            REMOVE_MEMBER( gVar60 );
+            REMOVE_MEMBER(gVar60);
         }
     } else {
-        MSG( gVar61 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 4 );
-        var0 = SEL( TALK_SEL );
+        MSG(gVar61);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(4);
+        var0 = SEL(TALK_SEL);
         
-        if ( var0 == 0 ) {
-            if ( gVar21 == 3 ) {
+        if (var0 == 0) {
+            if (gVar21 == 3) {
                 member_sel_mask();
-                MSG( YUKARI_PARTY_OVER );
-                MSG( YUKARI_PARTY_CHANGE );
-                SEL_CHK_PAD( 6, 8 );
-                SET_MASK( gVar31 );
-                gVar32 = SEL( PARTY_SEL );
+                MSG(YUKARI_PARTY_OVER);
+                MSG(YUKARI_PARTY_CHANGE);
+                SEL_CHK_PAD(6, 8);
+                SET_MASK(gVar31);
+                gVar32 = SEL(PARTY_SEL);
                 member_change();
                 
-                if ( gVar32 == 8 ) {
-                    MSG( gVar64 );
+                if (gVar32 == 8) {
+                    MSG(gVar64);
                     CLOSE_MSG_WIN();
                     return;
                 }
             }
 
-            MSG( gVar62 );
+            MSG(gVar62);
             CLOSE_MSG_WIN();
-            ADD_MEMBER( 0, gVar60 );
+            ADD_MEMBER(0, gVar60);
         }
     }
 
-    if ( var0 == 1 ) {
+    if (var0 == 1) {
         int CurrentHP = GET_CUR_HP(PartyMember.Yukari);
         int MaxHP = GET_TOT_HP(PartyMember.Yukari);
         int CurrentSP = GET_CUR_SP(PartyMember.Yukari);
@@ -109,11 +109,11 @@ void npc_yukari_hook() {
             SET_SP(PartyMember.Yukari, GET_TOT_SP(PartyMember.Yukari));
         }
         
-        if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) ) {
+        if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 0)) {
             gVar41 = 1;
         }
 
-        if ( gVar41 == 0 ) {
+        if (gVar41 == 0) {
             npc_yukari();
         }
     }
@@ -124,24 +124,24 @@ void npc_yukari_hook() {
 void npc_aegis_hook() {
     int var1;
     gVar60 = 3;
-    gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 530 );
+    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 530);
     
-    if ( CHECK_FATIGUE( gVar60 ) == 0 ) {
+    if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 23;
         gVar62 = 27;
         gVar63 = 31;
         gVar64 = 35;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 2 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 24;
         gVar62 = 28;
         gVar63 = 0x20;
         gVar64 = 36;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 3 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 25;
         gVar62 = 29;
         gVar63 = 33;
         gVar64 = 37;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 5 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 5) {
         gVar61 = 26;
         gVar62 = 30;
         gVar63 = 34;
@@ -159,47 +159,47 @@ void npc_aegis_hook() {
     check_party_member();
     OPEN_MSG_WIN();
     
-    if ( gVar24 == 1 ) {
-        MSG( gVar63 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 1 );
-        var1 = SEL( TALK_SEL );
+    if (gVar24 == 1) {
+        MSG(gVar63);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(1);
+        var1 = SEL(TALK_SEL);
         
-        if ( var1 == 2 ) {
-            MSG( gVar64 );
+        if (var1 == 2) {
+            MSG(gVar64);
             CLOSE_MSG_WIN();
-            REMOVE_MEMBER( gVar60 );
+            REMOVE_MEMBER(gVar60);
         }
     } else {
-        MSG( gVar61 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 4 );
-        var1 = SEL( TALK_SEL );
+        MSG(gVar61);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(4);
+        var1 = SEL(TALK_SEL);
         
-        if ( var1 == 0 ) {
-            if ( gVar21 == 3 ) {
+        if (var1 == 0) {
+            if (gVar21 == 3) {
                 member_sel_mask();
-                MSG( AEGIS_PARTY_OVER );
-                MSG( AEGIS_PARTY_CHANGE );
-                SEL_CHK_PAD( 6, 8 );
-                SET_MASK( gVar31 );
-                gVar32 = SEL( PARTY_SEL );
+                MSG(AEGIS_PARTY_OVER);
+                MSG(AEGIS_PARTY_CHANGE);
+                SEL_CHK_PAD(6, 8);
+                SET_MASK(gVar31);
+                gVar32 = SEL(PARTY_SEL);
                 member_change();
                 
-                if ( gVar32 == 8 ) {
-                    MSG( gVar64 );
+                if (gVar32 == 8) {
+                    MSG(gVar64);
                     CLOSE_MSG_WIN();
                     return;
                 }
             }
 
-            MSG( gVar62 );
+            MSG(gVar62);
             CLOSE_MSG_WIN();
-            ADD_MEMBER( 0, gVar60 );
+            ADD_MEMBER(0, gVar60);
         }
     }
 
-    if ( var1 == 1 ) {
+    if (var1 == 1) {
         int CurrentHP = GET_CUR_HP(PartyMember.Aigis);
         int MaxHP = GET_TOT_HP(PartyMember.Aigis);
         int CurrentSP = GET_CUR_SP(PartyMember.Aigis);
@@ -211,7 +211,7 @@ void npc_aegis_hook() {
         if (CurrentSP == MaxSP) {
             SET_SP(PartyMember.Aigis, GET_TOT_SP(PartyMember.Aigis));
         }
-        if ( gVar41 == 0 ) {
+        if (gVar41 == 0) {
             npc_aegis();
         }
     }
@@ -224,24 +224,24 @@ void npc_mitsuru_hook() {
     int var3;
     int var2;
     gVar60 = 4;
-    gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 531 );
+    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 531);
     
-    if ( CHECK_FATIGUE( gVar60 ) == 0 ) {
+    if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 41;
         gVar62 = 45;
         gVar63 = 49;
         gVar64 = 53;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 2 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 42;
         gVar62 = 46;
         gVar63 = 50;
         gVar64 = 54;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 3 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 43;
         gVar62 = 47;
         gVar63 = 51;
         gVar64 = 55;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 5 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 5) {
         gVar61 = 44;
         gVar62 = 48;
         gVar63 = 52;
@@ -260,113 +260,113 @@ void npc_mitsuru_hook() {
     var4 = 0;
     var4 = 0;
     
-    if ( ( BIT_CHK( 322 ) == 1 ) && ( CHECK_FATIGUE( PartyMember.Yukari ) >= 3 ) ) {
-        var4 = ( var4 + 1 );
+    if ((BIT_CHK(322) == 1) && (CHECK_FATIGUE(PartyMember.Yukari) >= 3)) {
+        var4 = (var4 + 1);
     }
 
-    if ( ( BIT_CHK( 323 ) == 1 ) && ( CHECK_FATIGUE( PartyMember.Aigis ) >= 3 ) ) {
-        var4 = ( var4 + 1 );
+    if ((BIT_CHK(323) == 1) && (CHECK_FATIGUE(PartyMember.Aigis) >= 3)) {
+        var4 = (var4 + 1);
     }
 
-    if ( ( BIT_CHK( 324 ) == 1 ) && ( CHECK_FATIGUE( PartyMember.Mitsuru ) >= 3 ) ) {
-        var4 = ( var4 + 1 );
+    if ((BIT_CHK(324) == 1) && (CHECK_FATIGUE(PartyMember.Mitsuru) >= 3)) {
+        var4 = (var4 + 1);
     }
 
-    if ( ( BIT_CHK( 325 ) == 1 ) && ( CHECK_FATIGUE( PartyMember.Junpei ) >= 3 ) ) {
-        var4 = ( var4 + 1 );
+    if ((BIT_CHK(325) == 1) && (CHECK_FATIGUE(PartyMember.Junpei) >= 3)) {
+        var4 = (var4 + 1);
     }
 
-    if ( ( BIT_CHK( 326 ) == 1 ) && ( CHECK_FATIGUE( PartyMember.Akihiko ) >= 3 ) ) {
-        var4 = ( var4 + 1 );
+    if ((BIT_CHK(326) == 1) && (CHECK_FATIGUE(PartyMember.Akihiko) >= 3)) {
+        var4 = (var4 + 1);
     }
 
-    if ( ( BIT_CHK( 327 ) == 1 ) && ( CHECK_FATIGUE( PartyMember.Ken ) >= 3 ) ) {
-        var4 = ( var4 + 1 );
+    if ((BIT_CHK(327) == 1) && (CHECK_FATIGUE(PartyMember.Ken) >= 3)) {
+        var4 = (var4 + 1);
     }
 
-    if ( ( BIT_CHK( 328 ) == 1 ) && ( CHECK_FATIGUE( PartyMember.ShinjiroMetis ) >= 3 ) ) {
-        var4 = ( var4 + 1 );
+    if ((BIT_CHK(328) == 1) && (CHECK_FATIGUE(PartyMember.ShinjiroMetis) >= 3)) {
+        var4 = (var4 + 1);
     }
 
-    if ( ( BIT_CHK( 329 ) == 1 ) && ( CHECK_FATIGUE( PartyMember.Koromaru ) >= 3 ) ) {
-        var4 = ( var4 + 1 );
+    if ((BIT_CHK(329) == 1) && (CHECK_FATIGUE(PartyMember.Koromaru) >= 3)) {
+        var4 = (var4 + 1);
     }
 
     OPEN_MSG_WIN();
     
-    if ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) {
-        if ( BIT_CHK( 35 ) == 1 ) {
-            MSG( MITSURU_TUTORIAL_AFTER );
+    if ((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) {
+        if (BIT_CHK(35) == 1) {
+            MSG(MITSURU_TUTORIAL_AFTER);
         } else {
-            MSG( MITSURU_TUTORIAL_BEFORE );
+            MSG(MITSURU_TUTORIAL_BEFORE);
         }
-    } else if ( BIT_CHK( 3123 ) == 0 ) {
-        MSG( MITSURU_BACK_UP );
+    } else if (BIT_CHK(3123) == 0) {
+        MSG(MITSURU_BACK_UP);
         restart_mitsuru:
-        SEL_CHK_PAD( 6, 2 );
-        var3 = SEL( BACK_UP_SEL );
+        SEL_CHK_PAD(6, 2);
+        var3 = SEL(BACK_UP_SEL);
         
-        if ( var3 == 0 ) {
+        if (var3 == 0) {
             lv_comment();
-            MSG( MITSURU_BACK_UP_RE );
+            MSG(MITSURU_BACK_UP_RE);
             goto restart_mitsuru;
-        } else if ( var3 == 1 ) {
-            if ( var4 > 0 ) {
-                SET_MSG_VAR( 0, var4, 0 );
-                MSG( MITSURU_BAD_CONDITION_NU );
+        } else if (var3 == 1) {
+            if (var4 > 0) {
+                SET_MSG_VAR(0, var4, 0);
+                MSG(MITSURU_BAD_CONDITION_NU);
             }
 
-            if ( ( ( BIT_CHK( 322 ) == 1 ) || ( BIT_CHK( 325 ) == 1 ) ) || ( BIT_CHK( 326 ) == 1 ) ) {
+            if (((BIT_CHK(322) == 1) || (BIT_CHK(325) == 1)) || (BIT_CHK(326) == 1)) {
                 CLOSE_MSG_WIN();
                 check_status_all();
                 OPEN_MSG_WIN();
             } else {
-                MSG( MITSURU_NO_MEMBER );
+                MSG(MITSURU_NO_MEMBER);
                 CLOSE_MSG_WIN();
                 return;
             }
 
-            MSG( MITSURU_BACK_UP_RE );
+            MSG(MITSURU_BACK_UP_RE);
             goto restart_mitsuru;
         }
 
-    } else if ( gVar25 == 1 ) {
-        MSG( gVar63 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 1 );
-        var2 = SEL( TALK_SEL );
+    } else if (gVar25 == 1) {
+        MSG(gVar63);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(1);
+        var2 = SEL(TALK_SEL);
         
-        if ( var2 == 2 ) {
-            MSG( gVar64 );
+        if (var2 == 2) {
+            MSG(gVar64);
             CLOSE_MSG_WIN();
-            REMOVE_MEMBER( gVar60 );
+            REMOVE_MEMBER(gVar60);
         }
     } else {
-        MSG( gVar61 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 4 );
-        var2 = SEL( TALK_SEL );
+        MSG(gVar61);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(4);
+        var2 = SEL(TALK_SEL);
         
-        if ( var2 == 0 ) {
-            if ( gVar21 == 3 ) {
+        if (var2 == 0) {
+            if (gVar21 == 3) {
                 member_sel_mask();
-                MSG( MITSURU_PARTY_OVER );
-                MSG( MITSURU_PARTY_CHANGE );
-                SEL_CHK_PAD( 6, 8 );
-                SET_MASK( gVar31 );
-                gVar32 = SEL( PARTY_SEL );
+                MSG(MITSURU_PARTY_OVER);
+                MSG(MITSURU_PARTY_CHANGE);
+                SEL_CHK_PAD(6, 8);
+                SET_MASK(gVar31);
+                gVar32 = SEL(PARTY_SEL);
                 member_change();
                 
-                if ( gVar32 == 8 ) {
-                    MSG( gVar64 );
+                if (gVar32 == 8) {
+                    MSG(gVar64);
                     CLOSE_MSG_WIN();
                     return;
                 }
             }
 
-            MSG( gVar62 );
+            MSG(gVar62);
             CLOSE_MSG_WIN();
-            ADD_MEMBER( 0, gVar60 );
+            ADD_MEMBER(0, gVar60);
         }
     }
 
@@ -383,7 +383,7 @@ void npc_mitsuru_hook() {
             SET_SP(PartyMember.Mitsuru, GET_TOT_SP(PartyMember.Mitsuru));
         }
         
-        if ( gVar41 == 0 ) {
+        if (gVar41 == 0) {
             npc_mitsuru();
         }
     }
@@ -394,26 +394,26 @@ void npc_junpei_hook()
 {
     int var5;
     gVar60 = 5;
-    gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 532 );
+    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 532);
     
-    if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) ) {
+    if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 0)) {
         gVar63 = 87;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 0 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 69;
         gVar62 = 73;
         gVar63 = 77;
         gVar64 = 81;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 2 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 70;
         gVar62 = 74;
         gVar63 = 78;
         gVar64 = 82;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 3 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 71;
         gVar62 = 75;
         gVar63 = 79;
         gVar64 = 83;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 5 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 5) {
         gVar61 = 72;
         gVar62 = 76;
         gVar63 = 80;
@@ -431,54 +431,54 @@ void npc_junpei_hook()
     check_party_member();
     OPEN_MSG_WIN();
     
-    if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 1 ) ) {
-        MSG( JUNPEI_TUTORIAL_AFTER );
-    } else if ( gVar26 == 1 ) {
-        MSG( gVar63 );
-        SEL_CHK_PAD( 6, 3 );
-        if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) ) {
-            SET_MASK( 5 );
+    if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 1)) {
+        MSG(JUNPEI_TUTORIAL_AFTER);
+    } else if (gVar26 == 1) {
+        MSG(gVar63);
+        SEL_CHK_PAD(6, 3);
+        if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 0)) {
+            SET_MASK(5);
         } else {
-            SET_MASK( 1 );
+            SET_MASK(1);
         }
 
-        var5 = SEL( TALK_SEL );
+        var5 = SEL(TALK_SEL);
         
-        if ( var5 == 2 ) {
-            MSG( gVar64 );
+        if (var5 == 2) {
+            MSG(gVar64);
             CLOSE_MSG_WIN();
-            REMOVE_MEMBER( gVar60 );
+            REMOVE_MEMBER(gVar60);
         }
     } else {
-        MSG( gVar61 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 4 );
-        var5 = SEL( TALK_SEL );
+        MSG(gVar61);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(4);
+        var5 = SEL(TALK_SEL);
         
-        if ( var5 == 0 ) {
-            if ( gVar21 == 3 ) {
+        if (var5 == 0) {
+            if (gVar21 == 3) {
                 member_sel_mask();
-                MSG( JUNPEI_PARTY_OVER );
-                MSG( JUNPEI_PARTY_CHANGE );
-                SEL_CHK_PAD( 6, 8 );
-                SET_MASK( gVar31 );
-                gVar32 = SEL( PARTY_SEL );
+                MSG(JUNPEI_PARTY_OVER);
+                MSG(JUNPEI_PARTY_CHANGE);
+                SEL_CHK_PAD(6, 8);
+                SET_MASK(gVar31);
+                gVar32 = SEL(PARTY_SEL);
                 member_change();
                 
-                if ( gVar32 == 8 ) {
-                    MSG( gVar64 );
+                if (gVar32 == 8) {
+                    MSG(gVar64);
                     CLOSE_MSG_WIN();
                     return;
                 }
             }
-            MSG( gVar62 );
+            MSG(gVar62);
             CLOSE_MSG_WIN();
-            ADD_MEMBER( 0, gVar60 );
+            ADD_MEMBER(0, gVar60);
         }
     }
 
     
-    if ( var5 == 1 ) {
+    if (var5 == 1) {
         int CurrentHP = GET_CUR_HP(PartyMember.Junpei);
         int MaxHP = GET_TOT_HP(PartyMember.Junpei);
         int CurrentSP = GET_CUR_SP(PartyMember.Junpei);
@@ -490,12 +490,12 @@ void npc_junpei_hook()
         if (CurrentSP == MaxSP) {
             SET_SP(PartyMember.Junpei, GET_TOT_SP(PartyMember.Junpei));
         }
-        if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 35 ) == 0 ) ) {
+        if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(35) == 0)) {
             gVar41 = 1;
         }
 
         
-        if ( gVar41 == 0 )
+        if (gVar41 == 0)
         {
             npc_junpei();
         }
@@ -509,24 +509,24 @@ void npc_sanada_hook()
 {
     int var8;
     gVar60 = 7;
-    gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 534 );
+    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 534);
     
-    if ( CHECK_FATIGUE( gVar60 ) == 0 ) {
+    if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 100;
         gVar62 = 104;
         gVar63 = 108;
         gVar64 = 112;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 2 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 101;
         gVar62 = 105;
         gVar63 = 109;
         gVar64 = 113;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 3 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 102;
         gVar62 = 106;
         gVar63 = 110;
         gVar64 = 114;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 5 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 5) {
         gVar61 = 103;
         gVar62 = 107;
         gVar63 = 111;
@@ -544,54 +544,54 @@ void npc_sanada_hook()
     check_party_member();
     OPEN_MSG_WIN();
     
-    if ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) {
-        if ( BIT_CHK( 35 ) == 1 ) {
-            MSG( SANADA_TUTORIAL_AFTER );
+    if ((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) {
+        if (BIT_CHK(35) == 1) {
+            MSG(SANADA_TUTORIAL_AFTER);
         } else {
-            MSG( SANADA_TUTORIAL_BEFORE );
+            MSG(SANADA_TUTORIAL_BEFORE);
         }
-    } else if ( gVar27 == 1 ) {
-        MSG( gVar63 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 1 );
-        var8 = SEL( TALK_SEL );
+    } else if (gVar27 == 1) {
+        MSG(gVar63);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(1);
+        var8 = SEL(TALK_SEL);
         
-        if ( var8 == 2 ) {
-            MSG( gVar64 );
+        if (var8 == 2) {
+            MSG(gVar64);
             CLOSE_MSG_WIN();
-            REMOVE_MEMBER( gVar60 );
+            REMOVE_MEMBER(gVar60);
         }
 
     } else {
-        MSG( gVar61 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 4 );
-        var8 = SEL( TALK_SEL );
+        MSG(gVar61);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(4);
+        var8 = SEL(TALK_SEL);
         
-        if ( var8 == 0 ) {
-            if ( gVar21 == 3 ) {
+        if (var8 == 0) {
+            if (gVar21 == 3) {
                 member_sel_mask();
-                MSG( SANADA_PARTY_OVER );
-                MSG( SANADA_PARTY_CHANGE );
-                SEL_CHK_PAD( 6, 8 );
-                SET_MASK( gVar31 );
-                gVar32 = SEL( PARTY_SEL );
+                MSG(SANADA_PARTY_OVER);
+                MSG(SANADA_PARTY_CHANGE);
+                SEL_CHK_PAD(6, 8);
+                SET_MASK(gVar31);
+                gVar32 = SEL(PARTY_SEL);
                 member_change();
                 
-                if ( gVar32 == 8 ) {
-                    MSG( gVar64 );
+                if (gVar32 == 8) {
+                    MSG(gVar64);
                     CLOSE_MSG_WIN();
                     return;
                 }
             }
 
-            MSG( gVar62 );
+            MSG(gVar62);
             CLOSE_MSG_WIN();
-            ADD_MEMBER( 0, gVar60 );
+            ADD_MEMBER(0, gVar60);
         }
     }
 
-    if ( var8 == 1 ) {
+    if (var8 == 1) {
         int CurrentHP = GET_CUR_HP(PartyMember.Akihiko);
         int MaxHP = GET_TOT_HP(PartyMember.Akihiko);
         int CurrentSP = GET_CUR_SP(PartyMember.Akihiko);
@@ -603,7 +603,7 @@ void npc_sanada_hook()
         if (CurrentSP == MaxSP) {
             SET_SP(PartyMember.Akihiko, GET_TOT_SP(PartyMember.Akihiko));
         }
-        if ( gVar41 == 0 ) {
+        if (gVar41 == 0) {
             npc_sanada();
         }
     }
@@ -614,24 +614,24 @@ void npc_sanada_hook()
 void npc_amada_hook() {
     int var9;
     gVar60 = 8;
-    gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 535 );
+    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 535);
     
-    if ( CHECK_FATIGUE( gVar60 ) == 0 ) {
+    if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 120;
         gVar62 = 124;
         gVar63 = 0x80;
         gVar64 = 132;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 2 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 121;
         gVar62 = 125;
         gVar63 = 129;
         gVar64 = 133;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 3 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 122;
         gVar62 = 126;
         gVar63 = 130;
         gVar64 = 134;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 5 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 5) {
         gVar61 = 123;
         gVar62 = 127;
         gVar63 = 131;
@@ -649,48 +649,48 @@ void npc_amada_hook() {
     check_party_member();
     OPEN_MSG_WIN();
     
-    if ( gVar28 == 1 ) {
-        MSG( gVar63 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 1 );
-        var9 = SEL( TALK_SEL );
+    if (gVar28 == 1) {
+        MSG(gVar63);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(1);
+        var9 = SEL(TALK_SEL);
         
-        if ( var9 == 2 ) {
-            MSG( gVar64 );
+        if (var9 == 2) {
+            MSG(gVar64);
             CLOSE_MSG_WIN();
-            REMOVE_MEMBER( gVar60 );
+            REMOVE_MEMBER(gVar60);
         }
     } else {
-        MSG( gVar61 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 4 );
-        var9 = SEL( TALK_SEL );
+        MSG(gVar61);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(4);
+        var9 = SEL(TALK_SEL);
         
-        if ( var9 == 0 ) {
-            if ( gVar21 == 3 ) {
+        if (var9 == 0) {
+            if (gVar21 == 3) {
                 member_sel_mask();
-                MSG( AMADA_PARTY_OVER );
-                MSG( AMADA_PARTY_CHANGE );
-                SEL_CHK_PAD( 6, 8 );
-                SET_MASK( gVar31 );
-                gVar32 = SEL( PARTY_SEL );
+                MSG(AMADA_PARTY_OVER);
+                MSG(AMADA_PARTY_CHANGE);
+                SEL_CHK_PAD(6, 8);
+                SET_MASK(gVar31);
+                gVar32 = SEL(PARTY_SEL);
                 member_change();
                 
-                if ( gVar32 == 8 ) {
-                    MSG( gVar64 );
+                if (gVar32 == 8) {
+                    MSG(gVar64);
                     CLOSE_MSG_WIN();
                     return;
                 }
             }
 
-            MSG( gVar62 );
+            MSG(gVar62);
             CLOSE_MSG_WIN();
-            ADD_MEMBER( 0, gVar60 );
+            ADD_MEMBER(0, gVar60);
         }
     }
 
     
-    if ( var9 == 1 ) {
+    if (var9 == 1) {
         int CurrentHP = GET_CUR_HP(PartyMember.Ken);
         int MaxHP = GET_TOT_HP(PartyMember.Ken);
         int CurrentSP = GET_CUR_SP(PartyMember.Ken);
@@ -703,7 +703,7 @@ void npc_amada_hook() {
             SET_SP(PartyMember.Ken, GET_TOT_SP(PartyMember.Ken));
         }
         
-        if ( gVar41 == 0 ) {
+        if (gVar41 == 0) {
             npc_amada();
         }
     }
@@ -713,24 +713,24 @@ void npc_amada_hook() {
 void npc_aragaki_hook() {
     int var10;
     gVar60 = 9;
-    gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 536 );
+    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 536);
     
-    if ( CHECK_FATIGUE( gVar60 ) == 0 ) {
+    if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 138;
         gVar62 = 142;
         gVar63 = 146;
         gVar64 = 150;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 2 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 139;
         gVar62 = 143;
         gVar63 = 147;
         gVar64 = 151;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 3 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 140;
         gVar62 = 144;
         gVar63 = 148;
         gVar64 = 152;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 5 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 5) {
         gVar61 = 141;
         gVar62 = 145;
         gVar63 = 149;
@@ -748,47 +748,47 @@ void npc_aragaki_hook() {
     check_party_member();
     OPEN_MSG_WIN();
     
-    if ( gVar29 == 1 ) {
-        MSG( gVar63 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 1 );
-        var10 = SEL( TALK_SEL );
-        if ( var10 == 2 ) {
-            MSG( gVar64 );
+    if (gVar29 == 1) {
+        MSG(gVar63);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(1);
+        var10 = SEL(TALK_SEL);
+        if (var10 == 2) {
+            MSG(gVar64);
             CLOSE_MSG_WIN();
-            REMOVE_MEMBER( gVar60 );
+            REMOVE_MEMBER(gVar60);
         }
     } else {
-        MSG( gVar61 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 4 );
-        var10 = SEL( TALK_SEL );
+        MSG(gVar61);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(4);
+        var10 = SEL(TALK_SEL);
         
-        if ( var10 == 0 ) {
-            if ( gVar21 == 3 ) {
+        if (var10 == 0) {
+            if (gVar21 == 3) {
                 member_sel_mask();
-                MSG( ARAGAKI_PARTY_OVER );
-                MSG( ARAGAKI_PARTY_CHANGE );
-                SEL_CHK_PAD( 6, 8 );
-                SET_MASK( gVar31 );
-                gVar32 = SEL( PARTY_SEL );
+                MSG(ARAGAKI_PARTY_OVER);
+                MSG(ARAGAKI_PARTY_CHANGE);
+                SEL_CHK_PAD(6, 8);
+                SET_MASK(gVar31);
+                gVar32 = SEL(PARTY_SEL);
                 member_change();
                 
-                if ( gVar32 == 8 ) {
-                    MSG( gVar64 );
+                if (gVar32 == 8) {
+                    MSG(gVar64);
                     CLOSE_MSG_WIN();
                     return;
                 }
             }
 
-            MSG( gVar62 );
+            MSG(gVar62);
             CLOSE_MSG_WIN();
-            ADD_MEMBER( 0, gVar60 );
+            ADD_MEMBER(0, gVar60);
         }
     }
 
     
-    if ( var10 == 1 ) {
+    if (var10 == 1) {
         int CurrentHP = GET_CUR_HP(PartyMember.ShinjiroMetis);
         int MaxHP = GET_TOT_HP(PartyMember.ShinjiroMetis);
         int CurrentSP = GET_CUR_SP(PartyMember.ShinjiroMetis);
@@ -800,7 +800,7 @@ void npc_aragaki_hook() {
         if (CurrentSP == MaxSP) {
             SET_SP(PartyMember.ShinjiroMetis, GET_TOT_SP(PartyMember.ShinjiroMetis));
         }
-        if ( gVar41 == 0 ) {
+        if (gVar41 == 0) {
             npc_aragaki();
         }
     }
@@ -810,24 +810,24 @@ void npc_aragaki_hook() {
 void npc_koromaru_hook() {
     int var11;
     gVar60 = 10;
-    gVar91 = ( ( ( ( 0 + 0x0400 ) + 0x0800 ) + 0x0400 ) + 537 );
+    gVar91 = ((((0 + 0x0400) + 0x0800) + 0x0400) + 537);
     
-    if ( CHECK_FATIGUE( gVar60 ) == 0 ) {
+    if (CHECK_FATIGUE(gVar60) == 0) {
         gVar61 = 156;
         gVar62 = 160;
         gVar63 = 164;
         gVar64 = 168;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 2 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 2) {
         gVar61 = 157;
         gVar62 = 161;
         gVar63 = 165;
         gVar64 = 169;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 3 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 3) {
         gVar61 = 158;
         gVar62 = 162;
         gVar63 = 166;
         gVar64 = 170;
-    } else if ( CHECK_FATIGUE( gVar60 ) == 5 ) {
+    } else if (CHECK_FATIGUE(gVar60) == 5) {
         gVar61 = 159;
         gVar62 = 163;
         gVar63 = 167;
@@ -843,47 +843,47 @@ void npc_koromaru_hook() {
     check_party_member();
     OPEN_MSG_WIN();
     
-    if ( gVar30 == 1 ) {
-        MSG( gVar63 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 1 );
-        var11 = SEL( TALK_SEL );
-        if ( var11 == 2 ) {
-            MSG( gVar64 );
+    if (gVar30 == 1) {
+        MSG(gVar63);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(1);
+        var11 = SEL(TALK_SEL);
+        if (var11 == 2) {
+            MSG(gVar64);
             CLOSE_MSG_WIN();
-            REMOVE_MEMBER( gVar60 );
+            REMOVE_MEMBER(gVar60);
         }
 
     } else {
-        MSG( gVar61 );
-        SEL_CHK_PAD( 6, 3 );
-        SET_MASK( 4 );
-        var11 = SEL( TALK_SEL );
+        MSG(gVar61);
+        SEL_CHK_PAD(6, 3);
+        SET_MASK(4);
+        var11 = SEL(TALK_SEL);
         
-        if ( var11 == 0 ) {
-            if ( gVar21 == 3 ) {
+        if (var11 == 0) {
+            if (gVar21 == 3) {
                 member_sel_mask();
-                MSG( KOROMARU_PARTY_OVER );
-                MSG( KOROMARU_PARTY_CHANGE );
-                SEL_CHK_PAD( 6, 8 );
-                SET_MASK( gVar31 );
-                gVar32 = SEL( PARTY_SEL );
+                MSG(KOROMARU_PARTY_OVER);
+                MSG(KOROMARU_PARTY_CHANGE);
+                SEL_CHK_PAD(6, 8);
+                SET_MASK(gVar31);
+                gVar32 = SEL(PARTY_SEL);
                 member_change();
                 
-                if ( gVar32 == 8 ) {
-                    MSG( gVar64 );
+                if (gVar32 == 8) {
+                    MSG(gVar64);
                     CLOSE_MSG_WIN();
                     return;
                 }
             }
 
-            MSG( gVar62 );
+            MSG(gVar62);
             CLOSE_MSG_WIN();
-            ADD_MEMBER( 0, gVar60 );
+            ADD_MEMBER(0, gVar60);
         }
     }
 
-    if ( var11 == 1 ) {
+    if (var11 == 1) {
         int CurrentHP = GET_CUR_HP(PartyMember.Koromaru);
         int MaxHP = GET_TOT_HP(PartyMember.Koromaru);
         int CurrentSP = GET_CUR_SP(PartyMember.Koromaru);
@@ -895,7 +895,7 @@ void npc_koromaru_hook() {
         if (CurrentSP == MaxSP) {
             SET_SP(PartyMember.Koromaru, GET_TOT_SP(PartyMember.Koromaru));
         }
-        if ( gVar41 == 0 ) {
+        if (gVar41 == 0) {
             npc_koromaru();
         }
     }

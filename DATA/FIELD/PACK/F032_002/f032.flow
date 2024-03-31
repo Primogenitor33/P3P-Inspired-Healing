@@ -1,11 +1,11 @@
-import( "f032.bf" );
-import( "P3PHeal.flow" );
+import("f032.bf");
+import("P3PHeal.flow");
 
 void f032_002_init_hook() {
     //Set Mod Version
     if ((BIT_CHK(3569) == 1) && !BIT_CHK(9994) && !BIT_CHK(9993)) {
-		P3PHealVersion();
-	}
+        P3PHealVersion();
+    }
     if (ModeCheck()) {
         f032_002_init_unhooked();
     } else {
