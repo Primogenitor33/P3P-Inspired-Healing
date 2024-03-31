@@ -1,7 +1,6 @@
 import( "P3PHeal.msg" );
 
-void P3PHealVersion()
-{
+void P3PHealVersion() {
     MSG_HELP(P3PHealWelcome);
     OPEN_MSG_WIN();
     MSG( P3PChooseVersion );
@@ -19,14 +18,12 @@ void P3PHealVersion()
     CLOSE_MSG_WIN();
 }
 
-void ShowP3PHealTutorial()
-{
+void ShowP3PHealTutorial() {
     BIT_ON( 9995 );
     MSG_HELP(P3PHealTutorial);
 }
 
-void P3PClock()
-{
+void P3PClock() {
     OPEN_MSG_WIN();
     MSG(P3PHealClock);
     SEL_CHK_PAD(6, 4);
@@ -38,16 +35,14 @@ void P3PClock()
         case 1: //Heal Party
             if (IsPartyDamaged()) {
                 P3PHealParty();
-            }
-            else {
+            } else {
                 MSG(NoHealing);
             }
             break;
         case 2: //Heal Everyone
             if (IsDamaged()) {
                 P3PHealAll();
-            }
-            else {
+            } else {
                 MSG(NoHealing);
             }
             break;
@@ -57,8 +52,7 @@ void P3PClock()
     CLOSE_MSG_WIN();
 }
 
-void P3PHealParty()
-{
+void P3PHealParty() {
     //Stores the current Yen value
     int CurrentYen = GET_YEN();
     //Initializes the values with the MC's info
@@ -70,13 +64,11 @@ void P3PHealParty()
     int PartyMember;
     int Multiplier;
     int Cost;
-    for (int x = 0; x < 3; x++)
-    {
+    for (int x = 0; x < 3; x++) {
         //Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, add their current stats to the variables
-        if (PartyMember != 0)
-        {
+        if (PartyMember != 0) {
             PartyCurrentSP = (PartyCurrentSP + GET_CUR_SP(PartyMember));
             PartyMaxSP = (PartyMaxSP + GET_TOT_SP(PartyMember));
             PartyCurrentHP = (PartyCurrentHP + GET_CUR_HP(PartyMember));
@@ -85,40 +77,23 @@ void P3PHealParty()
     }
 
     //Check if between two dates and set a multiplier depending on the date
-    if (CHECK_TIME_SPAN(4, 1, 5, 9))
-    {
+    if (CHECK_TIME_SPAN(4, 1, 5, 9)) {
         Multiplier = 75;
-    }
-    else if (CHECK_TIME_SPAN(5, 10, 6, 12))
-    {
+    } else if (CHECK_TIME_SPAN(5, 10, 6, 12)) {
         Multiplier = 100;
-    }
-    else if (CHECK_TIME_SPAN(6, 13, 7, 8))
-    {
+    } else if (CHECK_TIME_SPAN(6, 13, 7, 8)) {
         Multiplier = 150;
-    }
-    else if (CHECK_TIME_SPAN(7, 9, 8, 7))
-    {
+    } else if (CHECK_TIME_SPAN(7, 9, 8, 7)) {
         Multiplier = 230;
-    }
-    else if (CHECK_TIME_SPAN(8, 8, 9, 9))
-    {
+    } else if (CHECK_TIME_SPAN(8, 8, 9, 9)) {
         Multiplier = 480;
-    }
-    else if (CHECK_TIME_SPAN(9, 10, 10, 5))
-    {
+    } else if (CHECK_TIME_SPAN(9, 10, 10, 5)) {
         Multiplier = 780;
-    }
-    else if (CHECK_TIME_SPAN(10, 6, 11, 5))
-    {
+    } else if (CHECK_TIME_SPAN(10, 6, 11, 5)) {
         Multiplier = 1500;
-    }
-    else if (CHECK_TIME_SPAN(11, 6, 12, 31))
-    {
+    } else if (CHECK_TIME_SPAN(11, 6, 12, 31)) {
         Multiplier = 3100;
-    }
-    else 
-    {
+    } else {
         Multiplier = 5350;
     }
     //Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
@@ -126,8 +101,7 @@ void P3PHealParty()
     //Subtract Current HP from Total H, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
     //Limit the cost to 9999999
-    if (Cost > 9999999)
-    {
+    if (Cost > 9999999) {
         Cost = 9999999;
     }
 
@@ -142,13 +116,11 @@ void P3PHealParty()
     switch (selection) {
         case 0: //Heal
             //compare the values to see if you can afford it
-            if (Cost > CurrentYen)
-            {
+            if (Cost > CurrentYen) {
                 MSG(Broke);
             }
             //if you can, remove the money and move on to healing
-            else
-            {
+            else {
                 REMOVE_YEN(Cost);
                 CLOSE_MSG_WIN();
                 P3PPartyRecovery();
@@ -162,8 +134,7 @@ void P3PHealParty()
     CLOSE_MSG_WIN();
 }
 
-void P3PPartyRecovery()
-{
+void P3PPartyRecovery() {
     int PartyMember;
     CALL_BTL_SFX(2, 10);
     //Heals MC's SP to max
@@ -171,21 +142,18 @@ void P3PPartyRecovery()
     //Heals MC's HP to max
     SET_HP(1, GET_TOT_HP(1));
     //Heals everyone else
-    for (int x = 0; x < 3; x++)
-    {
+    for (int x = 0; x < 3; x++) {
         //Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, heal them
-        if (PartyMember != 0)
-        {
+        if (PartyMember != 0) {
             SET_SP(PartyMember, GET_TOT_SP(PartyMember));
             SET_HP(PartyMember, GET_TOT_HP(PartyMember));
         }
     }
 }
 
-void P3PHealAll()
-{
+void P3PHealAll() {
     //This stores the current Yen value
     int CurrentYen = GET_YEN();
     //Initializes the values with the MC's info
@@ -199,8 +167,7 @@ void P3PHealAll()
     int PartyMember;
     
     //Check if Party Member is available, if so then add their stats to the variables
-    for (int x = 2; x <= 10; x++)
-    {
+    for (int x = 2; x <= 10; x++) {
         PartyMember = x + 320;
 
         //Skip Fuuka
@@ -211,8 +178,7 @@ void P3PHealAll()
             PartyMember = (x - 1) + 320;
         }
 
-        if (BIT_CHK(PartyMember))
-        {
+        if (BIT_CHK(PartyMember)) {
             EveryoneCurrentSP = (EveryoneCurrentSP + GET_CUR_SP(x));
             EveryoneTotalSP = (EveryoneTotalSP + GET_TOT_SP(x));
             EveryoneCurrentHP = (EveryoneCurrentHP + GET_CUR_HP(x));
@@ -221,40 +187,23 @@ void P3PHealAll()
     }
 
     //Check if between two dates and set a multiplier depending on the date
-    if (CHECK_TIME_SPAN(4, 1, 5, 9))
-    {
+    if (CHECK_TIME_SPAN(4, 1, 5, 9)) {
         Multiplier = 75;
-    }
-    else if (CHECK_TIME_SPAN(5, 10, 6, 12))
-    {
+    } else if (CHECK_TIME_SPAN(5, 10, 6, 12)) {
         Multiplier = 100;
-    }
-    else if (CHECK_TIME_SPAN(6, 13, 7, 8))
-    {
+    } else if (CHECK_TIME_SPAN(6, 13, 7, 8)) {
         Multiplier = 150;
-    }
-    else if (CHECK_TIME_SPAN(7, 9, 8, 7))
-    {
+    } else if (CHECK_TIME_SPAN(7, 9, 8, 7)) {
         Multiplier = 230;
-    }
-    else if (CHECK_TIME_SPAN(8, 8, 9, 9))
-    {
+    } else if (CHECK_TIME_SPAN(8, 8, 9, 9)) {
         Multiplier = 480;
-    }
-    else if (CHECK_TIME_SPAN(9, 10, 10, 5))
-    {
+    } else if (CHECK_TIME_SPAN(9, 10, 10, 5)) {
         Multiplier = 780;
-    }
-    else if (CHECK_TIME_SPAN(10, 6, 11, 5))
-    {
+    } else if (CHECK_TIME_SPAN(10, 6, 11, 5)) {
         Multiplier = 1500;
-    }
-    else if (CHECK_TIME_SPAN(11, 6, 12, 31))
-    {
+    } else if (CHECK_TIME_SPAN(11, 6, 12, 31)) {
         Multiplier = 3100;
-    }
-    else 
-    {
+    } else {
         Multiplier = 5350;
     }
 
@@ -264,8 +213,7 @@ void P3PHealAll()
     Cost = (Cost + (((EveryoneTotalHP - EveryoneCurrentHP) * Multiplier) / 100));
     
     //Limit the cost to 9999999
-    if (Cost > 9999999)
-    {
+    if (Cost > 9999999) {
         Cost = 9999999;
     }
 
@@ -280,13 +228,11 @@ void P3PHealAll()
     switch (selection) {
         case 0: //Heal
             //compare the values to see if you can afford it
-            if (Cost > CurrentYen)
-            {
+            if (Cost > CurrentYen) {
                 MSG(Broke);
             }
             //if you can, remove the money and move on to healing
-            else
-            {
+            else {
                 REMOVE_YEN(Cost);
                 CLOSE_MSG_WIN();
                 CALL_BTL_SFX(2, 10);
@@ -301,8 +247,7 @@ void P3PHealAll()
     CLOSE_MSG_WIN();
 }
 
-void HealingDead()
-{
+void HealingDead() {
     //Stores the current Yen value
     int CurrentYen = GET_YEN();
     
@@ -313,16 +258,13 @@ void HealingDead()
     int Multiplier;
     int Penalty;
     int Cost = 0;
-    for (int x = 0; x < 3; x++)
-    {
+    for (int x = 0; x < 3; x++) {
         //Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, add their current stats to the variables
-        if (PartyMember != 0)
-        {
+        if (PartyMember != 0) {
             //Only Apply to Dead Members
-            if (GET_CUR_HP(PartyMember) == 0)
-            {
+            if (GET_CUR_HP(PartyMember) == 0) {
                 PartyCurrentHP = (PartyCurrentHP + GET_CUR_HP(PartyMember));
                 PartyMaxHP = (PartyMaxHP + GET_TOT_HP(PartyMember));
             }
@@ -330,48 +272,31 @@ void HealingDead()
     }
 
     //Check if between two dates and set a multiplier and penalty depending on the date
-    if (CHECK_TIME_SPAN(4, 1, 5, 9))
-    {
+    if (CHECK_TIME_SPAN(4, 1, 5, 9)) {
         Multiplier = 75;
         Penalty = 100;
-    }
-    else if (CHECK_TIME_SPAN(5, 10, 6, 12))
-    {
+    } else if (CHECK_TIME_SPAN(5, 10, 6, 12)) {
         Multiplier = 100;
         Penalty = 200;
-    }
-    else if (CHECK_TIME_SPAN(6, 13, 7, 8))
-    {
+    } else if (CHECK_TIME_SPAN(6, 13, 7, 8)) {
         Multiplier = 150;
         Penalty = 300;
-    }
-    else if (CHECK_TIME_SPAN(7, 9, 8, 7))
-    {
+    } else if (CHECK_TIME_SPAN(7, 9, 8, 7)) {
         Multiplier = 230;
         Penalty = 400;
-    }
-    else if (CHECK_TIME_SPAN(8, 8, 9, 9))
-    {
+    } else if (CHECK_TIME_SPAN(8, 8, 9, 9)) {
         Multiplier = 480;
         Penalty = 500;
-    }
-    else if (CHECK_TIME_SPAN(9, 10, 10, 5))
-    {
+    } else if (CHECK_TIME_SPAN(9, 10, 10, 5)) {
         Multiplier = 780;
         Penalty = 600;
-    }
-    else if (CHECK_TIME_SPAN(10, 6, 11, 5))
-    {
+    } else if (CHECK_TIME_SPAN(10, 6, 11, 5)) {
         Multiplier = 1500;
         Penalty = 700;
-    }
-    else if (CHECK_TIME_SPAN(11, 6, 12, 31))
-    {
+    } else if (CHECK_TIME_SPAN(11, 6, 12, 31)) {
         Multiplier = 3100;
         Penalty = 800;
-    }
-    else 
-    {
+    } else {
         Multiplier = 5350;
         Penalty = 900;
     }
@@ -385,8 +310,7 @@ void HealingDead()
     Cost = Cost + Penalty;
 
     //Limit the cost to 9999999
-    if (Cost > 9999999)
-    {
+    if (Cost > 9999999) {
         Cost = 9999999;
     }
 
@@ -401,14 +325,12 @@ void HealingDead()
     switch (selection) {
         case 0: //Heal
             //compare the values to see if you can afford it
-            if (Cost > CurrentYen)
-            {
+            if (Cost > CurrentYen) {
                 MSG(Broke);
                 condition_check_unhooked();
             }
             //if you can, remove the money and move on to healing
-            else
-            {
+            else {
                 REMOVE_YEN(Cost);
                 CLOSE_MSG_WIN();
                 P3PDeadRecovery();
@@ -423,21 +345,17 @@ void HealingDead()
     CLOSE_MSG_WIN();
 }
 
-void P3PDeadRecovery()
-{
+void P3PDeadRecovery() {
     int PartyMember;
     int FourthHP;
     //Heals everyone else
-    for (int x = 0; x < 3; x++)
-    {
+    for (int x = 0; x < 3; x++) {
         //Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, heal them
-        if (PartyMember != 0)
-        {
+        if (PartyMember != 0) {
             //Only apply to dead members
-            if (GET_CUR_HP(PartyMember) == 0)
-            {
+            if (GET_CUR_HP(PartyMember) == 0) {
                 FourthHP = GET_TOT_HP(PartyMember) / 4;
                 SET_HP(PartyMember, FourthHP);
             }
@@ -445,15 +363,12 @@ void P3PDeadRecovery()
     }
 }
 
-bool IsPartyDamaged()
-{
+bool IsPartyDamaged() {
     int PartyMember;
 
-    for (int x = 0; x < 3; x++)
-    {
+    for (int x = 0; x < 3; x++) {
         PartyMember = GET_PARTY_ID(x);
-        if (PartyMember != 0)
-        {
+        if (PartyMember != 0) {
             if ((GET_TOT_SP(PartyMember) > GET_CUR_SP(PartyMember)) || (GET_TOT_HP(PartyMember) > GET_CUR_HP(PartyMember))){
                 return true;
             }
@@ -462,43 +377,38 @@ bool IsPartyDamaged()
     return false;
 }
 
-bool IsDamaged()
-{
-    for(int x = 1; x <= 10; x++){
-        if ((GET_TOT_SP(x) > GET_CUR_SP(x)) || (GET_TOT_HP(x) > GET_CUR_HP(x))){
+bool IsDamaged() {
+    for(int x = 1; x <= 10; x++) {
+        if ((GET_TOT_SP(x) > GET_CUR_SP(x)) || (GET_TOT_HP(x) > GET_CUR_HP(x))) {
             return true;
         }
     }
     return false;
 }
 
-bool IsDead()
-{
-    for(int x = 1; x <= 10; x++){
-        if (GET_CUR_HP(x) == 0){
+bool IsDead() {
+    for(int x = 1; x <= 10; x++) {
+        if (GET_CUR_HP(x) == 0) {
             return true;
         }
     }
     return false;
 }
 
-void HealTo1HP()
-{
-    for(int x = 1; x <= 10; x++){
+void HealTo1HP() {
+    for(int x = 1; x <= 10; x++) {
         if (GET_CUR_HP(x) == 0) {
             SET_HP(x,1);
         }
     }
 }
 
-void P3PMemberReturn()
-{
+void P3PMemberReturn() {
     int var14;
     check_party_member();
     BIT_OFF( 3568 );
     
-    if ((GET_CUR_HP( 2 ) == 0))
-    {
+    if ((GET_CUR_HP( 2 ) == 0)) {
         BIT_OFF( 322 );
         OPEN_MSG_WIN();
         MSG( YUKARI_RETURN );
@@ -506,9 +416,7 @@ void P3PMemberReturn()
         REMOVE_MEMBER( PartyMember.Yukari );
     }
 
-    
-    if ((GET_CUR_HP(3) == 0))
-    {
+    if ((GET_CUR_HP(3) == 0)) {
         BIT_OFF( 323 );
         OPEN_MSG_WIN();
         MSG( AEGIS_RETURN );
@@ -517,8 +425,7 @@ void P3PMemberReturn()
     }
 
     
-    if ((GET_CUR_HP(4) == 0))
-    {
+    if ((GET_CUR_HP(4) == 0)) {
         BIT_OFF( 324 );
         OPEN_MSG_WIN();
         MSG( MITSURU_RETURN );
@@ -526,9 +433,7 @@ void P3PMemberReturn()
         REMOVE_MEMBER( PartyMember.Mitsuru );
     }
 
-    
-    if ((GET_CUR_HP(5) == 0 ))
-    {
+    if ((GET_CUR_HP(5) == 0 )) {
         BIT_OFF( 325 );
         OPEN_MSG_WIN();
         MSG( JUNPEI_RETURN );
@@ -537,8 +442,7 @@ void P3PMemberReturn()
     }
 
     
-    if ((GET_CUR_HP(7) == 0 ))
-    {
+    if ((GET_CUR_HP(7) == 0 )) {
         BIT_OFF( 326 );
         OPEN_MSG_WIN();
         MSG( SANADA_RETURN );
@@ -546,9 +450,7 @@ void P3PMemberReturn()
         REMOVE_MEMBER( PartyMember.Akihiko );
     }
 
-    
-    if ((GET_CUR_HP(8) == 0 ))
-    {
+    if ((GET_CUR_HP(8) == 0 )) {
         BIT_OFF( 327 );
         OPEN_MSG_WIN();
         MSG( AMADA_RETURN );
@@ -556,9 +458,7 @@ void P3PMemberReturn()
         REMOVE_MEMBER( PartyMember.Ken );
     }
 
-    
-    if ((GET_CUR_HP(9) == 0 ))
-    {
+    if ((GET_CUR_HP(9) == 0 )) {
         BIT_OFF( 328 );
         OPEN_MSG_WIN();
         MSG( ARAGAKI_RETURN );
@@ -566,9 +466,7 @@ void P3PMemberReturn()
         REMOVE_MEMBER( PartyMember.ShinjiroMetis );
     }
 
-    
-    if ((GET_CUR_HP(10) == 0 ))
-    {
+    if ((GET_CUR_HP(10) == 0 )) {
         BIT_OFF( 329 );
         OPEN_MSG_WIN();
         MSG( KOROMARU_RETURN );
@@ -583,60 +481,39 @@ void P3PMemberReturn()
       }
     }
 
-    if ( ( var14 < 3 ) && ( BIT_CHK( 3188 ) == 0 ) )
-    {
+    if ( ( var14 < 3 ) && ( BIT_CHK( 3188 ) == 0 ) ) {
         BIT_ON( 3188 );
         OPEN_MSG_WIN();
         
-        if ( BIT_CHK( 3123 ) == 1 )
-        {
-            
-            if ( BIT_CHK( 3047 ) == 1 )
-            {
+        if ( BIT_CHK( 3123 ) == 1 ) {
+            if ( BIT_CHK( 3047 ) == 1 ) {
                 MSG( HUKA_RETURN_ADVICE_TEST );
-            }
-            else 
-            {
+            } else {
                 MSG( HUKA_RETURN_ADVICE );
             }
-
-        }
-        else if ( BIT_CHK( 3047 ) == 1 )
-        {
+        } else if ( BIT_CHK( 3047 ) == 1 ) {
             MSG( MITSURU_RETURN_ADVICE_TE );
-        }
-        else 
-        {
+        } else {
             MSG( MITSURU_RETURN_ADVICE );
         }
-
         CLOSE_MSG_WIN();
     }
-
 }
 
-void P3PHealMain()
-{
-    if ( BIT_CHK( 9995 ) != 1 )
-    {
+void P3PHealMain() {
+    if ( BIT_CHK( 9995 ) != 1 ) {
         ShowP3PHealTutorial();
     }
 
     int var1;
     int var2;
     
-    if ( FUNCTION_00D7() == 0 )
-    {
-        
-        if ( BIT_CHK( 3581 ) == 1 )
-        {
+    if ( FUNCTION_00D7() == 0 ) {
+        if ( BIT_CHK( 3581 ) == 1 ) {
             end_tutorial_dungeon();
             return;
         }
-
-        
-        if ( ( BIT_CHK( 5043 ) == 1 ) && ( GET_CNT( 8 ) >= 254 ) )
-        {
+        if ( ( BIT_CHK( 5043 ) == 1 ) && ( GET_CNT( 8 ) >= 254 ) ) {
             BIT_ON( 3192 );
         }
 
@@ -644,8 +521,7 @@ void P3PHealMain()
         gVar37 = GET_FLOOR_ID();
         order_initialize();
         
-        if ( ( BIT_CHK( 3106 ) != 1 ) && ( BIT_CHK( 3108 ) == 1 ) )
-        {
+        if ( ( BIT_CHK( 3106 ) != 1 ) && ( BIT_CHK( 3108 ) == 1 ) ) {
             condition_check();
         }
 
@@ -659,37 +535,25 @@ void P3PHealMain()
         FUNCTION_0151( 9 );
         FUNCTION_0151( 10 );
         
-        if ( ( BIT_CHK( 4964 ) == 0 ) || ( BIT_CHK( 3175 ) == 1 ) )
-        {
+        if ( ( BIT_CHK( 4964 ) == 0 ) || ( BIT_CHK( 3175 ) == 1 ) ) {
             BIT_ON( 3176 );
-        }
-        else 
-        {
+        } else {
             BIT_OFF( 3176 );
         }
 
-    }
-    else if ( FUNCTION_00D7() == 2 )
-    {
-        
-        if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 3569 ) == 0 ) )
-        {
+    } else if ( FUNCTION_00D7() == 2 ) {
+        if ( ( ( GET_MONTH() == 4 ) && ( GET_DAY_OF_MONTH() == 20 ) ) && ( BIT_CHK( 3569 ) == 0 ) ) {
             BIT_ON( 3569 );
             BIT_OFF( 369 );
             MSG_HELP( TUTORIAL_SAVEPOINT );
-        }
-        else if ( ( ( GET_MONTH() == 3 ) && ( GET_DAY_OF_MONTH() == 10 ) ) && ( BIT_CHK( 4065 ) == 0 ) )
-        {
+        } else if ( ( ( GET_MONTH() == 3 ) && ( GET_DAY_OF_MONTH() == 10 ) ) && ( BIT_CHK( 4065 ) == 0 ) ) {
             debug_mode_member_set();
             return;
-        }
-        else if ( BIT_CHK( 3120 ) == 1 )
-        {
+        } else if ( BIT_CHK( 3120 ) == 1 ) {
             BIT_OFF( 3120 );
             OPEN_MSG_WIN();
             
-            if ( BIT_CHK( 3170 ) == 1 )
-            {
+            if ( BIT_CHK( 3170 ) == 1 ) {
                 BIT_OFF( 3170 );
                 MSG( MITSURU_HELP_WARNING );
                 MSG( MITSURU_WARNING_JOINT );
@@ -698,16 +562,12 @@ void P3PHealMain()
             MSG( MITSURU_ENTRANCE_HELP );
             CLOSE_MSG_WIN();
             MSG_HELP( ENTRANCE_HELP );
-        }
-        else if ( ( BIT_CHK( 3112 ) == 1 ) && ( CHECK_TIME_SPAN( 5, 23, 6, 7 ) == 1 ) )
-        {
+        } else if ( ( BIT_CHK( 3112 ) == 1 ) && ( CHECK_TIME_SPAN( 5, 23, 6, 7 ) == 1 ) ) {
             BIT_OFF( 3112 );
             OPEN_MSG_WIN();
             MSG( SANADA_GREET );
             CLOSE_MSG_WIN();
-        }
-        else if ( BIT_CHK( 3110 ) == 1 )
-        {
+        } else if ( BIT_CHK( 3110 ) == 1 ) {
             BIT_OFF( 3110 );
             OPEN_MSG_WIN();
             MSG( MITSURU_GREET );
@@ -718,28 +578,21 @@ void P3PHealMain()
             CLOSE_MSG_WIN();
         }
 
-        
-        if ( BIT_CHK( 3568 ) == 1 )
-        {
+        if ( BIT_CHK( 3568 ) == 1 ) {
             member_return();
         }
 
         //Full Heal Party
         //FUNCTION_0093();
-    }
-    else if ( FUNCTION_00D7() == 3 )
-    {
+    } else if ( FUNCTION_00D7() == 3 ) {
         var1 = FLD_MODEL_FUNCTION_0165( -1, 5 );
         var2 = FUNCTION_013A( var1, 0 );
         FLD_FUNCTION_0138( var2, 1 );
         FUNCTION_0079( var2, 1 );
         
-        if ( ( ( ( ( ( ( ( ( ( ( ( ( BIT_CHK( 3501 ) == 1 ) || ( BIT_CHK( 3504 ) == 1 ) ) || ( BIT_CHK( 3505 ) == 1 ) ) || ( BIT_CHK( 3506 ) == 1 ) ) || ( BIT_CHK( 3507 ) == 1 ) ) || ( BIT_CHK( 3508 ) == 1 ) ) || ( BIT_CHK( 3509 ) == 1 ) ) || ( BIT_CHK( 3510 ) == 1 ) ) || ( BIT_CHK( 3511 ) == 1 ) ) || ( BIT_CHK( 3512 ) == 1 ) ) || ( BIT_CHK( 3513 ) == 1 ) ) || ( BIT_CHK( 3514 ) == 1 ) ) || ( BIT_CHK( 3515 ) == 1 ) )
-        {
+        if ( ( ( ( ( ( ( ( ( ( ( ( ( BIT_CHK( 3501 ) == 1 ) || ( BIT_CHK( 3504 ) == 1 ) ) || ( BIT_CHK( 3505 ) == 1 ) ) || ( BIT_CHK( 3506 ) == 1 ) ) || ( BIT_CHK( 3507 ) == 1 ) ) || ( BIT_CHK( 3508 ) == 1 ) ) || ( BIT_CHK( 3509 ) == 1 ) ) || ( BIT_CHK( 3510 ) == 1 ) ) || ( BIT_CHK( 3511 ) == 1 ) ) || ( BIT_CHK( 3512 ) == 1 ) ) || ( BIT_CHK( 3513 ) == 1 ) ) || ( BIT_CHK( 3514 ) == 1 ) ) || ( BIT_CHK( 3515 ) == 1 ) ) {
             FLD_FUNCTION_0089( var2, 1, 1, 0, 1 );
-        }
-        else if ( ( ( ( ( ( ( ( ( ( ( ( ( ( BIT_CHK( 3516 ) == 1 ) || ( BIT_CHK( 3517 ) == 1 ) ) || ( BIT_CHK( 3518 ) == 1 ) ) || ( BIT_CHK( 3519 ) == 1 ) ) || ( BIT_CHK( 3528 ) == 1 ) ) || ( BIT_CHK( 3529 ) == 1 ) ) || ( BIT_CHK( 3530 ) == 1 ) ) || ( BIT_CHK( 3531 ) == 1 ) ) || ( BIT_CHK( 3532 ) == 1 ) ) || ( BIT_CHK( 3533 ) == 1 ) ) || ( BIT_CHK( 3534 ) == 1 ) ) || ( BIT_CHK( 3535 ) == 1 ) ) || ( BIT_CHK( 3500 ) == 1 ) ) || ( BIT_CHK( 3499 ) == 1 ) )
-        {
+        } else if ( ( ( ( ( ( ( ( ( ( ( ( ( ( BIT_CHK( 3516 ) == 1 ) || ( BIT_CHK( 3517 ) == 1 ) ) || ( BIT_CHK( 3518 ) == 1 ) ) || ( BIT_CHK( 3519 ) == 1 ) ) || ( BIT_CHK( 3528 ) == 1 ) ) || ( BIT_CHK( 3529 ) == 1 ) ) || ( BIT_CHK( 3530 ) == 1 ) ) || ( BIT_CHK( 3531 ) == 1 ) ) || ( BIT_CHK( 3532 ) == 1 ) ) || ( BIT_CHK( 3533 ) == 1 ) ) || ( BIT_CHK( 3534 ) == 1 ) ) || ( BIT_CHK( 3535 ) == 1 ) ) || ( BIT_CHK( 3500 ) == 1 ) ) || ( BIT_CHK( 3499 ) == 1 ) ) {
             FLD_FUNCTION_0089( var2, 1, 1, 0, 1 );
         }
 
@@ -748,26 +601,19 @@ void P3PHealMain()
         FLD_FUNCTION_0138( var2, 5 );
         FUNCTION_0079( var2, 1 );
         
-        if ( BIT_CHK( 3192 ) == 1 )
-        {
+        if ( BIT_CHK( 3192 ) == 1 ) {
             FUNCTION_0079( 10247, 1 );
-        }
-        else 
-        {
+        } else {
             FUNCTION_0079( 10247, 0 );
         }
 
         
-        if ( BIT_CHK( 79 ) == 1 )
-        {
+        if ( BIT_CHK( 79 ) == 1 ) {
             FUNCTION_0079( 10245, 0 );
             BIT_OFF( 3583 );
-        }
-        else 
-        {
+        } else {
             FUNCTION_0079( 10245, 1 );
             BIT_ON( 3583 );
         }
-
     }
 }

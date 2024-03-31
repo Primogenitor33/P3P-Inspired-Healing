@@ -1,5 +1,4 @@
-void save_point_hook()
-{
+void save_point_hook() {
     OPEN_MSG_WIN();
     MSG(WHAT_DO_YOU_WANT);
     SEL_CHK_PAD(6, 4);
@@ -20,8 +19,7 @@ void save_point_hook()
     CLOSE_MSG_WIN();
 }
 
-void heal_point_pt()
-{
+void heal_point_pt() {
     //Stores the current Yen value
     int CurrentYen = GET_YEN();
     //Initializes the values with the MC's info
@@ -33,13 +31,11 @@ void heal_point_pt()
     int PartyMember;
     int Multiplier;
     int Cost;
-    for (int x = 0; x < 3; x++)
-    {
+    for (int x = 0; x < 3; x++) {
         //Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, add their current stats to the variables
-        if (PartyMember != 0)
-        {
+        if (PartyMember != 0) {
             PartyCurrentSP = (PartyCurrentSP + GET_CUR_SP(PartyMember));
             PartyMaxSP = (PartyMaxSP + GET_TOT_SP(PartyMember));
             PartyCurrentHP = (PartyCurrentHP + GET_CUR_HP(PartyMember));
@@ -48,54 +44,34 @@ void heal_point_pt()
     }
 
     //Check if between two dates and set a multiplier depending on the date
-    if (CHECK_TIME_SPAN(4, 1, 5, 9))
-    {
+    if (CHECK_TIME_SPAN(4, 1, 5, 9)) {
         Multiplier = 75;
-    }
-    else if (CHECK_TIME_SPAN(5, 10, 6, 12))
-    {
+    } else if (CHECK_TIME_SPAN(5, 10, 6, 12)) {
         Multiplier = 100;
-    }
-    else if (CHECK_TIME_SPAN(6, 13, 7, 8))
-    {
+    } else if (CHECK_TIME_SPAN(6, 13, 7, 8)) {
         Multiplier = 150;
-    }
-    else if (CHECK_TIME_SPAN(7, 9, 8, 7))
-    {
+    } else if (CHECK_TIME_SPAN(7, 9, 8, 7)) {
         Multiplier = 230;
-    }
-    else if (CHECK_TIME_SPAN(8, 8, 9, 9))
-    {
+    } else if (CHECK_TIME_SPAN(8, 8, 9, 9)) {
         Multiplier = 480;
-    }
-    else if (CHECK_TIME_SPAN(9, 10, 10, 5))
-    {
+    } else if (CHECK_TIME_SPAN(9, 10, 10, 5)) {
         Multiplier = 780;
-    }
-    else if (CHECK_TIME_SPAN(10, 6, 11, 5))
-    {
+    } else if (CHECK_TIME_SPAN(10, 6, 11, 5)) {
         Multiplier = 1500;
-    }
-    else if (CHECK_TIME_SPAN(11, 6, 12, 31))
-    {
+    } else if (CHECK_TIME_SPAN(11, 6, 12, 31)) {
         Multiplier = 3100;
-    }
-    else 
-    {
+    } else {
         Multiplier = 5350;
     }
+
     //Subtract Current SP from Total SP, multiply that by the current timeframe multiplier, then divide by 10
     Cost = (((PartyMaxSP - PartyCurrentSP) * Multiplier) / 10);
     //Subtract Current HP from Total HP, multiply that by the current timeframe multiplier, then divide by 100, then add the previous value from SP
     Cost = (Cost + (((PartyMaxHP - PartyCurrentHP) * Multiplier) / 100));
     //Limit the cost to 9999999
-    if (Cost > 9999999)
-    {
+    if (Cost > 9999999) {
         Cost = 9999999;
-    }
-    //Check if cost is 0 to see if healing is needed
-    else if (Cost == 0)
-    {
+    } else if (Cost == 0) { //Check if cost is 0 to see if healing is needed
         OPEN_MSG_WIN();
         MSG(HEAL_NOMORE);
         CLOSE_MSG_WIN();
@@ -103,8 +79,7 @@ void heal_point_pt()
     }
 
     //Some kind of discount?
-    if (BIT_CHK(4891))
-    {
+    if (BIT_CHK(4891)) {
         Cost = (Cost / 2);
     }
 
@@ -119,13 +94,10 @@ void heal_point_pt()
     switch (selection) {
         case 0: //Heal
             //compare the values to see if you can afford it
-            if (Cost > CurrentYen)
-            {
+            if (Cost > CurrentYen) {
                 MSG(HEAL_NOMONEY);
-            }
-            //if you can, remove the money and move on to healing
-            else
-            {
+            } else {
+                //if you can, remove the money and move on to healing
                 REMOVE_YEN(Cost);
                 CLOSE_MSG_WIN();
                 recovery_PT();
@@ -141,8 +113,7 @@ void heal_point_pt()
 
 
 // Procedure Index: 14
-void heal_point_all()
-{
+void heal_point_all() {
     //This stores the current Yen value
     int CurrentYen = GET_YEN();
     //Initializes the values with the MC's info
@@ -156,8 +127,7 @@ void heal_point_all()
     int PartyMember;
     
     //Check if Party Member is available, if so then add their stats to the variables
-    for (int x = 2; x <= 10; x++)
-    {
+    for (int x = 2; x <= 10; x++) {
         PartyMember = x + 320;
 
         //Skip Fuuka
@@ -168,8 +138,7 @@ void heal_point_all()
             PartyMember = (x - 1) + 320;
         }
 
-        if (BIT_CHK(PartyMember))
-        {
+        if (BIT_CHK(PartyMember)) {
             EveryoneCurrentSP = (EveryoneCurrentSP + GET_CUR_SP(x));
             EveryoneTotalSP = (EveryoneTotalSP + GET_TOT_SP(x));
             EveryoneCurrentHP = (EveryoneCurrentHP + GET_CUR_HP(x));
@@ -178,40 +147,23 @@ void heal_point_all()
     }
 
     //Check if between two dates and set a multiplier depending on the date
-    if (CHECK_TIME_SPAN(4, 1, 5, 9))
-    {
+    if (CHECK_TIME_SPAN(4, 1, 5, 9)) {
         Multiplier = 75;
-    }
-    else if (CHECK_TIME_SPAN(5, 10, 6, 12))
-    {
+    } else if (CHECK_TIME_SPAN(5, 10, 6, 12)) {
         Multiplier = 100;
-    }
-    else if (CHECK_TIME_SPAN(6, 13, 7, 8))
-    {
+    } else if (CHECK_TIME_SPAN(6, 13, 7, 8)) {
         Multiplier = 150;
-    }
-    else if (CHECK_TIME_SPAN(7, 9, 8, 7))
-    {
+    } else if (CHECK_TIME_SPAN(7, 9, 8, 7)) {
         Multiplier = 230;
-    }
-    else if (CHECK_TIME_SPAN(8, 8, 9, 9))
-    {
+    } else if (CHECK_TIME_SPAN(8, 8, 9, 9)) {
         Multiplier = 480;
-    }
-    else if (CHECK_TIME_SPAN(9, 10, 10, 5))
-    {
+    } else if (CHECK_TIME_SPAN(9, 10, 10, 5)) {
         Multiplier = 780;
-    }
-    else if (CHECK_TIME_SPAN(10, 6, 11, 5))
-    {
+    } else if (CHECK_TIME_SPAN(10, 6, 11, 5)) {
         Multiplier = 1500;
-    }
-    else if (CHECK_TIME_SPAN(11, 6, 12, 31))
-    {
+    } else if (CHECK_TIME_SPAN(11, 6, 12, 31)) {
         Multiplier = 3100;
-    }
-    else 
-    {
+    } else {
         Multiplier = 5350;
     }
 
@@ -221,13 +173,11 @@ void heal_point_all()
     Cost = (Cost + (((EveryoneTotalHP - EveryoneCurrentHP) * Multiplier) / 100));
     
     //Limit the cost to 9999999
-    if (Cost > 9999999)
-    {
+    if (Cost > 9999999) {
         Cost = 9999999;
     }
     //Check if cost is 0 to see if healing is needed
-    else if (Cost == 0)
-    {
+    else if (Cost == 0) {
         OPEN_MSG_WIN();
         MSG(HEAL_NOMORE);
         CLOSE_MSG_WIN();
@@ -235,8 +185,7 @@ void heal_point_all()
     }
 
     //Some kind of discount?
-    if (BIT_CHK(4891))
-    {
+    if (BIT_CHK(4891)) {
         Cost = (Cost / 2);
     }
 
@@ -251,13 +200,11 @@ void heal_point_all()
     switch (selection) {
         case 0: //Heal
             //compare the values to see if you can afford it
-            if (Cost > CurrentYen)
-            {
+            if (Cost > CurrentYen) {
                 MSG(HEAL_NOMONEY);
             }
             //if you can, remove the money and move on to healing
-            else
-            {
+            else {
                 REMOVE_YEN(Cost);
                 CLOSE_MSG_WIN();
                 CALL_BTL_SFX(2, 10);
@@ -272,21 +219,18 @@ void heal_point_all()
     CLOSE_MSG_WIN();
 }
 
-void recovery_PT()
-{
+void recovery_PT() {
     int PartyMember;
     //Heals MC's SP to max
     SET_SP(1, GET_TOT_SP(1));
     //Heals MC's HP to max
     SET_HP(1, GET_TOT_HP(1));
     //Heals everyone else
-    for (int x = 0; x < 3; x++)
-    {
+    for (int x = 0; x < 3; x++) {
         //Checks which characters are in party and stores their ID
         PartyMember = GET_PARTY_ID(x);
         //if so, heal them
-        if (PartyMember != 0)
-        {
+        if (PartyMember != 0) {
             SET_SP(PartyMember, GET_TOT_SP(PartyMember));
             SET_HP(PartyMember, GET_TOT_HP(PartyMember));
         }
