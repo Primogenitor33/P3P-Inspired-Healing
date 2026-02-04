@@ -1,4 +1,5 @@
 import("P3PHeal.msg");
+const int party_id_start = 322;
 
 void P3PHealVersion() {
     MSG_HELP(P3PHealWelcome);
@@ -63,7 +64,6 @@ void P3PHealing(int state) {
     int MaxHP = 0;
     int CurSP = 0;
     int MaxSP = 0;
-    int PartyMember;
     int offset = 0;
     int Cost = 0;
     bool isDead = (state == HSTATE.DEAD);
@@ -76,16 +76,15 @@ void P3PHealing(int state) {
     }
     int start = 0;
     int end = 3;
-    if(state == HSTATE.ALL) {
-        start = 2; end = 10;
-    }
+    if(state == HSTATE.ALL) {start = 2; end = 10;}
     //Check if Party Member is available, if so then add their stats to the variables
     for (int x = start; x <= end; x++) {
-        if(state == HSTATE.ALL) PartyMember = x + 320 - offset;
-        else PartyMember = GET_PARTY_ID(x);
+        int PartyMemberBit = x + party_id_start - offset;
+        int PartyMember = x;
+        if(state == HSTATE.ALL) PartyMember = GET_PARTY_ID(x);
 
         //Skip Fuuka
-        if (x == 6) {
+        if (x == 4) {
             offset = 1;
             continue;
         }
@@ -272,14 +271,12 @@ void P3PMemberReturn() {
             continue;
         }
         if (GET_CUR_HP(i + 2) == 0) {
-            BIT_OFF(322 + i - offset);
+            BIT_OFF(party_id_start + i - offset);
             OPEN_MSG_WIN();
             MSG(party_return[i]);
             CLOSE_MSG_WIN();
             REMOVE_MEMBER(i + 2);
-        }
-        if (BIT_CHK(322 + i) == 1) {
-          var14 += 1;
+            var14 +=1;
         }
     }
 

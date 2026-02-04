@@ -6,3 +6,13 @@ bit (9993) bool LATE_GAME;
 // Vanilla Bits
 bit (3569) bool TUTORIAL_SAVEPOINT_COMPLETE;
 bit (3106) bool FULL_MOON;
+
+// Party
+bit (322) bool YUKARI_PRESENT;
+bit (323) bool AEGIS_PRESENT;
+bit (324) bool MITSURU_PRESENT;
+bit (325) bool JUNPEI_PRESENT;
+bit (326) bool SANADA_PRESENT;
+bit (327) bool AMADA_PRESENT;
+bit (328) bool ARAGAKI_PRESENT;
+bit (329) bool KOROMARU_PRESENT;
