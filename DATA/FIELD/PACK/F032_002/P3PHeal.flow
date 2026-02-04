@@ -34,14 +34,14 @@ void P3PClock() {
             break;
         case 1: //Heal Party
             if (IsPartyDamaged()) {
-                Healing(1);
+                P3PHealing(1);
             } else {
                 MSG(NoHealing);
             }
             break;
         case 2: //Heal Everyone
             if (IsDamaged()) {
-                Healing(2);
+                P3PHealing(2);
             } else {
                 MSG(NoHealing);
             }
@@ -53,7 +53,7 @@ void P3PClock() {
 }
 
 
-void Healing(int state) {
+void P3PHealing(int state) {
     /*
     state:
     1 = Healing Living Members
@@ -73,50 +73,43 @@ void Healing(int state) {
     int PartyMember;
     int offset = 0;
     int Cost = 0;
-    bool isDead = false;
-    if(state == 3) isDead = true;
+    bool isDead = (state == 3);
 
     if(state == 1 || state == 2) {
         CurHP = GET_CUR_HP(1);
         MaxHP = GET_TOT_HP(1);
         CurSP = GET_CUR_SP(1);
         MaxSP = GET_TOT_SP(1);
-        int start = 0;
-        if(state == 2) start = 2;
-        int end = 3;
-        if(state == 2) end = 10;
-        //Check if Party Member is available, if so then add their stats to the variables
-        for (int x = start; x <= end; x++) {
-            if(state == 2) PartyMember = x + 320 - offset;
-            if(state == 1) PartyMember = GET_PARTY_ID(x);
-
-            //Skip Fuuka
-            if (x == 6) {
-                offset = 1;
-                continue;
-            }
-
-            if (BIT_CHK(PartyMember) || state == 1) {
-                CurHP = (CurHP + GET_CUR_HP(PartyMember));
-                MaxHP = (MaxHP + GET_TOT_HP(PartyMember));
-                CurSP = (CurSP + GET_CUR_SP(PartyMember));
-                MaxSP = (MaxSP + GET_TOT_SP(PartyMember));
-            }
-        }
     }
+    int start = 0;
+    int end = 3;
+    if(state == 2) {
+        start = 2; end = 10;
+    }
+    //Check if Party Member is available, if so then add their stats to the variables
+    for (int x = start; x <= end; x++) {
+        if(state == 2) PartyMember = x + 320 - offset;
+        else PartyMember = GET_PARTY_ID(x);
 
-    if(state == 3) {
-    for (int x = 0; x < 3; x++) {
-        //Checks which characters are in party and stores their ID
-        PartyMember = GET_PARTY_ID(x);
-        //if so, add their current stats to the variables
-        if (PartyMember != 0) {
-            //Only Apply to Dead Members
-            if (GET_CUR_HP(PartyMember) == 0) {
+        //Skip Fuuka
+        if (x == 6) {
+            offset = 1;
+            continue;
+        }
+
+        if(state == 3){
+            if(GET_CUR_HP(PartyMember) == 0){
                 CurHP = (CurHP + GET_CUR_HP(PartyMember));
                 MaxHP = (MaxHP + GET_TOT_HP(PartyMember));
-                }
             }
+            continue;
+        }
+        
+        if (BIT_CHK(PartyMember) || state == 1) {
+            CurHP = (CurHP + GET_CUR_HP(PartyMember));
+            MaxHP = (MaxHP + GET_TOT_HP(PartyMember));
+            CurSP = (CurSP + GET_CUR_SP(PartyMember));
+            MaxSP = (MaxSP + GET_TOT_SP(PartyMember));
         }
     }
     
@@ -135,7 +128,7 @@ void Healing(int state) {
             //compare the values to see if you can afford it
             if (Cost > CurrentYen) {
                 MSG(Broke);
-                condition_check_unhooked();
+                if(state == 3) condition_check_unhooked();
             }
             //if you can, remove the money and move on to healing
             else {
@@ -190,11 +183,8 @@ int GetCost(int hp, int sp, bool isDead) {
         idx = 8;
     }
     
-    if(isDead) {
-        cost = (((hp / 4) * Multi_LUT[idx]) / 100) + Penalty_LUT[idx];
-    } else {
-        cost = (((hp * Multi_LUT[idx]) / 100) + ((sp * Multi_LUT[idx]) / 10));
-    }
+    if(isDead) cost = (((hp / 4) * Multi_LUT[idx]) / 100) + Penalty_LUT[idx];
+    else cost = (((hp * Multi_LUT[idx]) / 100) + ((sp * Multi_LUT[idx]) / 10));
 
     return cost;
 }
@@ -286,7 +276,7 @@ void P3PMemberReturn() {
     for(int i = 0; i < 9; i++) {
         if( i == 4) {
             offset = 1;
-          continue;
+            continue;
         }
         if (GET_CUR_HP(i + 2) == 0) {
             BIT_OFF(322 + i - offset);
@@ -409,9 +399,7 @@ void P3PHealMain() {
         FUNCTION_0079(var2, 1);
 
         //Checks for something I have no idea what, but this should hopefully be a little easier to read. Should in theory reduce procedure calls.
-
         int success = BIT_CHK(3501);
-        
         for(int i = 3504; i <= 3515; i++) {
             if(success == 1) {//exit early if already found
                     break;
@@ -430,29 +418,17 @@ void P3PHealMain() {
                 break;
             }
         }
-        if (BIT_CHK(3500) == 1) {
-            success = 1;
-        }
-        if (BIT_CHK(3499) == 1) {
-            success = 1;
-        }
-
-        if(success == 1) {
-            FLD_FUNCTION_0089(var2, 1, 1, 0, 1);
-        }
-        
+        if (BIT_CHK(3500) == 1) success = 1;
+        if (BIT_CHK(3499) == 1) success = 1;
+        if(success == 1) FLD_FUNCTION_0089(var2, 1, 1, 0, 1);    
 
         var1 = FLD_MODEL_FUNCTION_0165(-1, 3);
         var2 = FUNCTION_013A(var1, 0);
         FLD_FUNCTION_0138(var2, 5);
         FUNCTION_0079(var2, 1);
         
-        if (BIT_CHK(3192) == 1) {
-            FUNCTION_0079(10247, 1);
-        } else {
-            FUNCTION_0079(10247, 0);
-        }
-
+        if (BIT_CHK(3192) == 1) FUNCTION_0079(10247, 1);
+        else FUNCTION_0079(10247, 0);
         
         if (BIT_CHK(79) == 1) {
             FUNCTION_0079(10245, 0);
