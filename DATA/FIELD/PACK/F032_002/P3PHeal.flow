@@ -343,8 +343,8 @@ void P3PHealMain() {
         }
 
     } else if (FUNCTION_00D7() == 2) {
-        if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && (BIT_CHK(3569) == 0)) {
-            BIT_ON(3569);
+        if (((GET_MONTH() == 4) && (GET_DAY_OF_MONTH() == 20)) && !TUTORIAL_SAVEPOINT_COMPLETE) {
+            TUTORIAL_SAVEPOINT_COMPLETE = true;
             BIT_OFF(369);
             MSG_HELP(TUTORIAL_SAVEPOINT);
         } else if (((GET_MONTH() == 3) && (GET_DAY_OF_MONTH() == 10)) && (BIT_CHK(4065) == 0)) {

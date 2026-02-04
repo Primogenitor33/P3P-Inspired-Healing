@@ -1,3 +1,8 @@
+// Custom Bits
 bit (9995) bool TUTORIAL_COMPLETE;
 bit (9994) bool FULL_GAME;
 bit (9993) bool LATE_GAME;
+
+// Vanilla Bits
+bit (3569) bool TUTORIAL_SAVEPOINT_COMPLETE;
+bit (3106) bool FULL_MOON;
