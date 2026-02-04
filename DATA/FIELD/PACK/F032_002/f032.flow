@@ -1,5 +1,6 @@
 import("f032.bf");
 import("P3PHeal.flow");
+import("P3PEnums.flow");
 
 void f032_002_init_hook() {
     //Set Mod Version
@@ -29,7 +30,7 @@ void condition_check_hook() {
         condition_check_unhooked();
     }
     else if (IsDead()) {
-        P3PHealing(2);
+        P3PHealing(HSTATE.DEAD);
     } else {
         condition_check_unhooked();
     }

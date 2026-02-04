@@ -23,6 +23,8 @@ void ShowP3PHealTutorial() {
     MSG_HELP(P3PHealTutorial);
 }
 
+
+
 void P3PClock() {
     OPEN_MSG_WIN();
     MSG(P3PHealClock);
@@ -52,15 +54,10 @@ void P3PClock() {
     CLOSE_MSG_WIN();
 }
 
-
 void P3PHealing(int state) {
-    //States
-    int PARTY = 1;
-    int ALL = 2;
-    int DEAD = 3;
-
     int heal_message[3] = {P3PHeal, P3PHeal, P3PHealDead};
     int healed_message[3] = {P3PHealPartyDone, P3PHealAllDone, P3PHealDeadDone};
+    
 
     //Stores the current Yen value
     int CurrentYen = GET_YEN();
@@ -72,9 +69,9 @@ void P3PHealing(int state) {
     int PartyMember;
     int offset = 0;
     int Cost = 0;
-    bool isDead = (state == DEAD);
+    bool isDead = (state == HSTATE.DEAD);
 
-    if(state == PARTY || state == ALL) {
+    if(state == HSTATE.PARTY || state == HSTATE.ALL) {
         CurHP = GET_CUR_HP(1);
         MaxHP = GET_TOT_HP(1);
         CurSP = GET_CUR_SP(1);
@@ -82,12 +79,12 @@ void P3PHealing(int state) {
     }
     int start = 0;
     int end = 3;
-    if(state == ALL) {
+    if(state == HSTATE.ALL) {
         start = 2; end = 10;
     }
     //Check if Party Member is available, if so then add their stats to the variables
     for (int x = start; x <= end; x++) {
-        if(state == ALL) PartyMember = x + 320 - offset;
+        if(state == HSTATE.ALL) PartyMember = x + 320 - offset;
         else PartyMember = GET_PARTY_ID(x);
 
         //Skip Fuuka
@@ -96,7 +93,7 @@ void P3PHealing(int state) {
             continue;
         }
 
-        if(state == DEAD){
+        if(state == HSTATE.DEAD){
             if(GET_CUR_HP(PartyMember) == 0){
                 CurHP = (CurHP + GET_CUR_HP(PartyMember));
                 MaxHP = (MaxHP + GET_TOT_HP(PartyMember));
@@ -104,7 +101,7 @@ void P3PHealing(int state) {
             continue;
         }
 
-        if (BIT_CHK(PartyMember) || state == PARTY) {
+        if (BIT_CHK(PartyMember) || state == HSTATE.PARTY) {
             CurHP = (CurHP + GET_CUR_HP(PartyMember));
             MaxHP = (MaxHP + GET_TOT_HP(PartyMember));
             CurSP = (CurSP + GET_CUR_SP(PartyMember));
@@ -127,20 +124,20 @@ void P3PHealing(int state) {
             //compare the values to see if you can afford it
             if (Cost > CurrentYen) {
                 MSG(Broke);
-                if(state == DEAD) condition_check_unhooked();
+                if(state == HSTATE.DEAD) condition_check_unhooked();
             }
             //if you can, remove the money and move on to healing
             else {
                 REMOVE_YEN(Cost);
                 CLOSE_MSG_WIN();
                 switch(state) {
-                    case PARTY:
+                    case HSTATE.PARTY:
                         P3PPartyRecovery();
                         break;
-                    case ALL:
+                    case HSTATE.ALL:
                         P3PDeadRecovery();
                         break;
-                    case DEAD:
+                    case HSTATE.DEAD:
                         FUNCTION_0093();
                         break;
                     default:
@@ -151,7 +148,7 @@ void P3PHealing(int state) {
             }
             break;
         default:
-            if(state == DEAD) condition_check_unhooked();
+            if(state == HSTATE.DEAD) condition_check_unhooked();
             break;
     }
     CLOSE_MSG_WIN();
