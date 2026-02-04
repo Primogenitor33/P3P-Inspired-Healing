@@ -6,11 +6,11 @@ void P3PHealVersion() {
     MSG(P3PChooseVersion);
     int selection = SEL(P3PHealVersionSel);
     switch (selection) {
-        case 0: //Full Game
-            BIT_ON(9994);
+        case 0:
+            FULL_GAME = true;
             break;
-        case 1: //Late Game
-            BIT_ON(9993);
+        case 1:
+            LATE_GAME = true;
             break;
         default:
             break;
@@ -19,11 +19,9 @@ void P3PHealVersion() {
 }
 
 void ShowP3PHealTutorial() {
-    BIT_ON(9995);
+    TUTORIAL_COMPLETE = true;
     MSG_HELP(P3PHealTutorial);
 }
-
-
 
 void P3PClock() {
     OPEN_MSG_WIN();
@@ -36,14 +34,14 @@ void P3PClock() {
             break;
         case 1: //Heal Party
             if (IsPartyDamaged()) {
-                P3PHealing(1);
+                P3PHealing(HSTATE.PARTY);
             } else {
                 MSG(NoHealing);
             }
             break;
         case 2: //Heal Everyone
             if (IsDamaged()) {
-                P3PHealing(2);
+                P3PHealing(HSTATE.ALL);
             } else {
                 MSG(NoHealing);
             }
@@ -58,7 +56,6 @@ void P3PHealing(int state) {
     int heal_message[3] = {P3PHeal, P3PHeal, P3PHealDead};
     int healed_message[3] = {P3PHealPartyDone, P3PHealAllDone, P3PHealDeadDone};
     
-
     //Stores the current Yen value
     int CurrentYen = GET_YEN();
     
@@ -306,7 +303,7 @@ void P3PMemberReturn() {
 }
 
 void P3PHealMain() {
-    if (BIT_CHK(9995) != 1) {
+    if (!TUTORIAL_COMPLETE) {
         ShowP3PHealTutorial();
     }
 

@@ -1,10 +1,11 @@
 import("f032.bf");
 import("P3PHeal.flow");
 import("P3PEnums.flow");
+import("Bits.flow");
 
 void f032_002_init_hook() {
     //Set Mod Version
-    if ((BIT_CHK(3569) == 1) && !BIT_CHK(9994) && !BIT_CHK(9993)) {
+    if ((BIT_CHK(3569) == 1) && !FULL_GAME && !LATE_GAME) {
         P3PHealVersion();
     }
     if (ModeCheck()) {
@@ -42,10 +43,10 @@ void member_return_hook() {
 
 //Check if Pre-Shinji Death and if Late Game Mode is Enabled
 bool ModeCheck() {
-    if ((GET_MONTH() < 10) && (GET_MONTH() > 1) && BIT_CHK(9993)) {
+    if ((GET_MONTH() < 10) && (GET_MONTH() > 1) && LATE_GAME) {
         return true;
     }
-    else if ((GET_MONTH() == 10) && (GET_DAY_OF_MONTH() <= 4) && BIT_CHK(9993)) {
+    else if ((GET_MONTH() == 10) && (GET_DAY_OF_MONTH() <= 4) && LATE_GAME) {
         return true;
     }
     return false;

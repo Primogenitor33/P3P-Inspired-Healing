@@ -1,0 +1,3 @@
+bit (9995) bool TUTORIAL_COMPLETE;
+bit (9994) bool FULL_GAME;
+bit (9993) bool LATE_GAME;
