@@ -393,26 +393,16 @@ void P3PHealMain() {
 
         //Checks for something I have no idea what, but this should hopefully be a little easier to read. Should in theory reduce procedure calls.
         int success = BIT_CHK(3501);
-        for(int i = 3504; i <= 3515; i++) {
-            if(success == 1) {//exit early if already found
-                    break;
-            }
-            if (BIT_CHK(i) == 1) {
-                success = 1;
-                break;
-            }
-        }
-        for(int i = 3516; i <= 3535; i++) {
-            if(success == 1) {//exit early if already found
-                    break;
-                }
-            if (BIT_CHK(i) == 1) {
-                success = 1;
-                break;
-            }
-        }
         if (BIT_CHK(3500) == 1) success = 1;
         if (BIT_CHK(3499) == 1) success = 1;
+        for(int i = 3504; i <= 3535; i++) {
+            if(success == 1) break;
+            if(i == 3519) i = 3528;
+            if (BIT_CHK(i) == 1) {
+                success = 1;
+                break;
+            }
+        }
         if(success == 1) FLD_FUNCTION_0089(var2, 1, 1, 0, 1);    
 
         var1 = FLD_MODEL_FUNCTION_0165(-1, 3);
