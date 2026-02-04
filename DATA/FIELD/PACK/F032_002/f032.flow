@@ -29,7 +29,7 @@ void condition_check_hook() {
         condition_check_unhooked();
     }
     else if (IsDead()) {
-        HealingDead();
+        Healing(2);
     } else {
         condition_check_unhooked();
     }
