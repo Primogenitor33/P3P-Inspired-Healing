@@ -84,7 +84,7 @@ void P3PHealing(int state) {
         if(state == HSTATE.ALL) PartyMember = GET_PARTY_ID(x);
 
         //Skip Fuuka
-        if (x == 4) {
+        if (x == 6) {
             offset = 1;
             continue;
         }
