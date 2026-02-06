@@ -1,5 +1,5 @@
 import("P3PHeal.msg");
-const int party_id_start = 322;
+const int party_id_start = 320;
 
 void P3PHealVersion() {
     MSG_HELP(P3PHealWelcome);
@@ -68,18 +68,21 @@ void P3PHealing(int state) {
     int Cost = 0;
     bool isDead = (state == HSTATE.DEAD);
     int start = 0;
-    int end = 2;
-    if(state == HSTATE.ALL || state == HSTATE.DEAD) {start = 1; end = 10;}
+    int end = 3;
+    if(state != HSTATE.DEAD){
+        CurHP = (CurHP + GET_CUR_HP(PartyMember.Protagonist));
+        MaxHP = (MaxHP + GET_TOT_HP(PartyMember.Protagonist));
+        CurSP = (CurSP + GET_CUR_SP(PartyMember.Protagonist));
+        MaxSP = (MaxSP + GET_TOT_SP(PartyMember.Protagonist));
+    }
+    if(state != HSTATE.PARTY) {start = 2; end = 10;}
     //Check if Party Member is available, if so then add their stats to the variables
-    for (int x = start; x <= end; x++) {
-        int PartyMemberBit = x + party_id_start - offset;
-        int PartyMember = x;
-        if(state == HSTATE.PARTY && x > 1) PartyMember = GET_PARTY_ID(x); //Guarantees MC doesn't get replaced
-        if(!PartyMember) continue;//Move on if party slot vacant
-        PUTSTR("Party member ID:");
-        PUT(x);
-        PUTSTR("HP/Max SP/Max");
-        
+    for (int x = start; x < end; x++) {
+        int partyMemberBit = x + party_id_start - offset;
+        int partyMember = x;
+        if(state == HSTATE.PARTY) partyMember = GET_PARTY_ID(x);
+        if(!partyMember) continue;//Move on if party slot vacant
+
         //Skip Fuuka
         if (x == 6) {
             offset = 1;
@@ -87,24 +90,19 @@ void P3PHealing(int state) {
         }
 
         if(state == HSTATE.DEAD){
-            if(GET_CUR_HP(PartyMember) == 0){
-                CurHP = (CurHP + GET_CUR_HP(PartyMember));
-                MaxHP = (MaxHP + GET_TOT_HP(PartyMember));
+            if(GET_CUR_HP(partyMember) == 0 && BIT_CHK(partyMemberBit)){
+                CurHP = (CurHP + GET_CUR_HP(partyMember));
+                MaxHP = (MaxHP + GET_TOT_HP(partyMember));
             }
             continue;
         }
-
-        if (BIT_CHK(PartyMember) || state == HSTATE.PARTY) {
-            if(GET_CUR_HP(PartyMember) == 0) continue; //skip if dead
-            CurHP = (CurHP + GET_CUR_HP(PartyMember));
-            MaxHP = (MaxHP + GET_TOT_HP(PartyMember));
-            CurSP = (CurSP + GET_CUR_SP(PartyMember));
-            MaxSP = (MaxSP + GET_TOT_SP(PartyMember));
+        if (BIT_CHK(partyMemberBit) || state == HSTATE.PARTY) {
+            if(GET_CUR_HP(partyMember) == 0) continue; //skip if dead
+            CurHP = (CurHP + GET_CUR_HP(partyMember));
+            MaxHP = (MaxHP + GET_TOT_HP(partyMember));
+            CurSP = (CurSP + GET_CUR_SP(partyMember));
+            MaxSP = (MaxSP + GET_TOT_SP(partyMember));
         }
-        PUT(CurHP);
-        PUT(MaxHP);
-        PUT(CurSP);
-        PUT(MaxSP);
     }
     
     Cost = GetCost(((MaxHP - CurHP)), ((MaxSP - CurSP)), isDead);
@@ -133,10 +131,11 @@ void P3PHealing(int state) {
                         P3PPartyRecovery();
                         break;
                     case HSTATE.ALL:
-                        P3PDeadRecovery();
+                        CALL_BTL_SFX(2, 10);
+                        FUNCTION_0093();
                         break;
                     case HSTATE.DEAD:
-                        FUNCTION_0093();
+                        P3PDeadRecovery();
                         break;
                     default:
                         break;
@@ -184,51 +183,52 @@ int GetCost(int hp, int sp, bool isDead) {
 }
 
 void P3PPartyRecovery() {
-    int PartyMember;
+    int partyMember;
     CALL_BTL_SFX(2, 10);
     //Heals MC's SP to max
-    SET_SP(1, GET_TOT_SP(1));
+    SET_SP(PartyMember.Protagonist, GET_TOT_SP(PartyMember.Protagonist));
     //Heals MC's HP to max
-    SET_HP(1, GET_TOT_HP(1));
+    SET_HP(PartyMember.Protagonist, GET_TOT_HP(PartyMember.Protagonist));
     //Heals everyone else
     for (int x = 0; x < 3; x++) {
         //Checks which characters are in party and stores their ID
-        PartyMember = GET_PARTY_ID(x);
+        partyMember = GET_PARTY_ID(x);
         //if so, heal them
-        if (PartyMember != 0) {
-            SET_SP(PartyMember, GET_TOT_SP(PartyMember));
-            SET_HP(PartyMember, GET_TOT_HP(PartyMember));
+        if (partyMember != 0) {
+            SET_SP(partyMember, GET_TOT_SP(partyMember));
+            SET_HP(partyMember, GET_TOT_HP(partyMember));
         }
     }
 }
 
 void P3PDeadRecovery() {
-    int PartyMember;
+    int partyMember;
     int FourthHP;
     //Heals everyone else
     for (int x = 0; x < 3; x++) {
         //Checks which characters are in party and stores their ID
-        PartyMember = GET_PARTY_ID(x);
+        partyMember = GET_PARTY_ID(x);
         //if so, heal them
-        if (PartyMember != 0) {
+        if (partyMember != 0) {
             //Only apply to dead members
-            if (GET_CUR_HP(PartyMember) == 0) {
-                FourthHP = GET_TOT_HP(PartyMember) / 4;
-                SET_HP(PartyMember, FourthHP);
+            if (GET_CUR_HP(partyMember) == 0) {
+                FourthHP = GET_TOT_HP(partyMember) / 4;
+                SET_HP(partyMember, FourthHP);
             }
         }
     }
 }
 
 bool IsPartyDamaged() {
-    int PartyMember;
-    if ((GET_TOT_SP(1) > GET_CUR_SP(1)) || (GET_TOT_HP(1) > GET_CUR_HP(1))) {
+    int partyMember;
+    if ((GET_TOT_SP(PartyMember.Protagonist) > GET_CUR_SP(PartyMember.Protagonist)) || 
+        (GET_TOT_HP(PartyMember.Protagonist) > GET_CUR_HP(PartyMember.Protagonist))) {
         return true;
-    }
+    }   
     for (int x = 0; x < 3; x++) {
-        PartyMember = GET_PARTY_ID(x);
-        if (PartyMember != 0) {
-            if ((GET_TOT_SP(PartyMember) > GET_CUR_SP(PartyMember)) || (GET_TOT_HP(PartyMember) > GET_CUR_HP(PartyMember))){
+        partyMember = GET_PARTY_ID(x);
+        if (partyMember != 0) {
+            if ((GET_TOT_SP(partyMember) > GET_CUR_SP(partyMember)) || (GET_TOT_HP(partyMember) > GET_CUR_HP(partyMember))){
                 return true;
             }
         }
@@ -237,7 +237,7 @@ bool IsPartyDamaged() {
 }
 
 bool IsDamaged() {
-    for(int x = 1; x <= 10; x++) {
+    for(int x = 1; x < 10; x++) {
         if ((GET_TOT_SP(x) > GET_CUR_SP(x)) || (GET_TOT_HP(x) > GET_CUR_HP(x))) {
             return true;
         }
@@ -246,8 +246,8 @@ bool IsDamaged() {
 }
 
 bool IsDead() {
-    for(int x = 1; x <= 10; x++) {
-        if (GET_CUR_HP(x) == 0) {
+    for(int x = 2; x < 10; x++) {
+        if (GET_CUR_HP(x) == 0 && BIT_CHK(party_id_start + x)) {
             return true;
         }
     }
@@ -255,7 +255,7 @@ bool IsDead() {
 }
 
 void HealTo1HP() {
-    for(int x = 1; x <= 10; x++) {
+    for(int x = 1; x < 10; x++) {
         if (GET_CUR_HP(x) == 0) {
             SET_HP(x,1);
         }
@@ -269,18 +269,20 @@ void P3PMemberReturn() {
     int party_return[9] = {YUKARI_RETURN, AEGIS_RETURN, MITSURU_RETURN, JUNPEI_RETURN, 0, SANADA_RETURN, AMADA_RETURN, ARAGAKI_RETURN, KOROMARU_RETURN};
     int offset = 0;
 
-    for(int i = 0; i < 9; i++) {
-        if( i == 4) {
+    for(int i = 2; i < 10; i++) {
+        if( i == 6) {
             offset = 1;
             continue;
         }
-        if (GET_CUR_HP(i + 2) == 0) {
+        if (GET_CUR_HP(i) == 0) {
             BIT_OFF(party_id_start + i - offset);
             OPEN_MSG_WIN();
-            MSG(party_return[i]);
+            MSG(party_return[i - 2]);
             CLOSE_MSG_WIN();
-            REMOVE_MEMBER(i + 2);
-            var14 +=1;
+            REMOVE_MEMBER(i);
+        }
+        else{
+        var14 +=1;
         }
     }
 
