@@ -67,22 +67,19 @@ void P3PHealing(int state) {
     int offset = 0;
     int Cost = 0;
     bool isDead = (state == HSTATE.DEAD);
-
-    if(state == HSTATE.PARTY || state == HSTATE.ALL) {
-        CurHP = GET_CUR_HP(1);
-        MaxHP = GET_TOT_HP(1);
-        CurSP = GET_CUR_SP(1);
-        MaxSP = GET_TOT_SP(1);
-    }
     int start = 0;
-    int end = 3;
-    if(state == HSTATE.ALL) {start = 2; end = 10;}
+    int end = 2;
+    if(state == HSTATE.ALL || state == HSTATE.DEAD) {start = 1; end = 10;}
     //Check if Party Member is available, if so then add their stats to the variables
     for (int x = start; x <= end; x++) {
         int PartyMemberBit = x + party_id_start - offset;
         int PartyMember = x;
-        if(state == HSTATE.ALL) PartyMember = GET_PARTY_ID(x);
-
+        if(state == HSTATE.PARTY && x > 1) PartyMember = GET_PARTY_ID(x); //Guarantees MC doesn't get replaced
+        if(!PartyMember) continue;//Move on if party slot vacant
+        PUTSTR("Party member ID:");
+        PUT(x);
+        PUTSTR("HP/Max SP/Max");
+        
         //Skip Fuuka
         if (x == 6) {
             offset = 1;
@@ -98,14 +95,19 @@ void P3PHealing(int state) {
         }
 
         if (BIT_CHK(PartyMember) || state == HSTATE.PARTY) {
+            if(GET_CUR_HP(PartyMember) == 0) continue; //skip if dead
             CurHP = (CurHP + GET_CUR_HP(PartyMember));
             MaxHP = (MaxHP + GET_TOT_HP(PartyMember));
             CurSP = (CurSP + GET_CUR_SP(PartyMember));
             MaxSP = (MaxSP + GET_TOT_SP(PartyMember));
         }
+        PUT(CurHP);
+        PUT(MaxHP);
+        PUT(CurSP);
+        PUT(MaxSP);
     }
     
-    Cost = GetCost(MaxHP - CurHP, MaxSP - CurSP, isDead);
+    Cost = GetCost(((MaxHP - CurHP)), ((MaxSP - CurSP)), isDead);
 
     OPEN_MSG_WIN();
     //Set the price message variable
@@ -175,8 +177,8 @@ int GetCost(int hp, int sp, bool isDead) {
         idx = 8;
     }
     
-    if(isDead) cost = (((hp / 4) * Multi_LUT[idx]) / 100) + Penalty_LUT[idx];
-    else cost = (((hp * Multi_LUT[idx]) / 100) + ((sp * Multi_LUT[idx]) / 10));
+    if(isDead) cost = ((hp * Multi_LUT[idx]) / 25) + Penalty_LUT[idx];
+    else cost = (((hp * Multi_LUT[idx]) / 25) + ((sp * Multi_LUT[idx]) / 10));
 
     return cost;
 }
@@ -220,7 +222,9 @@ void P3PDeadRecovery() {
 
 bool IsPartyDamaged() {
     int PartyMember;
-
+    if ((GET_TOT_SP(1) > GET_CUR_SP(1)) || (GET_TOT_HP(1) > GET_CUR_HP(1))) {
+        return true;
+    }
     for (int x = 0; x < 3; x++) {
         PartyMember = GET_PARTY_ID(x);
         if (PartyMember != 0) {

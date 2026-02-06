@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Metadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <name>P3P Inspired Healing</name>
+  <id>primogenitor33.p3pinspiredhealing</id>
+  <author>Primogenitor33</author>
+  <version>0.0.1</version>
+  <link />
+  <description>Makes you pay for healing because fuck you</description>
+  <skippedVersion>all</skippedVersion>
+</Metadata>
